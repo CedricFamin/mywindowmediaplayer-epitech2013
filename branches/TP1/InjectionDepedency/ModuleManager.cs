@@ -11,14 +11,14 @@ namespace IDB
     {
         static private ModuleManager instance;
 
-        public ModuleManager getInstance()
+        static public ModuleManager getInstance()
         {
             if (ModuleManager.instance == null)
                 ModuleManager.instance = new ModuleManager();
             return ModuleManager.instance;
         }
 
-        public void deleteInstance()
+        static public void deleteInstance()
         {
             ModuleManager.instance = null;
         }

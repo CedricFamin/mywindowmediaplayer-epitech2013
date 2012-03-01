@@ -11,8 +11,9 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using TP1.ViewModels;
 
-namespace MWMP
+namespace TP1
 {
     /// <summary>
     /// Logique d'interaction pour MainWindow.xaml
@@ -22,6 +23,7 @@ namespace MWMP
         public MainWindow()
         {
             InitializeComponent();
+            DataContext = new MainWindowVM();
         }
     }
 }
