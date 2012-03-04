@@ -4,7 +4,7 @@ using System.Diagnostics;
 using System.Reflection;
 using System.Collections.Generic;
 
-namespace TP1.ViewModels
+namespace MWMP.ViewModels
 {
     /// <summary>
     /// A basic class for bindable object

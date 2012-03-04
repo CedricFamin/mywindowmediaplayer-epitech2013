@@ -1,7 +1,7 @@
 ﻿using System;
 using System.Windows.Input;
 
-namespace TP1.Utils
+namespace MWMP.Utils
 {
     /// <summary>
     /// A basic command class using lambda expression

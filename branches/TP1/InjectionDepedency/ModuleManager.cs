@@ -9,8 +9,15 @@ namespace IDB
     /// </summary>
     class ModuleManager
     {
+        #region Static fields
         static private ModuleManager instance;
+        #endregion
 
+        #region Fields
+        private Dictionary<string, Service> services;
+        #endregion /// Fields
+
+        #region Singletron
         static public ModuleManager getInstance()
         {
             if (ModuleManager.instance == null)
@@ -23,6 +30,9 @@ namespace IDB
             ModuleManager.instance = null;
         }
 
+        #endregion /// Singleton
+
+        #region Ctor
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -40,7 +50,9 @@ namespace IDB
             this.services = new Dictionary<string, Service>();
             this.load(filename);
         }
-        
+        #endregion /// Ctor
+
+        #region Methods
         /// <summary>
         /// Add services with an XML file
         /// </summary>
@@ -91,7 +103,6 @@ namespace IDB
             }
             return default(T);
         }
-
-        private Dictionary<string, Service> services;
+        #endregion /// Methods
     }
 }

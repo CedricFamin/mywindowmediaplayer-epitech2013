@@ -6,8 +6,7 @@ namespace IDB
     {
         static void Main(string[] args)
         {
-            ModuleManager manager = new ModuleManager("../../test.xml");
-
+          
             Console.ReadLine();
 
         }
