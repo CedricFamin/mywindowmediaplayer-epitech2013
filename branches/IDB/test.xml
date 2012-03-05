@@ -1,9 +1,0 @@
-﻿<?xml version="1.0" encoding="utf-8" ?>
-<Services>
-  <service>
-    <name>Dispatcher</name>
-    <file>dispatcher.dll</file>
-    <class>Dispacher</class>
-    <interface>IDispatcher</interface>
-  </service>
-</Services>

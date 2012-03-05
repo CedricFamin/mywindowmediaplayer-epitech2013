@@ -10,6 +10,8 @@ namespace MWMP.ViewModels
     {
         public virtual RelayCommand Stop { get; protected set; }
         public virtual RelayCommand Play { get; protected set; }
+		public virtual RelayCommand Next { get; protected set; }
+		public virtual RelayCommand Pause { get; protected set; }
         public virtual RelayCommand Speaker { get; protected set; }
         public virtual RelayCommand goTo { get; protected set; }
         public virtual RelayCommand Open { get; protected set; }

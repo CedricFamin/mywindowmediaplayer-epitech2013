@@ -15,6 +15,8 @@
     <FileAlignment>512</FileAlignment>
     <ProjectTypeGuids>{60dc8134-eba5-43b8-bcc9-bb4bc16c2548};{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}</ProjectTypeGuids>
     <WarningLevel>4</WarningLevel>
+    <Utf8Output>true</Utf8Output>
+    <ExpressionBlendVersion>4.0.20525.0</ExpressionBlendVersion>
   </PropertyGroup>
   <PropertyGroup Condition=" '$(Configuration)|$(Platform)' == 'Debug|x86' ">
     <PlatformTarget>x86</PlatformTarget>
@@ -55,10 +57,19 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Views\PlayerControl.xaml.cs">
+      <DependentUpon>PlayerControl.xaml</DependentUpon>
+    </Compile>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </Page>
+    <Compile Include="InjectionDepedency\ModuleManager.cs" />
+    <Compile Include="InjectionDepedency\Service.cs" />
+    <Compile Include="Models\IMedia.cs" />
+    <Compile Include="Models\IPlayer.cs" />
+    <Compile Include="Models\MusicMedia.cs" />
+    <Compile Include="Models\Player.cs" />
     <Compile Include="Utils\Fmod\fmod.cs" />
     <Compile Include="Utils\Fmod\fmod_dsp.cs" />
     <Compile Include="Utils\Fmod\fmod_errors.cs" />
@@ -66,7 +77,6 @@
     <Compile Include="Utils\RelayCommand.cs" />
     <Compile Include="ViewModels\BindableObject.cs" />
     <Compile Include="ViewModels\APlayer.cs" />
-    <Compile Include="Models\MusicPlayer.cs" />
     <Compile Include="ViewModels\MusicPlayerViewModel.cs" />
     <Compile Include="Views\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
@@ -76,6 +86,10 @@
       <DependentUpon>MainWindow.xaml</DependentUpon>
       <SubType>Code</SubType>
     </Compile>
+    <Page Include="Views\PlayerControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
   </ItemGroup>
   <ItemGroup>
     <Compile Include="Properties\AssemblyInfo.cs">

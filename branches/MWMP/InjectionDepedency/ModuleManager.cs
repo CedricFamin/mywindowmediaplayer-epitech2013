@@ -2,27 +2,37 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 
-namespace IDB
+namespace MWMP
 {
     /// <summary>
     /// Manage the loading file and the service creator
     /// </summary>
     class ModuleManager
     {
+        #region Static fields
         static private ModuleManager instance;
+        #endregion
 
-        public ModuleManager getInstance()
+        #region Fields
+        private Dictionary<string, Service> services;
+        #endregion /// Fields
+
+        #region Singletron
+        static public ModuleManager getInstance()
         {
             if (ModuleManager.instance == null)
                 ModuleManager.instance = new ModuleManager();
             return ModuleManager.instance;
         }
 
-        public void deleteInstance()
+        static public void deleteInstance()
         {
             ModuleManager.instance = null;
         }
 
+        #endregion /// Singleton
+
+        #region Ctor
         /// <summary>
         /// Default constructor
         /// </summary>
@@ -40,7 +50,9 @@ namespace IDB
             this.services = new Dictionary<string, Service>();
             this.load(filename);
         }
-        
+        #endregion /// Ctor
+
+        #region Methods
         /// <summary>
         /// Add services with an XML file
         /// </summary>
@@ -91,7 +103,6 @@ namespace IDB
             }
             return default(T);
         }
-
-        private Dictionary<string, Service> services;
+        #endregion /// Methods
     }
 }

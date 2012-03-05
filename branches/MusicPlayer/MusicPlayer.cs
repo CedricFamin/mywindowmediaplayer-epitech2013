@@ -2,16 +2,16 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
-using MWMP.Utils;
+using MWMP.Models;
 using FMOD;
 
-namespace MWMP.Models
+namespace MusicPlayer
 {
-    public delegate void EndMusicEventHandler(object sender, EventArgs e);
-
-    class MusicPlayer
+    public class MusicPlayer : IPlayer
     {
-        public static bool Initialize()
+        public delegate void EndMusicEventHandler(object sender, EventArgs e);
+
+        public MusicPlayer()
         {
             RESULT result;
 
@@ -25,33 +25,32 @@ namespace MWMP.Models
             result = system.init(32, INITFLAGS.NORMAL, (IntPtr)null);
             ErrCheck(result);
             channelCallback = new CHANNEL_CALLBACK(OnEndMusic);
-            return true;
         }
 
-        public static void Deinitialize()
+        public void Deinitialize()
         {
             if (music != null)
                 music.release();
             system.release();
         }
 
-        private static void ErrCheck(RESULT result)
+        private void ErrCheck(RESULT result)
         {
             if (result != RESULT.OK)
                 throw new ApplicationException("FMOD error! " + result + " - " + Error.String(result));
         }
 
-        public static void PlayMusic()
+        public void Play()
         {
             PlayMusic(currentMusicPath);
         }
 
-        public static void PlayMusic(string path)
+        public void PlayMusic(string path)
         {
             PlayMusic(path, false);
         }
 
-        public static void PlayMusic(string path, bool paused)
+        public void PlayMusic(string path, bool paused)
         {
             bool isPlaying = false;
             RESULT result;
@@ -62,31 +61,15 @@ namespace MWMP.Models
                 isPlaying = false;
             if (currentMusicPath == path && isPlaying)
                 return;
-            else if (currentMusicPath == path)
+            else if (currentMusicPath == path && music != null)
             {
                 result = system.playSound(CHANNELINDEX.FREE, music, false, ref musicChannel);
                 ErrCheck(result);
-            }
-            else
-            {
-                if (music != null)
-                {
-                    result = music.release();
-                    ErrCheck(result);
-                }
-
-                result = system.createSound(path, MODE.SOFTWARE | MODE.CREATECOMPRESSEDSAMPLE | MODE.LOOP_OFF, ref music);
-                ErrCheck(result);
-
-                result = system.playSound(CHANNELINDEX.FREE, music, paused, ref musicChannel);
-                ErrCheck(result);
                 musicChannel.setCallback(channelCallback);
-
-                currentMusicPath = path;
             }
         }
 
-        public static void StopMusic()
+        public void Stop()
         {
             if (musicChannel != null)
             {
@@ -96,7 +79,7 @@ namespace MWMP.Models
             }
         }
 
-        public static void PauseMusic()
+        public void Pause()
         {
             bool paused = false;
             if (musicChannel != null)
@@ -108,7 +91,7 @@ namespace MWMP.Models
             }
         }
 
-        public static RESULT OnEndMusic(IntPtr channelraw, FMOD.CHANNEL_CALLBACKTYPE type, IntPtr commanddata1, IntPtr commanddata2)
+        public RESULT OnEndMusic(IntPtr channelraw, FMOD.CHANNEL_CALLBACKTYPE type, IntPtr commanddata1, IntPtr commanddata2)
         {
             if (EndMusic != null)
                 EndMusic(currentMusicPath, new EventArgs());
@@ -116,16 +99,45 @@ namespace MWMP.Models
             return RESULT.OK;
         }
 
-        public static void Update()
+        public void Update()
         {
             system.update();
         }
 
-        private static FMOD.System system = null;
-        private static Sound music = null;
-        private static string currentMusicPath;
-        private static Channel musicChannel = null;
-        private static CHANNEL_CALLBACK channelCallback;
-        public static event EndMusicEventHandler EndMusic;
+        private FMOD.System system = null;
+        private Sound music = null;
+        public string currentMusicPath;
+        private Channel musicChannel = null;
+        private CHANNEL_CALLBACK channelCallback;
+        public event EndMusicEventHandler EndMusic;
+
+        public void GoTo(int time)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Volume(int volume)
+        {
+            throw new NotImplementedException();
+        }
+
+        public void Mute()
+        {
+            throw new NotImplementedException();
+        }
+
+
+        public void Load(string path)
+        {
+            RESULT result;
+            if (music != null)
+            {
+                result = music.release();
+                ErrCheck(result);
+            }
+            result = system.createSound(path, MODE.SOFTWARE | MODE.CREATECOMPRESSEDSAMPLE | MODE.LOOP_OFF, ref music);
+            ErrCheck(result);
+            currentMusicPath = path;
+        }
     }
 }

@@ -1,8 +1,6 @@
 ﻿
 Microsoft Visual Studio Solution File, Format Version 11.00
 # Visual Studio 2010
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IDB", "IDB\IDB.csproj", "{E5EEC45B-0BE3-48EB-BC35-0A8A55649D72}"
-EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{F5162677-7643-4170-B3C9-56A452F82E2E}"
 	ProjectSection(SolutionItems) = preProject
 		branches.vsmdi = branches.vsmdi
@@ -13,6 +11,8 @@ EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MWMP", "MWMP\MWMP.csproj", "{9088B44A-6E6D-4389-9C5C-91498E52677F}"
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TP1", "TP1\TP1.csproj", "{B14FF2BD-2E04-4692-958A-27807AF13ACD}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MusicPlayer", "MusicPlayer\MusicPlayer.csproj", "{8A12B556-E872-4CB1-9553-BC5E5677AE8F}"
 EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
@@ -27,16 +27,6 @@ Global
 		Release|x86 = Release|x86
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{E5EEC45B-0BE3-48EB-BC35-0A8A55649D72}.Debug|Any CPU.ActiveCfg = Debug|x86
-		{E5EEC45B-0BE3-48EB-BC35-0A8A55649D72}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
-		{E5EEC45B-0BE3-48EB-BC35-0A8A55649D72}.Debug|Mixed Platforms.Build.0 = Debug|x86
-		{E5EEC45B-0BE3-48EB-BC35-0A8A55649D72}.Debug|x86.ActiveCfg = Debug|x86
-		{E5EEC45B-0BE3-48EB-BC35-0A8A55649D72}.Debug|x86.Build.0 = Debug|x86
-		{E5EEC45B-0BE3-48EB-BC35-0A8A55649D72}.Release|Any CPU.ActiveCfg = Release|x86
-		{E5EEC45B-0BE3-48EB-BC35-0A8A55649D72}.Release|Mixed Platforms.ActiveCfg = Release|x86
-		{E5EEC45B-0BE3-48EB-BC35-0A8A55649D72}.Release|Mixed Platforms.Build.0 = Release|x86
-		{E5EEC45B-0BE3-48EB-BC35-0A8A55649D72}.Release|x86.ActiveCfg = Release|x86
-		{E5EEC45B-0BE3-48EB-BC35-0A8A55649D72}.Release|x86.Build.0 = Release|x86
 		{9088B44A-6E6D-4389-9C5C-91498E52677F}.Debug|Any CPU.ActiveCfg = Debug|x86
 		{9088B44A-6E6D-4389-9C5C-91498E52677F}.Debug|Mixed Platforms.ActiveCfg = Debug|x86
 		{9088B44A-6E6D-4389-9C5C-91498E52677F}.Debug|Mixed Platforms.Build.0 = Debug|x86
@@ -57,6 +47,16 @@ Global
 		{B14FF2BD-2E04-4692-958A-27807AF13ACD}.Release|Mixed Platforms.Build.0 = Release|x86
 		{B14FF2BD-2E04-4692-958A-27807AF13ACD}.Release|x86.ActiveCfg = Release|x86
 		{B14FF2BD-2E04-4692-958A-27807AF13ACD}.Release|x86.Build.0 = Release|x86
+		{8A12B556-E872-4CB1-9553-BC5E5677AE8F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8A12B556-E872-4CB1-9553-BC5E5677AE8F}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8A12B556-E872-4CB1-9553-BC5E5677AE8F}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{8A12B556-E872-4CB1-9553-BC5E5677AE8F}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{8A12B556-E872-4CB1-9553-BC5E5677AE8F}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{8A12B556-E872-4CB1-9553-BC5E5677AE8F}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8A12B556-E872-4CB1-9553-BC5E5677AE8F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8A12B556-E872-4CB1-9553-BC5E5677AE8F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{8A12B556-E872-4CB1-9553-BC5E5677AE8F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{8A12B556-E872-4CB1-9553-BC5E5677AE8F}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
