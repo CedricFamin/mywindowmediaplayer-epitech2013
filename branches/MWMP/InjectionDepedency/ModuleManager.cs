@@ -67,7 +67,8 @@ namespace MWMP
                 try
                 {
                     s = new Service(e.Element("name").Value, e.Element("file").Value,
-                                    e.Element("class").Value, e.Element("interface").Value);
+                                    e.Element("class").Value, e.Element("interface").Value,
+                                    e.Element("unique").Value);
                 }
                 catch (Exception ex)
                 {
@@ -99,6 +100,8 @@ namespace MWMP
             Service s;
             if (this.services.TryGetValue(serviceName, out s))
             {
+                if (s.Unique)
+                    return (T)s.Instance;
                 return (T)s.Constructor.Invoke(new Object[0]);
             }
             return default(T);

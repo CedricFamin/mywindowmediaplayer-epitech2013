@@ -57,9 +57,17 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="ViewModels\IMusicPlayerVM.cs" />
+    <Compile Include="Views\LibraryUserControl.xaml.cs">
+      <DependentUpon>LibraryUserControl.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\PlayerControl.xaml.cs">
       <DependentUpon>PlayerControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\LibraryUserControl.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\MainWindow.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -70,14 +78,9 @@
     <Compile Include="Models\IPlayer.cs" />
     <Compile Include="Models\MusicMedia.cs" />
     <Compile Include="Models\Player.cs" />
-    <Compile Include="Utils\Fmod\fmod.cs" />
-    <Compile Include="Utils\Fmod\fmod_dsp.cs" />
-    <Compile Include="Utils\Fmod\fmod_errors.cs" />
-    <Compile Include="Utils\Fmod\fmod_memoryinfo.cs" />
     <Compile Include="Utils\RelayCommand.cs" />
     <Compile Include="ViewModels\BindableObject.cs" />
     <Compile Include="ViewModels\APlayer.cs" />
-    <Compile Include="ViewModels\MusicPlayerViewModel.cs" />
     <Compile Include="Views\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>

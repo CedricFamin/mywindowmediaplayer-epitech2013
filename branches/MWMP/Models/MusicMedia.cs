@@ -18,5 +18,12 @@ namespace MWMP.Models
         }
 
         public string Path { get; private set; }
+        public string Filename
+        {
+            get
+            {
+                return System.IO.Path.GetFileNameWithoutExtension(Path);
+            }
+        }
     }
 }

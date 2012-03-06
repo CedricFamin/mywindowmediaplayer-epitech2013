@@ -23,8 +23,8 @@ namespace MWMP
     {
         public MainWindow()
         {
+            ModuleManager.getInstance().load("player.xml");
             InitializeComponent();
-            DataContext = new MusicPlayerViewModel();
         }
 
         private void DockPanelOpen_Click(object sender, RoutedEventArgs e)
@@ -33,8 +33,7 @@ namespace MWMP
             ofd.Title = "Open file";
             if (ofd.ShowDialog() == true)
             {
-                ((MusicPlayerViewModel)DataContext).Open.Execute(ofd.FileName);
-                string filename = ofd.FileName;
+                ModuleManager.getInstance().getInstanceOf<IMusicPlayerVM>("MusicPlayerViewModel").Source = ofd.FileName;
             }
         }
     }

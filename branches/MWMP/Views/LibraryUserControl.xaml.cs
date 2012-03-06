@@ -10,21 +10,17 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using MWMP.ViewModels;
 
 namespace MWMP
 {
 	/// <summary>
-	/// Interaction logic for PlayerControl.xaml
+	/// Interaction logic for LibraryUserControl.xaml
 	/// </summary>
-	public partial class PlayerControl : UserControl
+	public partial class LibraryUserControl : UserControl
 	{
-		public PlayerControl()
+		public LibraryUserControl()
 		{
 			this.InitializeComponent();
-            IMusicPlayerVM player = ModuleManager.getInstance().getInstanceOf<IMusicPlayerVM>("MusicPlayerViewModel");
-            player.MediaElement = this.MediaPlayer;
-            DataContext = player;
 		}
 	}
 }

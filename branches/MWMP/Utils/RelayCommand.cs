@@ -6,7 +6,7 @@ namespace MWMP.Utils
     /// <summary>
     /// A basic command class using lambda expression
     /// </summary>
-    class RelayCommand : ICommand
+    public class RelayCommand : ICommand
     {
 
         #region Fields

@@ -9,5 +9,6 @@ namespace MWMP.Models
     {
         void loadOnPlayer(Player p);
         string Path { get; }
+        string Filename { get; }
     }
 }

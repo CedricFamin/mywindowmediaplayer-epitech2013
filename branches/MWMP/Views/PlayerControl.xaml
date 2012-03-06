@@ -8,20 +8,12 @@
 	x:Name="UserControl"
 	d:DesignWidth="499" d:DesignHeight="0">
 
-	<Grid x:Name="LayoutRoot">
-		<DockPanel Margin="0,0,0,-314">
-			<Button x:Name="PlayButton" Content="Play" Width="75" VerticalAlignment="Top" Command="{Binding Path=Play}" />
-			<Button x:Name="StopButton" Content="Pause" Width="75" VerticalAlignment="Top" Command="{Binding Path=Pause}">
-				<Button.Background>
-					<LinearGradientBrush EndPoint="0,1" StartPoint="0,0">
-						<GradientStop Color="#FFF3F3F3" Offset="0"/>
-						<GradientStop Color="#FFEBEBEB" Offset="0.5"/>
-						<GradientStop Color="#FFDDDDDD" Offset="0.5"/>
-						<GradientStop Color="#FFCDCDCD" Offset="1"/>
-					</LinearGradientBrush>
-				</Button.Background>
-			</Button>
-			<Button x:Name="NextButton" Content="Next" Width="75" VerticalAlignment="Top" Command="{Binding Path=Next}" />
-		</DockPanel>
-	</Grid>
+	<StackPanel x:Name="LayoutRoot" VerticalAlignment="Top">
+        <MediaElement x:Name="MediaPlayer" Source="{Binding Source, Mode=OneWay}" LoadedBehavior="Manual" />
+		<StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
+			<Button x:Name="PlayButton" Content="Play" Command="{Binding Play}" />
+			<Button x:Name="StopButton" Content="Pause" Command="{Binding Pause}" />
+			<Button x:Name="NextButton" Content="Next" Command="{Binding Next}" />
+		</StackPanel>
+	</StackPanel>
 </UserControl>

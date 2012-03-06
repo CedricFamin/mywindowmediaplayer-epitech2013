@@ -9,7 +9,7 @@ namespace MWMP.ViewModels
     /// <summary>
     /// A basic class for bindable object
     /// </summary>
-    class BindableObject : INotifyPropertyChanged
+    public class BindableObject : INotifyPropertyChanged
     {
         #region Properties
         public event PropertyChangedEventHandler PropertyChanged;
