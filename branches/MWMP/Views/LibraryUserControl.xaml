@@ -6,8 +6,19 @@
 	xmlns:System="clr-namespace:System;assembly=mscorlib"
 	mc:Ignorable="d"
 	x:Class="MWMP.LibraryUserControl"
-	x:Name="UserControl"
-	d:DesignWidth="499">
+	x:Name="UserControl">
+    <ListView ItemsSource="{Binding Collection}">
+        <ListView.View>
+            <GridView>
+                <GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
+                <GridViewColumn Header="Album"     DisplayMemberBinding="{Binding Album}" />
+                <GridViewColumn Header="Track"     DisplayMemberBinding="{Binding Track}" />
+                <GridViewColumn Header="Performer" DisplayMemberBinding="{Binding Performers}" />
+                <GridViewColumn Header="Composer"  DisplayMemberBinding="{Binding Title}" />
+                <GridViewColumn Header="Duration"  DisplayMemberBinding="{Binding Duration}" />
+            </GridView>
+        </ListView.View>
+        
+    </ListView>
 
-	
 </UserControl>

@@ -1,63 +1,29 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Xml.Linq;
+using System.Windows;
 
 namespace MWMP
 {
     /// <summary>
     /// Manage the loading file and the service creator
     /// </summary>
-    class ModuleManager
+    public class ModuleManager
     {
         #region Static fields
         static private ModuleManager instance;
         #endregion
 
         #region Fields
-        private Dictionary<string, Service> services;
+        static private Dictionary<string, Service> services = new Dictionary<string, Service>();
         #endregion /// Fields
-
-        #region Singletron
-        static public ModuleManager getInstance()
-        {
-            if (ModuleManager.instance == null)
-                ModuleManager.instance = new ModuleManager();
-            return ModuleManager.instance;
-        }
-
-        static public void deleteInstance()
-        {
-            ModuleManager.instance = null;
-        }
-
-        #endregion /// Singleton
-
-        #region Ctor
-        /// <summary>
-        /// Default constructor
-        /// </summary>
-        private ModuleManager()
-        {
-            this.services = new Dictionary<string, Service>();
-        }
-
-        /// <summary>
-        /// Constructor of ModuleManager
-        /// </summary>
-        /// <param name="filename">path of XML file</param>
-        private ModuleManager(string filename)
-        {
-            this.services = new Dictionary<string, Service>();
-            this.load(filename);
-        }
-        #endregion /// Ctor
 
         #region Methods
         /// <summary>
         /// Add services with an XML file
         /// </summary>
         /// <param name="filename"></param>
-        public void load(string filename)
+        static public void load(string filename)
         {
             XElement xml = XElement.Load(filename);
             IEnumerable<XElement> services = xml.Elements("service");
@@ -72,11 +38,10 @@ namespace MWMP
                 }
                 catch (Exception ex)
                 {
-                    Console.WriteLine(ex.ToString());
+                    MessageBox.Show(ex.Message);
                     continue;
                 }
-                Console.WriteLine(s.Name + " " + s.File + " " + s.CName + " " + s.IName);
-                this.services.Add(s.Name, s);
+                ModuleManager.services.Add(s.Name, s);
             }
         }
 
@@ -84,9 +49,9 @@ namespace MWMP
         /// Regist a service
         /// </summary>
         /// <param name="s"></param>
-        public void addService(ref Service s)
+        static public void addService(ref Service s)
         {
-            this.services.Add(s.Name, s);
+            services.Add(s.Name, s);
         }
 
         /// <summary>
@@ -95,10 +60,10 @@ namespace MWMP
         /// <typeparam name="T">Interface of the service</typeparam>
         /// <param name="serviceName">Name of the service</param>
         /// <returns>The service or default(T)</returns>
-        public T getInstanceOf<T>(string serviceName)
+        static public T getInstanceOf<T>(string serviceName)
         {
             Service s;
-            if (this.services.TryGetValue(serviceName, out s))
+            if (services.TryGetValue(serviceName, out s))
             {
                 if (s.Unique)
                     return (T)s.Instance;

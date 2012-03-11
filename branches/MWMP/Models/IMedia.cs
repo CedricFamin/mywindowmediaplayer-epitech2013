@@ -5,10 +5,12 @@ using System.Text;
 
 namespace MWMP.Models
 {
-    interface IMedia
+    public interface IMedia
     {
-        void loadOnPlayer(Player p);
-        string Path { get; }
+        bool Open(string path);
+        string Extension { get; }
         string Filename { get; }
+        string Path { get; }
+        int FileSize { get; }
     }
 }

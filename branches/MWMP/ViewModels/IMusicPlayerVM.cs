@@ -11,6 +11,8 @@ namespace MWMP.ViewModels
     {
         MediaElement MediaElement { set; get; }
         string Source { set; get; }
+        double Volume { set; get; }
+        string Time { get; }
         MediaState LoadedBehavior { set; get; }
         bool CanCommandExecute { set; get; }
         RelayCommand Stop { get; }

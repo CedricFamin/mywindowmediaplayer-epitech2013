@@ -23,7 +23,7 @@ namespace MWMP
     {
         public MainWindow()
         {
-            ModuleManager.getInstance().load("player.xml");
+            ModuleManager.load("player.xml");
             InitializeComponent();
         }
 
@@ -33,7 +33,7 @@ namespace MWMP
             ofd.Title = "Open file";
             if (ofd.ShowDialog() == true)
             {
-                ModuleManager.getInstance().getInstanceOf<IMusicPlayerVM>("MusicPlayerViewModel").Source = ofd.FileName;
+                ModuleManager.getInstanceOf<IMusicPlayerVM>("MusicPlayerViewModel").Open.Execute(ofd.FileName);
             }
         }
     }

@@ -3,7 +3,7 @@ using System.Reflection;
 
 namespace MWMP
 {
-    class Service
+    public class Service
     {
         #region Ctor
         public Service(string name, string file, string cname, string iname, string unique)

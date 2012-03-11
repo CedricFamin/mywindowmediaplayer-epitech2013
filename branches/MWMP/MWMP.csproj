@@ -23,7 +23,7 @@
     <DebugSymbols>true</DebugSymbols>
     <DebugType>full</DebugType>
     <Optimize>false</Optimize>
-    <OutputPath>bin\Debug\</OutputPath>
+    <OutputPath>..\Build\Debug\</OutputPath>
     <DefineConstants>DEBUG;TRACE</DefineConstants>
     <ErrorReport>prompt</ErrorReport>
     <WarningLevel>4</WarningLevel>
@@ -57,6 +57,8 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\IMusicMedia.cs" />
+    <Compile Include="ViewModels\ILibraryViewModel.cs" />
     <Compile Include="ViewModels\IMusicPlayerVM.cs" />
     <Compile Include="Views\LibraryUserControl.xaml.cs">
       <DependentUpon>LibraryUserControl.xaml</DependentUpon>
@@ -76,8 +78,6 @@
     <Compile Include="InjectionDepedency\Service.cs" />
     <Compile Include="Models\IMedia.cs" />
     <Compile Include="Models\IPlayer.cs" />
-    <Compile Include="Models\MusicMedia.cs" />
-    <Compile Include="Models\Player.cs" />
     <Compile Include="Utils\RelayCommand.cs" />
     <Compile Include="ViewModels\BindableObject.cs" />
     <Compile Include="ViewModels\APlayer.cs" />

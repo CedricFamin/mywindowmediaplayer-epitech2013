@@ -9,11 +9,17 @@
 	d:DesignWidth="499" d:DesignHeight="0">
 
 	<StackPanel x:Name="LayoutRoot" VerticalAlignment="Top">
-        <MediaElement x:Name="MediaPlayer" Source="{Binding Source, Mode=OneWay}" LoadedBehavior="Manual" />
-		<StackPanel HorizontalAlignment="Left" Orientation="Horizontal">
-			<Button x:Name="PlayButton" Content="Play" Command="{Binding Play}" />
-			<Button x:Name="StopButton" Content="Pause" Command="{Binding Pause}" />
+        <MediaElement x:Name="MediaPlayer" Source="{Binding Source, Mode=OneWay}" LoadedBehavior="Manual" Volume="{Binding Volume, Mode=OneWay}"/>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <ProgressBar></ProgressBar>
+            <TextBlock Text="{Binding Time, Mode=OneWay}"></TextBlock>
+        </StackPanel>
+        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+            <Button x:Name="PreviousButton" Content="¨Previous" Command="{Binding Previous}" />
+            <Button x:Name="PlayButton" Content="Play" Command="{Binding Play}" />
+            <Button x:Name="StopButton" Content="Pause" Command="{Binding Pause}" />
 			<Button x:Name="NextButton" Content="Next" Command="{Binding Next}" />
+            <Slider x:Name="VolumeSlider" Width="50" ValueChanged="VolumeChange"></Slider>
 		</StackPanel>
-	</StackPanel>
+    </StackPanel>
 </UserControl>

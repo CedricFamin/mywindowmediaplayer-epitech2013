@@ -10,6 +10,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
+using MWMP.ViewModels;
 
 namespace MWMP
 {
@@ -21,6 +22,7 @@ namespace MWMP
 		public LibraryUserControl()
 		{
 			this.InitializeComponent();
+            DataContext = ModuleManager.getInstanceOf<ILibraryViewModel>("LibraryViewModel");
 		}
 	}
 }
