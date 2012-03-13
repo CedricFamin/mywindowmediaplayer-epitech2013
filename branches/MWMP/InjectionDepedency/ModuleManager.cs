@@ -23,7 +23,7 @@ namespace MWMP
         /// Add services with an XML file
         /// </summary>
         /// <param name="filename"></param>
-        static public void load(string filename)
+        static public void Load(string filename)
         {
             XElement xml = XElement.Load(filename);
             IEnumerable<XElement> services = xml.Elements("service");
@@ -49,7 +49,7 @@ namespace MWMP
         /// Regist a service
         /// </summary>
         /// <param name="s"></param>
-        static public void addService(ref Service s)
+        static public void AddService(ref Service s)
         {
             services.Add(s.Name, s);
         }
@@ -60,7 +60,7 @@ namespace MWMP
         /// <typeparam name="T">Interface of the service</typeparam>
         /// <param name="serviceName">Name of the service</param>
         /// <returns>The service or default(T)</returns>
-        static public T getInstanceOf<T>(string serviceName)
+        static public T GetInstanceOf<T>(string serviceName)
         {
             Service s;
             if (services.TryGetValue(serviceName, out s))

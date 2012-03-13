@@ -5,11 +5,10 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d"
 	x:Class="MWMP.PlayerControl"
-	x:Name="UserControl"
-	d:DesignWidth="499" d:DesignHeight="0">
+	x:Name="UserControl">
 
-	<StackPanel x:Name="LayoutRoot" VerticalAlignment="Top">
-        <MediaElement x:Name="MediaPlayer" Source="{Binding Source, Mode=OneWay}" LoadedBehavior="Manual" Volume="{Binding Volume, Mode=OneWay}"/>
+	<StackPanel x:Name="LayoutRoot" VerticalAlignment="Bottom" Orientation="Vertical">
+        <MediaElement x:Name="MediaPlayer" Source="{Binding Source, Mode=OneWay}" LoadedBehavior="Manual" UnloadedBehavior="Manual"  Volume="{Binding Volume, Mode=OneWay}"/>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <ProgressBar></ProgressBar>
             <TextBlock Text="{Binding Time, Mode=OneWay}"></TextBlock>
@@ -19,7 +18,7 @@
             <Button x:Name="PlayButton" Content="Play" Command="{Binding Play}" />
             <Button x:Name="StopButton" Content="Pause" Command="{Binding Pause}" />
 			<Button x:Name="NextButton" Content="Next" Command="{Binding Next}" />
-            <Slider x:Name="VolumeSlider" Width="50" ValueChanged="VolumeChange"></Slider>
+            <Slider x:Name="VolumeSlider" Width="50" ValueChanged="VolumeChange" Value="{Binding Volume, Mode=OneTime}"></Slider>
 		</StackPanel>
     </StackPanel>
 </UserControl>

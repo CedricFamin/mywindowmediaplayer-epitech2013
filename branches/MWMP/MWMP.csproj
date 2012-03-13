@@ -57,7 +57,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\IImageMedia.cs" />
     <Compile Include="Models\IMusicMedia.cs" />
+    <Compile Include="Models\IVideoMedia.cs" />
     <Compile Include="ViewModels\ILibraryViewModel.cs" />
     <Compile Include="ViewModels\IMusicPlayerVM.cs" />
     <Compile Include="Views\LibraryUserControl.xaml.cs">

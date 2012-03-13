@@ -22,7 +22,7 @@ namespace MWMP
 		public LibraryUserControl()
 		{
 			this.InitializeComponent();
-            DataContext = ModuleManager.getInstanceOf<ILibraryViewModel>("LibraryViewModel");
+            DataContext = ModuleManager.GetInstanceOf<ILibraryViewModel>("LibraryViewModel");
 		}
 	}
 }

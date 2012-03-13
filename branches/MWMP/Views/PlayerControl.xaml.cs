@@ -22,7 +22,7 @@ namespace MWMP
 		public PlayerControl()
 		{
 			this.InitializeComponent();
-            IMusicPlayerVM player = ModuleManager.getInstanceOf<IMusicPlayerVM>("MusicPlayerViewModel");
+            IMusicPlayerVM player = ModuleManager.GetInstanceOf<IMusicPlayerVM>("MusicPlayerViewModel");
             if (player != null)
             {
                 player.MediaElement = this.MediaPlayer;
@@ -33,7 +33,7 @@ namespace MWMP
         private void VolumeChange(object sender, RoutedPropertyChangedEventArgs<double> e)
         {
             Slider me = sender as Slider;
-            ModuleManager.getInstanceOf<IMusicPlayerVM>("MusicPlayerViewModel").Volume = e.NewValue / me.Maximum;
+            ModuleManager.GetInstanceOf<IMusicPlayerVM>("MusicPlayerViewModel").Volume = e.NewValue / me.Maximum;
         }
 	}
 }

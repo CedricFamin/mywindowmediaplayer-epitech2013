@@ -61,6 +61,7 @@ namespace MusicPlayerViewModel
      
         public MusicPlayerViewModel()
         {
+            this._volume = 5;
             Play = new RelayCommand((param) => MediaElement.Play());
             Stop = new RelayCommand((param) => MediaElement.Stop());
             Pause = new RelayCommand((param) => MediaElement.Pause());
@@ -68,10 +69,10 @@ namespace MusicPlayerViewModel
             Open = new RelayCommand((param) =>
                 {
                     Source = param as string;
-                    ILibraryViewModel lvm = ModuleManager.getInstanceOf<ILibraryViewModel>("LibraryViewModel");
+                    ILibraryViewModel lvm = ModuleManager.GetInstanceOf<ILibraryViewModel>("LibraryViewModel");
                     if (lvm != null)
                     {
-                        IMusicMedia media = ModuleManager.getInstanceOf<IMusicMedia>("MusicMedia");
+                        IMusicMedia media = ModuleManager.GetInstanceOf<IMusicMedia>("MusicMedia");
                         if (media != null)
                         {
                             media.Open(Source);
@@ -79,6 +80,7 @@ namespace MusicPlayerViewModel
                         }
                     }
                     RaisePropertyChange("Time");
+                    Play.Execute(new object[0]);
                 });
             clockTimer.Tick += clockTimer_Tick;
             clockTimer.Start();
