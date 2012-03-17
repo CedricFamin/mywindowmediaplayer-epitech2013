@@ -7,7 +7,7 @@ using System.Collections.ObjectModel;
 
 namespace MWMP.ViewModels
 {
-    public interface ILibraryViewModel
+    public interface ILibrary
     {
         ObservableCollection<IMusicMedia> MusicList { get; }
         ObservableCollection<IVideoMedia> VideoList { get; }

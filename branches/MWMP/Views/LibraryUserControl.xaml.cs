@@ -11,6 +11,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MWMP.ViewModels;
+using MWMP.Models;
 
 namespace MWMP
 {
@@ -22,7 +23,15 @@ namespace MWMP
 		public LibraryUserControl()
 		{
 			this.InitializeComponent();
-            DataContext = ModuleManager.GetInstanceOf<ILibraryViewModel>("LibraryViewModel");
+            DataContext = ModuleManager.GetInstanceOf<ILibrary>("LibraryViewModel");
 		}
+
+        protected void HandleDoubleClick(object sender, MouseButtonEventArgs e)
+        {
+            IMedia track = ((ListViewItem)sender).Content as IMedia;
+            if (track != null)
+                ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel").Source = track.Path;
+
+        }
 	}
 }

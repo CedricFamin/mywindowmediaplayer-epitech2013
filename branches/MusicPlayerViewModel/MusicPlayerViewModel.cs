@@ -14,7 +14,7 @@ using MWMP;
 
 namespace MusicPlayerViewModel
 {
-    public class MusicPlayerViewModel : BindableObject, IMusicPlayerVM
+    public class MusicPlayerViewModel : BindableObject, IMediaPlayer
     {
         private string _source;
         private double _volume;
@@ -25,6 +25,7 @@ namespace MusicPlayerViewModel
             {
                 this._source = value;
                 RaisePropertyChange("Source");
+                RaisePropertyChange("Time");
             }
             get {return this._source; }
         }
@@ -50,7 +51,7 @@ namespace MusicPlayerViewModel
                        MediaElement.Position.Seconds.ToString() + "/" +
                        MediaElement.NaturalDuration.TimeSpan.Hours.ToString() + ":" +
                        MediaElement.NaturalDuration.TimeSpan.Minutes.ToString() + ":" +
-                       MediaElement.NaturalDuration.TimeSpan.Seconds.ToString() + ":";
+                       MediaElement.NaturalDuration.TimeSpan.Seconds.ToString();
             }
         }
 
@@ -69,16 +70,6 @@ namespace MusicPlayerViewModel
             Open = new RelayCommand((param) =>
                 {
                     Source = param as string;
-                    ILibraryViewModel lvm = ModuleManager.GetInstanceOf<ILibraryViewModel>("LibraryViewModel");
-                    if (lvm != null)
-                    {
-                        IMusicMedia media = ModuleManager.GetInstanceOf<IMusicMedia>("MusicMedia");
-                        if (media != null)
-                        {
-                            media.Open(Source);
-                            lvm.Add(media);
-                        }
-                    }
                     RaisePropertyChange("Time");
                     Play.Execute(new object[0]);
                 });

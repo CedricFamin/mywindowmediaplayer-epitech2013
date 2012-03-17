@@ -10,10 +10,6 @@ namespace MWMP
     /// </summary>
     public class ModuleManager
     {
-        #region Static fields
-        static private ModuleManager instance;
-        #endregion
-
         #region Fields
         static private Dictionary<string, Service> services = new Dictionary<string, Service>();
         #endregion /// Fields
@@ -70,6 +66,18 @@ namespace MWMP
                 return (T)s.Constructor.Invoke(new Object[0]);
             }
             return default(T);
+        }
+
+        static public object GetService(string serviceName)
+        {
+            Service s;
+            if (services.TryGetValue(serviceName, out s))
+            {
+                if (s.Unique)
+                    return s.Instance;
+                return s.Constructor.Invoke(new Object[0]);
+            }
+            return null;
         }
         #endregion /// Methods
     }

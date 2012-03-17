@@ -7,7 +7,7 @@ using System.Windows.Controls;
 
 namespace MWMP.ViewModels
 {
-    public interface IMusicPlayerVM
+    public interface IMediaPlayer
     {
         MediaElement MediaElement { set; get; }
         string Source { set; get; }

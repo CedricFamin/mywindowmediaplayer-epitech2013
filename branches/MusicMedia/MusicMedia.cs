@@ -5,54 +5,52 @@ using System.Text;
 using MediaInfoLib;
 using System.IO;
 using MWMP.Models;
+using MWMP.ViewModels;
 
-namespace MusicMedia
+namespace Medias
 {
     public class MusicMedia : IMusicMedia
     {
-        MediaInfo _mediaInfo;
 
         public MusicMedia()
         {
-            this._mediaInfo = new MediaInfo();
         }
 
         public bool Open(string path)
         {
-            Path = path;
-            return this._mediaInfo.Open(path) >= 0;
+            
+            return true;
         }
-        string Codec { get { return this._mediaInfo.Get(0, 0, "Codec"); } }
-        public string[] Performers { get { return this._mediaInfo.Get(0, 0, "Performer").Split('/'); }  }
-        public string Title        { get { return this._mediaInfo.Get(0, 0, "Title"); }  }
-        public string Album        { get { return this._mediaInfo.Get(0, 0, "Album"); }  }
-        public string Genre        { get { return this._mediaInfo.Get(0, 0, "Genre"); }  }
-        public int FileSize        
-        { 
-            get 
-            {
-                try { return Convert.ToInt32(this._mediaInfo.Get(0, 0, "FileSize")); }
-                catch (Exception e) { return 0; }
-            }
+        public string Codec { get; private set; }
+        public string[] Performers { get; private set; }
+        public string Title { get; private set; }
+        public string Album { get; private set; }
+        public string Genre { get; private set; }
+        public int FileSize { get; private set; }
+        public int Duration { get; private set; }
+        public int Track { get; private set; }
+        public string Extension { get; private set; }
+        public string Filename { get; private set; }
+        public string Path { get; private set; }
+
+        public void AddToLibrary(ILibrary lib)
+        {
+            lib.Add(this);
         }
-        public int Duration
-        { 
-            get 
-            {
-                try { return Convert.ToInt32(this._mediaInfo.Get(0, 0, "Duration")); }
-                catch (Exception e) { return 0; }
-            }
+
+        public void SetInfo(IInfoMedia media)
+        {
+            int value;
+            Codec = media.Get("Codec");
+            Performers = media.Get("Performer").Split('/');
+            Title = media.Get("Title");
+            Album = media.Get("Album");
+            Genre = media.Get("Genre");
+            FileSize = (Int32.TryParse(media.Get("FileSize"), out value)) ? value : 0;
+            Duration = (Int32.TryParse(media.Get("Duration"), out value)) ? value : 0;
+            Track = (Int32.TryParse(media.Get("Track/Position"), out value)) ? value : 0;
+            Extension = media.Get("FileExtension");
+            Filename = media.Get("FileName");
         }
-        public int Track
-        { 
-            get 
-            {
-                try { return Convert.ToInt32(this._mediaInfo.Get(0, 0, "Track/Position")); }
-                catch (Exception e) { return 0; }
-            } 
-        }
-        public string Extension    { get { return this._mediaInfo.Get(0, 0, "FileExtension"); } }
-        public string Filename     { get { return this._mediaInfo.Get(0, 0, "FileName"); } }
-        public string Path         { get; private set; }
     }
 }

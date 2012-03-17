@@ -58,10 +58,12 @@
       <SubType>Designer</SubType>
     </ApplicationDefinition>
     <Compile Include="Models\IImageMedia.cs" />
+    <Compile Include="Models\IInfoMedia.cs" />
     <Compile Include="Models\IMusicMedia.cs" />
     <Compile Include="Models\IVideoMedia.cs" />
-    <Compile Include="ViewModels\ILibraryViewModel.cs" />
-    <Compile Include="ViewModels\IMusicPlayerVM.cs" />
+    <Compile Include="ViewModels\ILibrary.cs" />
+    <Compile Include="ViewModels\IMenuBar.cs" />
+    <Compile Include="ViewModels\IMediaPlayer.cs" />
     <Compile Include="Views\LibraryUserControl.xaml.cs">
       <DependentUpon>LibraryUserControl.xaml</DependentUpon>
     </Compile>

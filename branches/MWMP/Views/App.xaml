@@ -1,8 +1,11 @@
 ﻿<Application x:Class="MWMP.App"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+			 xmlns:local="clr-namespace:MWMP"
+			 xmlns:s="clr-namespace:System;assembly=mscorlib" 
              StartupUri="Views/MainWindow.xaml">
     <Application.Resources>
-         
+		
+        
     </Application.Resources>
 </Application>

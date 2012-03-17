@@ -8,11 +8,13 @@ namespace MWMP
         #region Ctor
         public Service(string name, string file, string cname, string iname, string unique)
         {
+            bool un;
+
             Name = name;
             File = file;
             IName = iname;
             CName = cname;
-            Unique = Convert.ToBoolean(unique);
+            Unique = (bool.TryParse(unique, out un)) ? un : false;
             ModuleAssembly = Assembly.LoadFrom(File);
             Type[] types = ModuleAssembly.GetTypes();
             foreach (Type type in types)

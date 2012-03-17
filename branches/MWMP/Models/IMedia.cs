@@ -2,15 +2,17 @@
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using MWMP.ViewModels;
 
 namespace MWMP.Models
 {
     public interface IMedia
     {
-        bool Open(string path);
+        void SetInfo(IInfoMedia media);
         string Extension { get; }
         string Filename { get; }
         string Path { get; }
         int FileSize { get; }
+        void AddToLibrary(ILibrary lib);
     }
 }

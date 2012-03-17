@@ -10,7 +10,7 @@ using System.Collections.ObjectModel;
 
 namespace LibraryViewModel
 {
-    public class LibraryViewModel : BindableObject, ILibraryViewModel
+    public class LibraryViewModel : BindableObject, ILibrary
     {
 
         public LibraryViewModel()

@@ -26,15 +26,5 @@ namespace MWMP
             ModuleManager.Load("player.xml");
             InitializeComponent();
         }
-
-        private void DockPanelOpen_Click(object sender, RoutedEventArgs e)
-        {
-            OpenFileDialog ofd = new OpenFileDialog();
-            ofd.Title = "Open file";
-            if (ofd.ShowDialog() == true)
-            {
-                ModuleManager.GetInstanceOf<IMusicPlayerVM>("MusicPlayerViewModel").Open.Execute(ofd.FileName);
-            }
-        }
     }
 }

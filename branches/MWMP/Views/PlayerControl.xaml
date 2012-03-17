@@ -5,10 +5,13 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d"
 	x:Class="MWMP.PlayerControl"
-	x:Name="UserControl">
+	x:Name="UserControl" DataContext="{Binding}">
 
 	<StackPanel x:Name="LayoutRoot" VerticalAlignment="Bottom" Orientation="Vertical">
-        <MediaElement x:Name="MediaPlayer" Source="{Binding Source, Mode=OneWay}" LoadedBehavior="Manual" UnloadedBehavior="Manual"  Volume="{Binding Volume, Mode=OneWay}"/>
+        <MediaElement x:Name="MediaPlayer" Source="{Binding Source, Mode=OneWay}" LoadedBehavior="Manual" 
+                      UnloadedBehavior="Manual"  Volume="{Binding Volume, Mode=OneWay}" MediaFailed="MediaPlayer_MediaFailed">
+
+        </MediaElement>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <ProgressBar></ProgressBar>
             <TextBlock Text="{Binding Time, Mode=OneWay}"></TextBlock>

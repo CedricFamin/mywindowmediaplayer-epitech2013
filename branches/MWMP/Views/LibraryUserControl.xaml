@@ -19,6 +19,23 @@
                     <GridViewColumn Header="Duration"  DisplayMemberBinding="{Binding Duration}" />
                 </GridView>
             </ListView.View>
+            <ListView.Resources>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <EventSetter Event="MouseDoubleClick" Handler="HandleDoubleClick" />
+                </Style>
+            </ListView.Resources>
+        </ListView>
+        <ListView ItemsSource="{Binding VideoList}">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
+                </GridView>
+            </ListView.View>
+            <ListView.Resources>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <EventSetter Event="MouseDoubleClick" Handler="HandleDoubleClick" />
+                </Style>
+            </ListView.Resources>
         </ListView>
     </StackPanel>
 
