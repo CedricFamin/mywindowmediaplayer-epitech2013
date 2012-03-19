@@ -17,6 +17,7 @@ namespace MWMP.ViewModels
 
         #region Fields
         private Dictionary<int, PropertyChangedEventArgs> cacheEventArgs;
+        protected bool EnableRaisePropertyChanged = true;
         #endregion
 
         #region Ctor
@@ -42,6 +43,7 @@ namespace MWMP.ViewModels
 
         protected void RaisePropertyChange(string propertyName)
         {
+            if (!EnableRaisePropertyChanged) return;
             VerifyProperty(propertyName);
             PropertyChangedEventArgs args = GetEventArgs(propertyName);
             PropertyChanged(this, args);

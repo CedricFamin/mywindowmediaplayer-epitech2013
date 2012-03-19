@@ -57,6 +57,7 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="Models\DAL\IDAL.cs" />
     <Compile Include="Models\IImageMedia.cs" />
     <Compile Include="Models\IInfoMedia.cs" />
     <Compile Include="Models\IMusicMedia.cs" />
@@ -84,7 +85,6 @@
     <Compile Include="Models\IPlayer.cs" />
     <Compile Include="Utils\RelayCommand.cs" />
     <Compile Include="ViewModels\BindableObject.cs" />
-    <Compile Include="ViewModels\APlayer.cs" />
     <Compile Include="Views\App.xaml.cs">
       <DependentUpon>App.xaml</DependentUpon>
       <SubType>Code</SubType>

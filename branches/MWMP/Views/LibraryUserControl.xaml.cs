@@ -12,6 +12,7 @@ using System.Windows.Navigation;
 using System.Windows.Shapes;
 using MWMP.ViewModels;
 using MWMP.Models;
+using MWMP.Models.DAL;
 
 namespace MWMP
 {
@@ -23,7 +24,8 @@ namespace MWMP
 		public LibraryUserControl()
 		{
 			this.InitializeComponent();
-            DataContext = ModuleManager.GetInstanceOf<ILibrary>("LibraryViewModel");
+            ILibrary lib = ModuleManager.GetInstanceOf<ILibrary>("LibraryViewModel");
+            DataContext = lib;
 		}
 
         protected void HandleDoubleClick(object sender, MouseButtonEventArgs e)

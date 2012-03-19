@@ -1,21 +1,21 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MWMP.ViewModels;
+using System.Collections.Concurrent;
+using System.Threading;
+using System.Windows;
 using System.Windows.Input;
-using MWMP.Utils;
+using System.Windows.Threading;
+using Microsoft.Win32;
 using MWMP;
 using MWMP.Models;
-using System.Windows;
-using Microsoft.Win32;
-using MediaInfoLib;
-
+using MWMP.Utils;
+using MWMP.ViewModels;
 
 namespace MenuBar
 {
     public class MenuBar : IMenuBar
     {
+
+        #region KindOf function
         private static bool KindOfVideo(IInfoMedia media)
         {
             string format = media.Get("InternetMediaType");
@@ -33,27 +33,44 @@ namespace MenuBar
             string format = media.Get("InternetMediaType");
             return format.Contains("image");
         }
+        #endregion
 
+        #region private property
         private RelayCommand _open { get; set; }
         private RelayCommand _close { get; set; }
-        private ILibrary _libraryModel { get; set; }
-        private IMediaPlayer _mediaPlayer { get; set; }
+        private ConcurrentStack<IMedia> _pendingMedia { get; set; }
+        private DispatcherTimer _clockTimer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 1) };
+        #endregion
 
-        public MenuBar()
-        {
-            _libraryModel = ModuleManager.GetInstanceOf<ILibrary>("LibraryViewModel");
-            _mediaPlayer = ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel");
-            Open = new RelayCommand((param) => this.OpenCommand());
-            Close = new RelayCommand((param) => Application.Current.Shutdown());
-        }
-
+        #region Property
         public ICommand Open { get; private set; }
         public ICommand Close { get; private set; }
+        #endregion
 
+        #region CTor
+        public MenuBar()
+        {
+            _pendingMedia = new ConcurrentStack<IMedia>();
+            Open = new RelayCommand((param) => this.OpenCommand());
+            Close = new RelayCommand((param) => Application.Current.Shutdown());
+            _clockTimer.Tick += (object sender, EventArgs e) =>
+                {
+                    ILibrary lib = ModuleManager.GetInstanceOf<ILibrary>("LibraryViewModel");
+                    if (lib == null) return ;
+                    IMedia media;
+                    while (_pendingMedia.TryPop(out media))
+                        media.AddToLibrary(lib);
+                };
+            _clockTimer.Start();
+        }
+        #endregion
+
+        #region method
         private void OpenCommand()
         {
             OpenFileDialog ofd = new OpenFileDialog();
-            IMedia media = null;
+            IMediaPlayer mediaPlayer = ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel");
+            Thread action;
 
             ofd.Title = "Open file";
             if (ofd.ShowDialog() != true)
@@ -61,20 +78,31 @@ namespace MenuBar
             string path = ofd.FileName;
             if (path == null)
                 return;
-            _mediaPlayer.Source = path;
-            _mediaPlayer.Play.Execute(new object());
-            IInfoMedia mediaInfo = ModuleManager.GetInstanceOf<IInfoMedia>("InfoMedia");
-            if (mediaInfo.Open(path))
+            action = new Thread(() => 
             {
-                //if (KindOfImage(media)) mmedia = ModuleManager.GetInstanceOf<IMusicMedia>("MusicMedia");
-                if (KindOfMusic(mediaInfo)) media = ModuleManager.GetInstanceOf<IMusicMedia>("MusicMedia");
-                if (KindOfVideo(mediaInfo)) media = ModuleManager.GetInstanceOf<IVideoMedia>("VideoMedia");
-                if (media != null)
+                IMedia media = null;
+                IInfoMedia mediaInfo = ModuleManager.GetInstanceOf<IInfoMedia>("InfoMedia");
+
+                if (mediaInfo.Open(path))
                 {
-                    media.SetInfo(mediaInfo);
-                    media.AddToLibrary(_libraryModel);
+                    if (KindOfImage(mediaInfo)) media = ModuleManager.GetInstanceOf<IMusicMedia>("ImageMedia");
+                    if (KindOfMusic(mediaInfo)) media = ModuleManager.GetInstanceOf<IMusicMedia>("MusicMedia");
+                    if (KindOfVideo(mediaInfo)) media = ModuleManager.GetInstanceOf<IVideoMedia>("VideoMedia");
+                    if (media != null)
+                    {
+                        media.SetInfo(mediaInfo);
+                        _pendingMedia.Push(media);
+                    }
+                    mediaInfo.Close();
                 }
+            });
+            action.Start();
+            if (mediaPlayer != null)
+            {
+                mediaPlayer.Source = path;
+                mediaPlayer.Play.Execute(new object());
             }
         }
+        #endregion
     }
 }

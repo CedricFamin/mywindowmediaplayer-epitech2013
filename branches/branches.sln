@@ -18,6 +18,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Medias", "MusicMedia\Medias
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "MenuBar", "MenuBar\MenuBar.csproj", "{3E8D6253-79BC-427E-AB74-BDDB6617D11F}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "XMLDAL", "XMLDAL\XMLDAL.csproj", "{13137637-3F2C-40EA-9C19-7411264F09C0}"
+EndProject
 Global
 	GlobalSection(TestCaseManagementSettings) = postSolution
 		CategoryFile = branches.vsmdi
@@ -81,6 +83,16 @@ Global
 		{3E8D6253-79BC-427E-AB74-BDDB6617D11F}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
 		{3E8D6253-79BC-427E-AB74-BDDB6617D11F}.Release|Mixed Platforms.Build.0 = Release|Any CPU
 		{3E8D6253-79BC-427E-AB74-BDDB6617D11F}.Release|x86.ActiveCfg = Release|Any CPU
+		{13137637-3F2C-40EA-9C19-7411264F09C0}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{13137637-3F2C-40EA-9C19-7411264F09C0}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{13137637-3F2C-40EA-9C19-7411264F09C0}.Debug|Mixed Platforms.ActiveCfg = Debug|Any CPU
+		{13137637-3F2C-40EA-9C19-7411264F09C0}.Debug|Mixed Platforms.Build.0 = Debug|Any CPU
+		{13137637-3F2C-40EA-9C19-7411264F09C0}.Debug|x86.ActiveCfg = Debug|Any CPU
+		{13137637-3F2C-40EA-9C19-7411264F09C0}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{13137637-3F2C-40EA-9C19-7411264F09C0}.Release|Any CPU.Build.0 = Release|Any CPU
+		{13137637-3F2C-40EA-9C19-7411264F09C0}.Release|Mixed Platforms.ActiveCfg = Release|Any CPU
+		{13137637-3F2C-40EA-9C19-7411264F09C0}.Release|Mixed Platforms.Build.0 = Release|Any CPU
+		{13137637-3F2C-40EA-9C19-7411264F09C0}.Release|x86.ActiveCfg = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

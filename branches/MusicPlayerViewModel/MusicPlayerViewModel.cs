@@ -81,6 +81,7 @@ namespace MusicPlayerViewModel
         public RelayCommand Pause { get; protected set; }
         public RelayCommand Play { get; protected set; }
         public RelayCommand Open { get; protected set; }
+
         private void clockTimer_Tick(object sender, EventArgs e)
         {
             RaisePropertyChange("Time");

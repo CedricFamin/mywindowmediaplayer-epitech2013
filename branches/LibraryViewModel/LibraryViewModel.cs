@@ -7,17 +7,39 @@ using MWMP.Models;
 using MWMP;
 using System.Collections;
 using System.Collections.ObjectModel;
+using System.Xml.Serialization;
+using System.IO;
+using MWMP.Models.DAL;
 
 namespace LibraryViewModel
 {
     public class LibraryViewModel : BindableObject, ILibrary
     {
-
+        
         public LibraryViewModel()
         {
             MusicList = new ObservableCollection<IMusicMedia>();
             VideoList = new ObservableCollection<IVideoMedia>();
             ImageList = new ObservableCollection<IImageMedia>();
+            EnableRaisePropertyChanged = false;
+            IDAL DAL = ModuleManager.GetInstanceOf<IDAL>("XMLDAL");
+            foreach (IMedia media in DAL.MediaList)
+            {
+                media.AddToLibrary(this);
+            }
+            EnableRaisePropertyChanged = true;
+        }
+
+        ~LibraryViewModel()
+        {
+            IDAL DAL = ModuleManager.GetInstanceOf<IDAL>("XMLDAL");
+
+            foreach (IMusicMedia media in MusicList)
+                DAL.Save(media, "MusicMedia");
+            foreach (IVideoMedia media in VideoList)
+                DAL.Save(media, "VideoMedia");
+            foreach (IImageMedia media in ImageList)
+                DAL.Save(media, "ImageMedia");
         }
 
         public ObservableCollection<IMusicMedia> MusicList { get; private set; }
