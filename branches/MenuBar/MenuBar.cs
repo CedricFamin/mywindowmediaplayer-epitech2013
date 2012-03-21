@@ -18,19 +18,19 @@ namespace MenuBar
         #region KindOf function
         private static bool KindOfVideo(IInfoMedia media)
         {
-            string format = media.Get("InternetMediaType");
+            string format = media.InternetMediaType;
             return format.Contains("video");
         }
 
         private static bool KindOfMusic(IInfoMedia media)
         {
-            string format = media.Get("InternetMediaType");
+            string format = media.InternetMediaType;
             return format.Contains("audio");
         }
 
         private static bool KindOfImage(IInfoMedia media)
         {
-            string format = media.Get("InternetMediaType");
+            string format = media.InternetMediaType;
             return format.Contains("image");
         }
         #endregion
@@ -39,7 +39,7 @@ namespace MenuBar
         private RelayCommand _open { get; set; }
         private RelayCommand _close { get; set; }
         private ConcurrentStack<IMedia> _pendingMedia { get; set; }
-        private DispatcherTimer _clockTimer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 1) };
+        private DispatcherTimer _clockTimer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 0, 0, 100) };
         #endregion
 
         #region Property
@@ -90,6 +90,7 @@ namespace MenuBar
                     if (KindOfVideo(mediaInfo)) media = ModuleManager.GetInstanceOf<IVideoMedia>("VideoMedia");
                     if (media != null)
                     {
+
                         media.SetInfo(mediaInfo);
                         _pendingMedia.Push(media);
                     }

@@ -16,9 +16,46 @@ namespace MusicPlayerViewModel
 {
     public class MusicPlayerViewModel : BindableObject, IMediaPlayer
     {
+        #region Fields
         private string _source;
         private double _volume;
+        private DispatcherTimer clockTimer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 1) };
+        #endregion
 
+        #region Properties
+        public MediaElement MediaElement { set; get; }
+        public MediaState LoadedBehavior { set; get; }
+        public bool CanCommandExecute { set; get; }
+        #endregion
+
+        #region Command
+        public RelayCommand Stop { get; protected set; }
+        public RelayCommand Next { get; protected set; }
+        public RelayCommand Pause { get; protected set; }
+        public RelayCommand Play { get; protected set; }
+        public RelayCommand Open { get; protected set; }
+        #endregion
+
+        #region Ctor
+        public MusicPlayerViewModel()
+        {
+            this._volume = 5;
+            Play = new RelayCommand((param) => MediaElement.Play());
+            Stop = new RelayCommand((param) => MediaElement.Stop());
+            Pause = new RelayCommand((param) => MediaElement.Pause());
+            //Next = new RelayCommand((param) => this.player.Next());
+            Open = new RelayCommand((param) =>
+            {
+                Source = param as string;
+                RaisePropertyChange("Time");
+                Play.Execute(new object[0]);
+            });
+            clockTimer.Tick += clockTimer_Tick;
+            clockTimer.Start();
+        }
+        #endregion
+
+        #region Methods
         public string Source 
         { 
             set
@@ -54,37 +91,13 @@ namespace MusicPlayerViewModel
                        MediaElement.NaturalDuration.TimeSpan.Seconds.ToString();
             }
         }
+        #endregion
 
-        public MediaElement MediaElement { set; get; }
-        public MediaState LoadedBehavior { set; get; }
-        public bool CanCommandExecute { set; get; }
-        private DispatcherTimer clockTimer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 1) };
-     
-        public MusicPlayerViewModel()
-        {
-            this._volume = 5;
-            Play = new RelayCommand((param) => MediaElement.Play());
-            Stop = new RelayCommand((param) => MediaElement.Stop());
-            Pause = new RelayCommand((param) => MediaElement.Pause());
-            //Next = new RelayCommand((param) => this.player.Next());
-            Open = new RelayCommand((param) =>
-                {
-                    Source = param as string;
-                    RaisePropertyChange("Time");
-                    Play.Execute(new object[0]);
-                });
-            clockTimer.Tick += clockTimer_Tick;
-            clockTimer.Start();
-        }
-        public RelayCommand Stop { get; protected set; }
-        public RelayCommand Next { get; protected set; }
-        public RelayCommand Pause { get; protected set; }
-        public RelayCommand Play { get; protected set; }
-        public RelayCommand Open { get; protected set; }
-
+        #region private Methods
         private void clockTimer_Tick(object sender, EventArgs e)
         {
             RaisePropertyChange("Time");
         }
+        #endregion
     }
 }

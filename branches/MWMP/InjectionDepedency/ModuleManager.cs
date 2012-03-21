@@ -56,14 +56,12 @@ namespace MWMP
         /// <typeparam name="T">Interface of the service</typeparam>
         /// <param name="serviceName">Name of the service</param>
         /// <returns>The service or default(T)</returns>
-        static public T GetInstanceOf<T>(string serviceName)
+        static public T GetInstanceOf<T>(string serviceName) where T : class
         {
             Service s;
             if (services.TryGetValue(serviceName, out s))
             {
-                if (s.Unique)
-                    return (T)s.Instance;
-                return (T)s.Constructor.Invoke(new Object[0]);
+                return s.GetInstance() as T;
             }
             return default(T);
         }
@@ -73,9 +71,7 @@ namespace MWMP
             Service s;
             if (services.TryGetValue(serviceName, out s))
             {
-                if (s.Unique)
-                    return s.Instance;
-                return s.Constructor.Invoke(new Object[0]);
+                return s.GetInstance();
             }
             return null;
         }

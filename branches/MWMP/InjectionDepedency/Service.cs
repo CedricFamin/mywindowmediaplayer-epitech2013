@@ -17,16 +17,12 @@ namespace MWMP
             Unique = (bool.TryParse(unique, out un)) ? un : false;
             ModuleAssembly = Assembly.LoadFrom(File);
             Type[] types = ModuleAssembly.GetTypes();
+            Instance = null;
             foreach (Type type in types)
             {
                 if (type.GetInterface(IName) != null)
                 {
                     Constructor = type.GetConstructor(new Type[0]);
-                    if (Constructor != null)
-                    {
-                        if (Unique) Instance = Constructor.Invoke(new Object[0]);
-                        break;
-                    }
                 }
             }
         }
@@ -39,9 +35,20 @@ namespace MWMP
         public string IName { get; private set; }
         public string CName  { get; private set; }
         public bool Unique { get; private set; }
-        public object Instance { get; private set; }
-        public ConstructorInfo Constructor { get; private set; }
-        public Assembly ModuleAssembly { get; private set; }
+        private object Instance { get; set; }
+        private ConstructorInfo Constructor { get; set; }
+        private Assembly ModuleAssembly { get; set; }
         #endregion /// Property
+
+        public object GetInstance()
+        {
+            if (Unique)
+            {
+                if (Instance == null)
+                    Instance = Constructor.Invoke(new object[0]);
+                return Instance;
+            }
+            return Constructor.Invoke(new object[0]);
+        }
     }
 }

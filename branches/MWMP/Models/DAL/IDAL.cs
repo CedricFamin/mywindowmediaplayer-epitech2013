@@ -11,5 +11,6 @@ namespace MWMP.Models.DAL
         IList<IMedia> MediaList { get; }
 
         void Save<T>(T media, string serviceName) where T : IMedia;
+        void Save();
     }
 }

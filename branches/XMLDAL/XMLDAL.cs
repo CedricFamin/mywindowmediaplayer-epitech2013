@@ -12,8 +12,12 @@ namespace XMLDAL
 {
     public class XMLDAL : IDAL
     {
+        #region properties
         private XElement _root {get;set;}
-        
+        public IList<IMedia> MediaList { get; private set; }
+        #endregion
+
+        #region Ctor
         public XMLDAL()
         {
             _root = new XElement("medias");
@@ -34,13 +38,9 @@ namespace XMLDAL
                 MediaList.Add(realMedia);
             }
         }
-        ~XMLDAL()
-        {
-            _root.Save("data.xml"); 
-        }
+        #endregion
 
-        public IList<IMedia> MediaList { get; private set; }
-
+        #region Save method
         private void _save<T>(T media, XElement e)
         {
             Type type = typeof(T);
@@ -63,5 +63,11 @@ namespace XMLDAL
             Element.SetAttributeValue("type", serviceName);
             medias.Add(Element);
         }
+
+        public void Save()
+        {
+            _root.Save("data.xml");
+        }
+        #endregion
     }
 }

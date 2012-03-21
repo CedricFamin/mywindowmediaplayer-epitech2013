@@ -7,11 +7,12 @@ namespace MWMP.Models
 {
     public interface IMusicMedia : IMedia
     {
-        string[] Performers { get; }
-        string Title { get; }
-        string Album { get; }
-        string Genre { get; }
-        int Duration { get; }
-        int Track { get; }
+        string[] Performers { get; set; }
+        string Title { get; set; }
+        string Album { get; set; }
+        string Genre { get; set; }
+        string Codec { get; set; }
+        int Duration { get; set; }
+        int Track { get; set; }
     }
 }

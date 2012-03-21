@@ -17,42 +17,28 @@ namespace Medias
         {
         }
 
-        public bool Open(string path)
-        {
-            
-            return true;
-        }
-        public string Codec { get; private set; }
-        public string[] Performers { get; private set; }
-        public string Title { get; private set; }
-        public string Album { get; private set; }
-        public string Genre { get; private set; }
-        public int FileSize { get; private set; }
-        public int Duration { get; private set; }
-        public int Track { get; private set; }
-        public string Extension { get; private set; }
-        public string Filename { get; private set; }
-        public string Path { get; private set; }
+        #region properties
+        public string Codec { get; set; }
+        public string[] Performers { get; set; }
+        public string Title { get; set; }
+        public string Album { get; set; }
+        public string Genre { get; set; }
+        public int FileSize { get; set; }
+        public int Duration { get; set; }
+        public int Track { get; set; }
+        public string Extension { get; set; }
+        public string Filename { get; set; }
+        public string Path { get; set; }
+        #endregion
 
         public void AddToLibrary(ILibrary lib)
         {
             lib.Add(this);
         }
 
-        public void SetInfo(IInfoMedia media)
+        public void SetInfo(IInfoMedia infoMedia)
         {
-            int value;
-            Codec = media.Get("Codec");
-            Performers = media.Get("Performer").Split('/');
-            Title = media.Get("Title");
-            Album = media.Get("Album");
-            Genre = media.Get("Genre");
-            FileSize = (Int32.TryParse(media.Get("FileSize"), out value)) ? value : 0;
-            Duration = (Int32.TryParse(media.Get("Duration"), out value)) ? value : 0;
-            Track = (Int32.TryParse(media.Get("Track"), out value)) ? value : 0;
-            Extension = media.Get("FileExtension");
-            Filename = media.Get("FileName");
-            Path = media.Get("Path");
+            infoMedia.SetInfo(this);
         }
     }
 }

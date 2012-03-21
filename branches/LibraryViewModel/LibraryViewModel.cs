@@ -15,7 +15,13 @@ namespace LibraryViewModel
 {
     public class LibraryViewModel : BindableObject, ILibrary
     {
-        
+        #region properties
+        public ObservableCollection<IMusicMedia> MusicList { get; private set; }
+        public ObservableCollection<IVideoMedia> VideoList { get; private set; }
+        public ObservableCollection<IImageMedia> ImageList { get; private set; }
+        #endregion
+
+        #region Ctor
         public LibraryViewModel()
         {
             MusicList = new ObservableCollection<IMusicMedia>();
@@ -29,7 +35,9 @@ namespace LibraryViewModel
             }
             EnableRaisePropertyChanged = true;
         }
+        #endregion
 
+        #region Dtor
         ~LibraryViewModel()
         {
             IDAL DAL = ModuleManager.GetInstanceOf<IDAL>("XMLDAL");
@@ -40,13 +48,11 @@ namespace LibraryViewModel
                 DAL.Save(media, "VideoMedia");
             foreach (IImageMedia media in ImageList)
                 DAL.Save(media, "ImageMedia");
+            DAL.Save();
         }
+        #endregion
 
-        public ObservableCollection<IMusicMedia> MusicList { get; private set; }
-        public ObservableCollection<IVideoMedia> VideoList { get; private set; }
-        public ObservableCollection<IImageMedia> ImageList { get; private set; }
-
-
+        #region Add method
         public void Add(IMusicMedia media)
         {
             MusicList.Add(media);
@@ -64,5 +70,6 @@ namespace LibraryViewModel
             ImageList.Add(media);
             RaisePropertyChange("ImageList");
         }
+        #endregion
     }
 }

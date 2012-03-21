@@ -32,7 +32,10 @@ namespace MWMP
         {
             IMedia track = ((ListViewItem)sender).Content as IMedia;
             if (track != null)
+            {
                 ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel").Source = track.Path;
+                ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel").Play.Execute(new object[0]);
+            }
 
         }
 	}
