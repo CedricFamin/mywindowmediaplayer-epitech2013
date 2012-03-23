@@ -10,6 +10,8 @@ using System.Collections.ObjectModel;
 using System.Xml.Serialization;
 using System.IO;
 using MWMP.Models.DAL;
+using System.Windows.Input;
+using MWMP.Utils;
 
 namespace LibraryViewModel
 {
@@ -19,6 +21,7 @@ namespace LibraryViewModel
         public ObservableCollection<IMusicMedia> MusicList { get; private set; }
         public ObservableCollection<IVideoMedia> VideoList { get; private set; }
         public ObservableCollection<IImageMedia> ImageList { get; private set; }
+        public IMedia SelectedItem { get; set; }
         #endregion
 
         #region Ctor
@@ -27,6 +30,12 @@ namespace LibraryViewModel
             MusicList = new ObservableCollection<IMusicMedia>();
             VideoList = new ObservableCollection<IVideoMedia>();
             ImageList = new ObservableCollection<IImageMedia>();
+            PlayContextMenu = new RelayCommand((param) =>
+                {
+                    IMediaPlayer mp = ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel");
+                    if (mp != null && SelectedItem != null)
+                        mp.Open.Execute(SelectedItem);
+                });
             EnableRaisePropertyChanged = false;
             IDAL DAL = ModuleManager.GetInstanceOf<IDAL>("XMLDAL");
             foreach (IMedia media in DAL.MediaList)
@@ -71,5 +80,7 @@ namespace LibraryViewModel
             RaisePropertyChange("ImageList");
         }
         #endregion
+
+        public ICommand PlayContextMenu { get; private set; }
     }
 }

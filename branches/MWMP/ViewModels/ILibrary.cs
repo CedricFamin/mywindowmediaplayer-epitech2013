@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MWMP.Models;
 using System.Collections.ObjectModel;
+using System.Windows.Input;
 
 namespace MWMP.ViewModels
 {
@@ -12,6 +13,10 @@ namespace MWMP.ViewModels
         ObservableCollection<IMusicMedia> MusicList { get; }
         ObservableCollection<IVideoMedia> VideoList { get; }
         ObservableCollection<IImageMedia> ImageList { get; }
+
+        IMedia SelectedItem { get; set; }
+
+        ICommand PlayContextMenu { get; }
 
         void Add(IMusicMedia media);
         void Add(IVideoMedia media);

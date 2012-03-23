@@ -44,6 +44,7 @@
     <Reference Include="WindowsBase" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="BasicMedia.cs" />
     <Compile Include="MediaInfoDLL.cs" />
     <Compile Include="MenuBar.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

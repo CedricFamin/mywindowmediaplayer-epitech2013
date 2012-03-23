@@ -100,8 +100,14 @@ namespace MenuBar
             action.Start();
             if (mediaPlayer != null)
             {
-                mediaPlayer.Source = path;
-                mediaPlayer.Play.Execute(new object());
+                BasicMedia media = new BasicMedia()
+                {
+                    Path = path,
+                    Filename = System.IO.Path.GetFileName(path),
+                    Extension = System.IO.Path.GetExtension(path),
+                    FileSize = 0
+                };
+                mediaPlayer.Open.Execute(media);
             }
         }
         #endregion

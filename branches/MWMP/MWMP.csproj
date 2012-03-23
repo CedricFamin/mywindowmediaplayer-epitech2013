@@ -62,6 +62,7 @@
     <Compile Include="Models\IInfoMedia.cs" />
     <Compile Include="Models\IMusicMedia.cs" />
     <Compile Include="Models\IVideoMedia.cs" />
+    <Compile Include="Models\Converter\MilisecondsToStringConverter.cs" />
     <Compile Include="ViewModels\ILibrary.cs" />
     <Compile Include="ViewModels\IMenuBar.cs" />
     <Compile Include="ViewModels\IMediaPlayer.cs" />

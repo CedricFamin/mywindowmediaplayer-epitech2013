@@ -33,7 +33,7 @@
 		</DockPanel>
         <TabControl Grid.Row="1">
 			<TabItem Header="Player">
-				<local:PlayerControl/>
+				<local:PlayerControl VerticalAlignment="Top"/>
 			</TabItem>
 			<TabItem Header="Library">
 				<local:LibraryUserControl />

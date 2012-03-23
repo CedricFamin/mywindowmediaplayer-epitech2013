@@ -7,21 +7,37 @@
 	x:Class="MWMP.PlayerControl"
 	x:Name="UserControl" DataContext="{Binding}">
 
-	<StackPanel x:Name="LayoutRoot" VerticalAlignment="Bottom" Orientation="Vertical">
-        <MediaElement x:Name="MediaPlayer" Source="{Binding Source, Mode=OneWay}" LoadedBehavior="Manual" 
-                      UnloadedBehavior="Manual"  Volume="{Binding Volume, Mode=OneWay}" MediaFailed="MediaPlayer_MediaFailed">
-
-        </MediaElement>
+	<StackPanel x:Name="LayoutRoot" VerticalAlignment="Top" Orientation="Vertical">
+        <Grid>
+        	<Grid.ColumnDefinitions>
+        		<ColumnDefinition/>
+				<ColumnDefinition Width="120"></ColumnDefinition>
+			</Grid.ColumnDefinitions>
+			<MediaElement Grid.Column="0" x:Name="MediaPlayer" Source="{Binding Source, Mode=OneWay}" LoadedBehavior="Manual" 
+				UnloadedBehavior="Manual"  Volume="{Binding Volume, Mode=OneWay}" MediaFailed="MediaPlayer_MediaFailed" VerticalAlignment="Top" d:LayoutOverrides="Width"/>
+			<ListView Grid.Column="1" ItemsSource="{Binding PlayList}" HorizontalAlignment="Left">
+				<ListView.View>
+                	<GridView AllowsColumnReorder="False">
+                		<GridView.ColumnHeaderContainerStyle>
+							<Style>
+								<Setter Property="FrameworkElement.Visibility" Value="Collapsed"/>
+							</Style>
+						</GridView.ColumnHeaderContainerStyle>
+                    	<GridViewColumn DisplayMemberBinding="{Binding Path}"/>
+					</GridView>
+				</ListView.View>
+			</ListView>
+		</Grid>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <ProgressBar></ProgressBar>
-            <TextBlock Text="{Binding Time, Mode=OneWay}"></TextBlock>
+            <Slider Margin="10,0" Width="500" Maximum="{Binding DurationOnCurrentPlay, Mode=OneWay}" Value="{Binding PosOnCurrentPlay, Mode=TwoWay}" Name="TimeSlider" IsMoveToPointEnabled="True"/>
+            <TextBlock Text="{Binding Time, Mode=OneWay}"/>
         </StackPanel>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Button x:Name="PreviousButton" Content="¨Previous" Command="{Binding Previous}" />
             <Button x:Name="PlayButton" Content="Play" Command="{Binding Play}" />
             <Button x:Name="StopButton" Content="Pause" Command="{Binding Pause}" />
 			<Button x:Name="NextButton" Content="Next" Command="{Binding Next}" />
-            <Slider x:Name="VolumeSlider" Width="50" ValueChanged="VolumeChange" Value="{Binding Volume, Mode=OneTime}"></Slider>
+            <Slider x:Name="VolumeSlider" Width="50" ValueChanged="VolumeChange" Value="{Binding Volume, Mode=OneTime}"/>
 		</StackPanel>
     </StackPanel>
 </UserControl>

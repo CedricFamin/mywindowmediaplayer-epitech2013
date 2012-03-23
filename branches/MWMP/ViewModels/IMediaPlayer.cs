@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MWMP.Utils;
 using System.Windows.Controls;
+using System.Windows.Input;
 
 namespace MWMP.ViewModels
 {
@@ -15,10 +16,13 @@ namespace MWMP.ViewModels
         string Time { get; }
         MediaState LoadedBehavior { set; get; }
         bool CanCommandExecute { set; get; }
-        RelayCommand Stop { get; }
-        RelayCommand Next { get; }
-        RelayCommand Pause { get; }
-        RelayCommand Play { get; }
-        RelayCommand Open { get; }
+		double DurationOnCurrentPlay  {get; }
+        double PosOnCurrentPlay { get; set; }
+        ICommand Stop { get; }
+        ICommand Next { get; }
+        ICommand Pause { get; }
+        ICommand Play { get; }
+        ICommand Open { get; }
+        ICommand AddMediaToPlayList { get; }
     }
 }

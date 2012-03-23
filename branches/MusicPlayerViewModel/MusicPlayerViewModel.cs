@@ -1,15 +1,11 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MWMP.Utils;
-using MWMP.Models;
-using MWMP.ViewModels;
-using System.Windows;
+using System.Collections.ObjectModel;
 using System.Windows.Controls;
+using System.Windows.Input;
 using System.Windows.Threading;
-using System.ComponentModel;
-using MWMP;
+using MWMP.Models;
+using MWMP.Utils;
+using MWMP.ViewModels;
 
 
 namespace MusicPlayerViewModel
@@ -26,27 +22,65 @@ namespace MusicPlayerViewModel
         public MediaElement MediaElement { set; get; }
         public MediaState LoadedBehavior { set; get; }
         public bool CanCommandExecute { set; get; }
+        public ObservableCollection<IMedia> PlayList { get; private set; }
+        public double DurationOnCurrentPlay
+        {
+            get
+            {
+                if (MediaElement.NaturalDuration.HasTimeSpan == false)
+                    return 1;
+                return MediaElement.NaturalDuration.TimeSpan.TotalSeconds;
+            }
+        }
+        public double PosOnCurrentPlay
+        {
+            get
+            {
+                return MediaElement.Position.TotalSeconds;
+            }
+            set
+            {
+                this.MediaElement.Position = new TimeSpan(0, 0, (int)value);
+            }
+        }
         #endregion
 
         #region Command
-        public RelayCommand Stop { get; protected set; }
-        public RelayCommand Next { get; protected set; }
-        public RelayCommand Pause { get; protected set; }
-        public RelayCommand Play { get; protected set; }
-        public RelayCommand Open { get; protected set; }
+        public ICommand Stop { get; protected set; }
+        public ICommand Next { get; protected set; }
+        public ICommand Pause { get; protected set; }
+        public ICommand Play { get; protected set; }
+        public ICommand Open { get; protected set; }
+        public ICommand AddMediaToPlayList { get; protected set; }
         #endregion
 
         #region Ctor
         public MusicPlayerViewModel()
         {
+            PlayList = new ObservableCollection<IMedia>();
             this._volume = 5;
-            Play = new RelayCommand((param) => MediaElement.Play());
+            Play = new RelayCommand((param) => 
+                {
+                    MediaElement.Play();
+                });
             Stop = new RelayCommand((param) => MediaElement.Stop());
             Pause = new RelayCommand((param) => MediaElement.Pause());
             //Next = new RelayCommand((param) => this.player.Next());
+            AddMediaToPlayList = new RelayCommand((param) =>
+            {
+                IMedia media = param as IMedia;
+                if (media == null) return;
+                PlayList.Add(media);
+            });
             Open = new RelayCommand((param) =>
             {
-                Source = param as string;
+                IMedia media = param as IMedia;
+
+                Stop.Execute(new Object[0]);
+                PlayList.Clear();
+                if (media == null) return;
+                Source = media.Path;
+                AddMediaToPlayList.Execute(media);
                 RaisePropertyChange("Time");
                 Play.Execute(new object[0]);
             });
@@ -63,6 +97,7 @@ namespace MusicPlayerViewModel
                 this._source = value;
                 RaisePropertyChange("Source");
                 RaisePropertyChange("Time");
+                
             }
             get {return this._source; }
         }
@@ -83,12 +118,14 @@ namespace MusicPlayerViewModel
             {
                 if (MediaElement.NaturalDuration.HasTimeSpan == false)
                     return "0:0:0/0:0:0";
-                return MediaElement.Position.Hours.ToString() + ":" + 
-                       MediaElement.Position.Minutes.ToString() + ":" + 
-                       MediaElement.Position.Seconds.ToString() + "/" +
-                       MediaElement.NaturalDuration.TimeSpan.Hours.ToString() + ":" +
-                       MediaElement.NaturalDuration.TimeSpan.Minutes.ToString() + ":" +
-                       MediaElement.NaturalDuration.TimeSpan.Seconds.ToString();
+                string format = "";
+                if (MediaElement.NaturalDuration.TimeSpan.Hours > 0)
+                    format += "hh':'";
+                if (MediaElement.NaturalDuration.TimeSpan.Minutes > 0)
+                    format += "mm':'";
+                format += "ss";
+                return MediaElement.Position.ToString(format) + "/" +
+                       MediaElement.NaturalDuration.TimeSpan.ToString(format);
             }
         }
         #endregion
@@ -97,6 +134,8 @@ namespace MusicPlayerViewModel
         private void clockTimer_Tick(object sender, EventArgs e)
         {
             RaisePropertyChange("Time");
+            RaisePropertyChange("PosOnCurrentPlay");
+            RaisePropertyChange("DurationOnCurrentPlay");
         }
         #endregion
     }

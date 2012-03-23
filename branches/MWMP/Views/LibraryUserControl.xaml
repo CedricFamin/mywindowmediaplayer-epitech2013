@@ -4,19 +4,23 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	xmlns:System="clr-namespace:System;assembly=mscorlib"
+    xmlns:local="clr-namespace:MWMP"
+    xmlns:converter="clr-namespace:MWMP.Models.Converter"
 	mc:Ignorable="d"
 	x:Class="MWMP.LibraryUserControl"
 	x:Name="UserControl">
+    <UserControl.Resources>
+        <converter:MilisecondsToStringConverter x:Key="msToStringConverter"/>
+    </UserControl.Resources>
     <StackPanel>
-        <ListView ItemsSource="{Binding MusicList}">
+        <ListView ItemsSource="{Binding MusicList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
                     <GridViewColumn Header="Album"     DisplayMemberBinding="{Binding Album}" />
                     <GridViewColumn Header="Track"     DisplayMemberBinding="{Binding Track}" />
                     <GridViewColumn Header="Performer" DisplayMemberBinding="{Binding Performers}" />
-                    <GridViewColumn Header="Composer"  DisplayMemberBinding="{Binding Title}" />
-                    <GridViewColumn Header="Duration"  DisplayMemberBinding="{Binding Duration}" />
+                    <GridViewColumn Header="Duration"  DisplayMemberBinding="{Binding Duration, Converter={StaticResource msToStringConverter}}" />
                 </GridView>
             </ListView.View>
             <ListView.Resources>
@@ -24,11 +28,19 @@
                     <EventSetter Event="MouseDoubleClick" Handler="HandleDoubleClick" />
                 </Style>
             </ListView.Resources>
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
+                    <MenuItem Header="Add to current playlist" />
+                    <MenuItem Header="Delete" />
+                </ContextMenu>
+            </ListView.ContextMenu>
         </ListView>
         <ListView ItemsSource="{Binding VideoList}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
+                    <GridViewColumn Header="Duration"  DisplayMemberBinding="{Binding Duration, Converter={StaticResource msToStringConverter}}" />
                 </GridView>
             </ListView.View>
             <ListView.Resources>
@@ -36,6 +48,13 @@
                     <EventSetter Event="MouseDoubleClick" Handler="HandleDoubleClick" />
                 </Style>
             </ListView.Resources>
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
+                    <MenuItem Header="Add to current playlist" />
+                    <MenuItem Header="Delete" />
+                </ContextMenu>
+            </ListView.ContextMenu>
         </ListView>
     </StackPanel>
 

@@ -56,7 +56,7 @@ namespace Medias
             int value;
 
             media.Codec = _mediaInfo.Get(0, 0, "Codec");
-            media.Performers = _mediaInfo.Get(0, 0, "Performer").Split('/');
+            media.Performers = _mediaInfo.Get(0, 0, "Performer");
             media.Title = _mediaInfo.Get(0, 0, "Title");
             media.Album = _mediaInfo.Get(0, 0, "Album");
             media.Genre = _mediaInfo.Get(0, 0, "Genre");

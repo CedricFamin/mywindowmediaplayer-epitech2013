@@ -19,7 +19,7 @@ namespace Medias
 
         #region properties
         public string Codec { get; set; }
-        public string[] Performers { get; set; }
+        public string Performers { get; set; }
         public string Title { get; set; }
         public string Album { get; set; }
         public string Genre { get; set; }
