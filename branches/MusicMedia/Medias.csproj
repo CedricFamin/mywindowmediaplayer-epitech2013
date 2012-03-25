@@ -44,7 +44,6 @@
     <Compile Include="InfoMedia.cs" />
     <Compile Include="MediaFactory.cs" />
     <Compile Include="MediaInfoDLL.cs" />
-    <Compile Include="MilisecondsToStringConverter.cs" />
     <Compile Include="MusicMedia.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VideoMedia.cs" />

@@ -42,6 +42,7 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
+    <Compile Include="GlobalLibrary.cs" />
     <Compile Include="ImageLibrary.cs" />
     <Compile Include="MusicLibrary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />

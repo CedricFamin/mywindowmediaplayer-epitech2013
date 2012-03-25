@@ -13,9 +13,11 @@ namespace Medias
     public class MusicMedia : IMusicMedia
     {
 
+        #region CTor
         public MusicMedia()
         {
         }
+        #endregion
 
         #region properties
         public string Codec { get; set; }
@@ -31,9 +33,11 @@ namespace Medias
         public string Path { get; set; }
         #endregion
 
+        #region Methods
         public void SetInfo(IInfoMedia infoMedia)
         {
             infoMedia.SetInfo(this);
         }
+        #endregion
     }
 }

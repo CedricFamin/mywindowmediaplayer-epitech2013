@@ -11,19 +11,14 @@
 	x:Name="UserControl">
     <UserControl.Resources>
         <converter:MilisecondsToStringConverter x:Key="msToStringConverter"/>
-        <ObjectDataProvider MethodName="GetService" ObjectType="{x:Type local:ModuleManager}" x:Key="MusicLibViewModel">
+        <ObjectDataProvider MethodName="GetService" ObjectType="{x:Type local:ModuleManager}" x:Key="LibraryViewModel">
             <ObjectDataProvider.MethodParameters>
-                <System:String>MusicLibrary</System:String>
-            </ObjectDataProvider.MethodParameters>
-        </ObjectDataProvider>
-        <ObjectDataProvider MethodName="GetService" ObjectType="{x:Type local:ModuleManager}" x:Key="VideoLibViewModel">
-            <ObjectDataProvider.MethodParameters>
-                <System:String>VideoLibrary</System:String>
+                <System:String>GlobalLibrary</System:String>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </UserControl.Resources>
     <StackPanel>
-        <ListView DataContext="{Binding Source={StaticResource MusicLibViewModel}}" ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
+        <ListView DataContext="{Binding Source={StaticResource LibraryViewModel}, Path=MusicLibrary}" ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
@@ -46,7 +41,7 @@
                 </ContextMenu>
             </ListView.ContextMenu>
         </ListView>
-        <ListView DataContext="{Binding Source={StaticResource VideoLibViewModel}}" ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
+        <ListView DataContext="{Binding Source={StaticResource LibraryViewModel}, Path=VideoLibrary}" ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />

@@ -38,8 +38,8 @@ namespace MenuBar
                     IMedia media;
                     while (_pendingMedia.TryPop(out media))
                     {
-                        
-                        //media.AddToLibrary(lib);
+
+                        ModuleManager.GetInstanceOf<IGlobalLibrary>("GlobalLibrary").AddMedia(media);
                     }
                 };
             _clockTimer.Start();

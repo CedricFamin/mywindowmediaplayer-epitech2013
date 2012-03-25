@@ -36,7 +36,7 @@ namespace XMLDAL
             {
                 switch (media.Attribute("type").Value)
                 {
-                    case "music":
+                    case "audio":
                         this.AddMusicMedia(media);
                         break;
                     case "video":

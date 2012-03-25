@@ -8,10 +8,12 @@ namespace MenuBar
 {
     class BasicMedia : IMedia
     {
+        #region Properties
         public string Extension { get; set; }
         public string Filename { get; set; }
         public string Path { get; set; }
         public int FileSize { get; set; }
         public void SetInfo(IInfoMedia infoMedia) { throw new NotImplementedException(); }
+        #endregion
     }
 }

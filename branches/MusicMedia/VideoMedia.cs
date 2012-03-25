@@ -11,10 +11,11 @@ namespace Medias
 {
     class VideoMedia : IVideoMedia
     {
+        #region CTor
         public VideoMedia()
         {
-
         }
+        #endregion
 
         #region properties
         public string Title { get; set; }
@@ -26,9 +27,11 @@ namespace Medias
         public int FileSize { get; set; }
         #endregion
 
+        #region Methods
         public void SetInfo(IInfoMedia infoMedia)
         {
             infoMedia.SetInfo(this);
         }
+        #endregion
     }
 }

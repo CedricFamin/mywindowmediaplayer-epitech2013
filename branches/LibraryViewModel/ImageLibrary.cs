@@ -36,6 +36,7 @@ namespace LibraryViewModel
         public void Add(IImageMedia media)
         {
             MediaList.Add(media);
+            RaisePropertyChange("MediaList");
         }
         #endregion
     }

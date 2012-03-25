@@ -8,6 +8,7 @@ namespace Medias
 {
     class MediaFactory : IMediaFactory
     {
+        #region Methods
         public IMusicMedia CreateMusic()
         {
             return new MusicMedia();
@@ -26,9 +27,10 @@ namespace Medias
         public IMedia CreateWithInternetMediaType(string IMType)
         {
             if (IMType.Contains("image")) return CreateImage();
-            if (IMType.Contains("music")) return CreateMusic();
+            if (IMType.Contains("audio")) return CreateMusic();
             if (IMType.Contains("video")) return CreateVideo();
             return null;
         }
+        #endregion
     }
 }
