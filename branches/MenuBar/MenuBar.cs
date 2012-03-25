@@ -15,26 +15,6 @@ namespace MenuBar
     public class MenuBar : IMenuBar
     {
 
-        #region KindOf function
-        private static bool KindOfVideo(IInfoMedia media)
-        {
-            string format = media.InternetMediaType;
-            return format.Contains("video");
-        }
-
-        private static bool KindOfMusic(IInfoMedia media)
-        {
-            string format = media.InternetMediaType;
-            return format.Contains("audio");
-        }
-
-        private static bool KindOfImage(IInfoMedia media)
-        {
-            string format = media.InternetMediaType;
-            return format.Contains("image");
-        }
-        #endregion
-
         #region private property
         private RelayCommand _open { get; set; }
         private RelayCommand _close { get; set; }
@@ -55,11 +35,12 @@ namespace MenuBar
             Close = new RelayCommand((param) => Application.Current.Shutdown());
             _clockTimer.Tick += (object sender, EventArgs e) =>
                 {
-                    ILibrary lib = ModuleManager.GetInstanceOf<ILibrary>("LibraryViewModel");
-                    if (lib == null) return ;
                     IMedia media;
                     while (_pendingMedia.TryPop(out media))
-                        media.AddToLibrary(lib);
+                    {
+                        
+                        //media.AddToLibrary(lib);
+                    }
                 };
             _clockTimer.Start();
         }
@@ -85,12 +66,9 @@ namespace MenuBar
 
                 if (mediaInfo.Open(path))
                 {
-                    if (KindOfImage(mediaInfo)) media = ModuleManager.GetInstanceOf<IMusicMedia>("ImageMedia");
-                    if (KindOfMusic(mediaInfo)) media = ModuleManager.GetInstanceOf<IMusicMedia>("MusicMedia");
-                    if (KindOfVideo(mediaInfo)) media = ModuleManager.GetInstanceOf<IVideoMedia>("VideoMedia");
+                    media = ModuleManager.GetInstanceOf<IMediaFactory>("MediaFactory").CreateWithInternetMediaType(mediaInfo.InternetMediaType);
                     if (media != null)
                     {
-
                         media.SetInfo(mediaInfo);
                         _pendingMedia.Push(media);
                     }

@@ -12,7 +12,6 @@ namespace MenuBar
         public string Filename { get; set; }
         public string Path { get; set; }
         public int FileSize { get; set; }
-        public void AddToLibrary(MWMP.ViewModels.ILibrary lib) { throw new NotImplementedException(); }
         public void SetInfo(IInfoMedia infoMedia) { throw new NotImplementedException(); }
     }
 }

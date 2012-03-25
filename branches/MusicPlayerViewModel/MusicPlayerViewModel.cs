@@ -71,6 +71,7 @@ namespace MusicPlayerViewModel
                 IMedia media = param as IMedia;
                 if (media == null) return;
                 PlayList.Add(media);
+                RaisePropertyChange("PlayList");
             });
             Open = new RelayCommand((param) =>
             {

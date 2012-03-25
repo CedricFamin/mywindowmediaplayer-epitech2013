@@ -42,6 +42,7 @@
   </ItemGroup>
   <ItemGroup>
     <Compile Include="InfoMedia.cs" />
+    <Compile Include="MediaFactory.cs" />
     <Compile Include="MediaInfoDLL.cs" />
     <Compile Include="MilisecondsToStringConverter.cs" />
     <Compile Include="MusicMedia.cs" />

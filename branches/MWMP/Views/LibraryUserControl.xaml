@@ -11,9 +11,19 @@
 	x:Name="UserControl">
     <UserControl.Resources>
         <converter:MilisecondsToStringConverter x:Key="msToStringConverter"/>
+        <ObjectDataProvider MethodName="GetService" ObjectType="{x:Type local:ModuleManager}" x:Key="MusicLibViewModel">
+            <ObjectDataProvider.MethodParameters>
+                <System:String>MusicLibrary</System:String>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <ObjectDataProvider MethodName="GetService" ObjectType="{x:Type local:ModuleManager}" x:Key="VideoLibViewModel">
+            <ObjectDataProvider.MethodParameters>
+                <System:String>VideoLibrary</System:String>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
     </UserControl.Resources>
     <StackPanel>
-        <ListView ItemsSource="{Binding MusicList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
+        <ListView DataContext="{Binding Source={StaticResource MusicLibViewModel}}" ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
@@ -31,12 +41,12 @@
             <ListView.ContextMenu>
                 <ContextMenu>
                     <MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
-                    <MenuItem Header="Add to current playlist" />
-                    <MenuItem Header="Delete" />
+                    <MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
+                    <MenuItem Header="Delete" Command="{Binding DeleteMusic}"/>
                 </ContextMenu>
             </ListView.ContextMenu>
         </ListView>
-        <ListView ItemsSource="{Binding VideoList}">
+        <ListView DataContext="{Binding Source={StaticResource VideoLibViewModel}}" ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
             <ListView.View>
                 <GridView>
                     <GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />

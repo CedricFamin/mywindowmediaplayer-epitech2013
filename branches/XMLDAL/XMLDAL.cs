@@ -14,16 +14,19 @@ namespace XMLDAL
     {
         #region properties
         private XElement _root {get;set;}
-        public IList<IMedia> MediaList { get; private set; }
+        public IList<IMusicMedia> MusicList { get; private set; }
+        public IList<IVideoMedia> VideoList { get; private set; }
+        public IList<IImageMedia> ImageList { get; private set; }
         #endregion
 
         #region Ctor
         public XMLDAL()
         {
             _root = new XElement("medias");
-            MediaList = new List<IMedia>();
+            MusicList = new List<IMusicMedia>();
+            VideoList = new List<IVideoMedia>();
+            ImageList = new List<IImageMedia>();
             if (File.Exists("data.xml") == false) return;
-            InfoMediaFromXml mediaInfo = new InfoMediaFromXml();
             XElement root;
             try { root = XElement.Load("data.xml"); }
             catch { return; }
@@ -31,12 +34,46 @@ namespace XMLDAL
 
             foreach (XElement media in medias)
             {
-                IMedia realMedia = ModuleManager.GetInstanceOf<IMedia>(media.Attribute("type").Value);
-                if (realMedia == null) continue;
-                mediaInfo.Infos = media;
-                realMedia.SetInfo(mediaInfo);
-                MediaList.Add(realMedia);
+                switch (media.Attribute("type").Value)
+                {
+                    case "music":
+                        this.AddMusicMedia(media);
+                        break;
+                    case "video":
+                        this.AddVideoMedia(media);
+                        break;
+                    case "image":
+                        this.AddImageMedia(media);
+                        break;
+                }
             }
+        }
+        #endregion
+        
+        #region private methods
+        private void AddMusicMedia(XElement media)
+        {
+            InfoMediaFromXml mediaInfo = new InfoMediaFromXml();
+            IMusicMedia realMedia = ModuleManager.GetInstanceOf<IMediaFactory>("MediaFactory").CreateMusic();
+            mediaInfo.Infos = media;
+            realMedia.SetInfo(mediaInfo);
+            MusicList.Add(realMedia);
+        }
+        private void AddVideoMedia(XElement media)
+        {
+            InfoMediaFromXml mediaInfo = new InfoMediaFromXml();
+            IVideoMedia realMedia = ModuleManager.GetInstanceOf<IMediaFactory>("MediaFactory").CreateVideo();
+            mediaInfo.Infos = media;
+            realMedia.SetInfo(mediaInfo);
+            VideoList.Add(realMedia);
+        }
+        private void AddImageMedia(XElement media)
+        {
+            InfoMediaFromXml mediaInfo = new InfoMediaFromXml();
+            IImageMedia realMedia = ModuleManager.GetInstanceOf<IMediaFactory>("MediaFactory").CreateImage();
+            mediaInfo.Infos = media;
+            realMedia.SetInfo(mediaInfo);
+            ImageList.Add(realMedia);
         }
         #endregion
 

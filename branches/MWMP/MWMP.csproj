@@ -60,6 +60,7 @@
     <Compile Include="Models\DAL\IDAL.cs" />
     <Compile Include="Models\IImageMedia.cs" />
     <Compile Include="Models\IInfoMedia.cs" />
+    <Compile Include="Models\IMediaFactory.cs" />
     <Compile Include="Models\IMusicMedia.cs" />
     <Compile Include="Models\IVideoMedia.cs" />
     <Compile Include="Models\Converter\MilisecondsToStringConverter.cs" />

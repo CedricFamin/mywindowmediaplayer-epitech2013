@@ -31,11 +31,6 @@ namespace Medias
         public string Path { get; set; }
         #endregion
 
-        public void AddToLibrary(ILibrary lib)
-        {
-            lib.Add(this);
-        }
-
         public void SetInfo(IInfoMedia infoMedia)
         {
             infoMedia.SetInfo(this);

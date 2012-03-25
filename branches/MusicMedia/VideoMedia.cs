@@ -26,11 +26,6 @@ namespace Medias
         public int FileSize { get; set; }
         #endregion
 
-        public void AddToLibrary(ILibrary lib)
-        {
-            lib.Add(this);
-        }
-
         public void SetInfo(IInfoMedia infoMedia)
         {
             infoMedia.SetInfo(this);

@@ -24,8 +24,6 @@ namespace MWMP
 		public LibraryUserControl()
 		{
 			this.InitializeComponent();
-            ILibrary lib = ModuleManager.GetInstanceOf<ILibrary>("LibraryViewModel");
-            DataContext = lib;
 		}
 
         protected void HandleDoubleClick(object sender, MouseButtonEventArgs e)

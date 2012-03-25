@@ -20,7 +20,8 @@ namespace MWMP
             Instance = null;
             foreach (Type type in types)
             {
-                if (type.GetInterface(IName) != null)
+
+                if (type.Name == CName)
                 {
                     Constructor = type.GetConstructor(new Type[0]);
                 }

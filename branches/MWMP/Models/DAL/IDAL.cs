@@ -8,7 +8,9 @@ namespace MWMP.Models.DAL
 {
     public interface IDAL
     {
-        IList<IMedia> MediaList { get; }
+        IList<IMusicMedia> MusicList { get; }
+        IList<IVideoMedia> VideoList { get; }
+        IList<IImageMedia> ImageList { get; }
 
         void Save<T>(T media, string serviceName) where T : IMedia;
         void Save();
