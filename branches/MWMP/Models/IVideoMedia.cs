@@ -7,7 +7,6 @@ namespace MWMP.Models
 {
     public interface IVideoMedia : IMedia
     {
-        string Title { get; set; }
         string Genre { get; set; }
         int Duration { get; set; }
     }

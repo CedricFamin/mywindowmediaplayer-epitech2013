@@ -80,6 +80,7 @@ namespace MenuBar
             {
                 BasicMedia media = new BasicMedia()
                 {
+                    Title = path,
                     Path = path,
                     Filename = System.IO.Path.GetFileName(path),
                     Extension = System.IO.Path.GetExtension(path),

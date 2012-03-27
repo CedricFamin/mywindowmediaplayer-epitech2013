@@ -23,10 +23,15 @@
 								<Setter Property="FrameworkElement.Visibility" Value="Collapsed"/>
 							</Style>
 						</GridView.ColumnHeaderContainerStyle>
-                    	<GridViewColumn DisplayMemberBinding="{Binding Path}"/>
+                    	<GridViewColumn DisplayMemberBinding="{Binding Title}"/>
 					</GridView>
-				</ListView.View>
-			</ListView>
+                </ListView.View>
+                <ListView.Resources>
+                    <Style TargetType="{x:Type ListViewItem}">
+                        <EventSetter Event="MouseDoubleClick" Handler="DoubleCLickPlayerList" />
+                    </Style>
+                </ListView.Resources>
+            </ListView>
 		</Grid>
         <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
             <Slider Margin="10,0" Width="500" Maximum="{Binding DurationOnCurrentPlay, Mode=OneWay}" Value="{Binding PosOnCurrentPlay, Mode=TwoWay}" Name="TimeSlider" IsMoveToPointEnabled="True"/>
