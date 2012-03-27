@@ -6,6 +6,7 @@ using System.Windows.Threading;
 using MWMP.Models;
 using MWMP.Utils;
 using MWMP.ViewModels;
+using System.Collections;
 
 
 namespace MusicPlayerViewModel
@@ -43,6 +44,7 @@ namespace MusicPlayerViewModel
                 this.MediaElement.Position = new TimeSpan(0, 0, (int)value);
             }
         }
+        public int CurrentMedia { get; set; }
         #endregion
 
         #region Command

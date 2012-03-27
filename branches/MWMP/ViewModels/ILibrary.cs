@@ -13,6 +13,7 @@ namespace MWMP.ViewModels
         ObservableCollection<T> MediaList { get; }
         IMedia SelectedItem { get; set; }
         ICommand PlayContextMenu { get; }
+        ICommand AddToPlayList { get; }
         void Add(T media);
     }
 }

@@ -5,6 +5,7 @@ using System.Text;
 using MWMP.ViewModels;
 using MWMP.Models;
 using MWMP;
+using MWMP.Models.DAL;
 
 namespace LibraryViewModel
 {
@@ -22,6 +23,31 @@ namespace LibraryViewModel
             MusicLibrary = ModuleManager.GetInstanceOf<ILibrary<IMusicMedia>>("MusicLibrary");
             VideoLibrary = ModuleManager.GetInstanceOf<ILibrary<IVideoMedia>>("VideoLibrary");
             ImageLibrary = ModuleManager.GetInstanceOf<ILibrary<IImageMedia>>("ImageLibrary");
+
+            IDAL dal = ModuleManager.GetInstanceOf<IDAL>("XMLDAL");
+            if (dal != null)
+            {
+                foreach (IMusicMedia media in dal.MusicList)
+                    MusicLibrary.MediaList.Add(media); 
+                foreach (IVideoMedia media in dal.VideoList)
+                    VideoLibrary.MediaList.Add(media); 
+                foreach (IImageMedia media in dal.ImageList)
+                    ImageLibrary.MediaList.Add(media);
+            }
+        }
+        #endregion
+
+        #region DTor
+        ~GlobalLibrary()
+        {
+            IDAL dal = ModuleManager.GetInstanceOf<IDAL>("XMLDAL");
+            foreach (IMusicMedia media in MusicLibrary.MediaList)
+                dal.Save(media, "audio");
+            foreach (IVideoMedia media in VideoLibrary.MediaList)
+                dal.Save(media, "video");
+            foreach (IImageMedia media in ImageLibrary.MediaList)
+                dal.Save(media, "image");
+            dal.Save();
         }
         #endregion
 

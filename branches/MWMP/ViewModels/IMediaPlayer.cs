@@ -5,6 +5,7 @@ using System.Text;
 using MWMP.Utils;
 using System.Windows.Controls;
 using System.Windows.Input;
+using MWMP.Models;
 
 namespace MWMP.ViewModels
 {
@@ -18,6 +19,8 @@ namespace MWMP.ViewModels
         bool CanCommandExecute { set; get; }
 		double DurationOnCurrentPlay  {get; }
         double PosOnCurrentPlay { get; set; }
+        int CurrentMedia { get; set; }
+
         ICommand Stop { get; }
         ICommand Next { get; }
         ICommand Pause { get; }
