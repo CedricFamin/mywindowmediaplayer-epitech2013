@@ -37,7 +37,7 @@
                 <ContextMenu>
                     <MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
                     <MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
-                    <MenuItem Header="Delete" Command="{Binding DeleteMusic}"/>
+                    <MenuItem Header="Delete" Command="{Binding DeleteContextMenu}"/>
                 </ContextMenu>
             </ListView.ContextMenu>
         </ListView>

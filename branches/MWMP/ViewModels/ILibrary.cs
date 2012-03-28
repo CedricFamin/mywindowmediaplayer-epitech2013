@@ -11,9 +11,10 @@ namespace MWMP.ViewModels
     public interface ILibrary<T> where T : IMedia
     {
         ObservableCollection<T> MediaList { get; }
-        IMedia SelectedItem { get; set; }
+        T SelectedItem { get; set; }
         ICommand PlayContextMenu { get; }
         ICommand AddToPlayList { get; }
+        ICommand DeleteContextMenu { get; }
         void Add(T media);
     }
 }
