@@ -7,10 +7,17 @@ using MWMP.Models;
 using MWMP.Utils;
 using MWMP.ViewModels;
 using System.Collections;
+using MWMP.InjectionDepedency;
 
 
 namespace MusicPlayerViewModel
 {
+
+    public class  Module : GenericModule<MusicPlayerViewModel>
+    {
+        public Module() : base("MusicPlayerViewModel", true) { }
+    }
+
     public class MusicPlayerViewModel : BindableObject, IMediaPlayer
     {
         #region Fields

@@ -7,9 +7,15 @@ using System.Xml.Linq;
 using MWMP;
 using MWMP.Models;
 using MWMP.Models.DAL;
+using MWMP.InjectionDepedency;
 
 namespace XMLDAL
 {
+    public class Module : GenericModule<XMLDAL>
+    {
+        public Module() : base("XMLDAL", true) { }
+    }
+
     public class XMLDAL : IDAL
     {
         #region properties

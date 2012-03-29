@@ -9,9 +9,15 @@ using MWMP;
 using MWMP.Models;
 using MWMP.Utils;
 using MWMP.ViewModels;
+using MWMP.InjectionDepedency;
 
 namespace MenuBar
 {
+    public class Module : GenericModule<MenuBar>
+    {
+        public Module() : base("MenuBar", true) { }
+    }
+
     public class MenuBar : IMenuBar
     {
 

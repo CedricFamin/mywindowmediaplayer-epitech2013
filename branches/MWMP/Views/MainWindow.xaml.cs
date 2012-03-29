@@ -23,7 +23,7 @@ namespace MWMP
     {
         public MainWindow()
         {
-            ModuleManager.Load("player.xml");
+            ModuleManager.AutoLoad();
             InitializeComponent();
         }
     }

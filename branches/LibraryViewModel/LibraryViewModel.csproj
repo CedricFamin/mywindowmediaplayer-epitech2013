@@ -45,6 +45,7 @@
     <Compile Include="GenericLibrary.cs" />
     <Compile Include="GlobalLibrary.cs" />
     <Compile Include="ImageLibrary.cs" />
+    <Compile Include="ModulesDefinition.cs" />
     <Compile Include="MusicLibrary.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="VideoLibrary.cs" />

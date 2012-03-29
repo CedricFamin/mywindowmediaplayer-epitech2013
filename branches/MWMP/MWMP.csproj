@@ -57,6 +57,9 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
+    <Compile Include="InjectionDepedency\GenericModule.cs" />
+    <Compile Include="InjectionDepedency\IModule.cs" />
+    <Compile Include="InjectionDepedency\IModuleList.cs" />
     <Compile Include="Models\DAL\IDAL.cs" />
     <Compile Include="Models\IImageMedia.cs" />
     <Compile Include="Models\IInfoMedia.cs" />

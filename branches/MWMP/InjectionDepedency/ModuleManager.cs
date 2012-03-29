@@ -2,6 +2,9 @@
 using System.Collections.Generic;
 using System.Xml.Linq;
 using System.Windows;
+using System.IO;
+using System.Reflection;
+using MWMP.InjectionDepedency;
 
 namespace MWMP
 {
@@ -15,10 +18,44 @@ namespace MWMP
         #endregion /// Fields
 
         #region Methods
+        static public void AutoLoad(string dir = ".")
+        {
+            string[] filePaths = Directory.GetFiles(dir, "*.dll");
+            foreach (string path in filePaths)
+            {
+                try
+                {
+                    Assembly moduleAssembly = Assembly.LoadFrom(path);
+
+                    Type[] types = moduleAssembly.GetTypes();
+                    foreach (Type type in types)
+                    {
+                        if (type.GetInterface("IModule") != null)
+                        {
+                            IModule module = (IModule)type.GetConstructor(new Type[0]).Invoke(new Object[0]);
+                            Service s = new Service(module.ModuleName, module.Unique, module.ModuleType);
+                            ModuleManager.services.Add(s.Name, s);
+                        }
+                        else if (type.GetInterface("IModuleList") != null)
+                        {
+                            IModuleList modules = (IModuleList)type.GetConstructor(new Type[0]).Invoke(new Object[0]);
+                            foreach (IModule module in modules.List)
+                            {
+                                Service s = new Service(module.ModuleName, module.Unique, module.ModuleType);
+                                ModuleManager.services.Add(s.Name, s);
+                            }
+                        }
+                    }
+                }
+                catch {} 
+            }
+        }
+
         /// <summary>
         /// Add services with an XML file
         /// </summary>
         /// <param name="filename"></param>
+        /// 
         static public void Load(string filename)
         {
             XElement xml = XElement.Load(filename);
@@ -29,8 +66,7 @@ namespace MWMP
                 try
                 {
                     s = new Service(e.Element("name").Value, e.Element("file").Value,
-                                    e.Element("class").Value, e.Element("interface").Value,
-                                    e.Element("unique").Value);
+                                    e.Element("class").Value, e.Element("unique").Value);
                 }
                 catch (Exception ex)
                 {
