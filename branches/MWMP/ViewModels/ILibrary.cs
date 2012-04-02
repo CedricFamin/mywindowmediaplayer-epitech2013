@@ -8,7 +8,7 @@ using System.Windows.Input;
 
 namespace MWMP.ViewModels
 {
-    public interface ILibrary<T> where T : IMedia
+    public interface ILibrary<T>
     {
         ObservableCollection<T> MediaList { get; }
         T SelectedItem { get; set; }

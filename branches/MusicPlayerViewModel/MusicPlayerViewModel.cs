@@ -8,6 +8,7 @@ using MWMP.Utils;
 using MWMP.ViewModels;
 using System.Collections;
 using MWMP.InjectionDepedency;
+using MWMP;
 
 
 namespace MusicPlayerViewModel
@@ -30,7 +31,7 @@ namespace MusicPlayerViewModel
         public MediaElement MediaElement { set; get; }
         public MediaState LoadedBehavior { set; get; }
         public bool CanCommandExecute { set; get; }
-        public ObservableCollection<IMedia> PlayList { get; private set; }
+        public IPlayList PlayList { get; private set; }
         public double DurationOnCurrentPlay
         {
             get
@@ -66,34 +67,14 @@ namespace MusicPlayerViewModel
         #region Ctor
         public MusicPlayerViewModel()
         {
-            PlayList = new ObservableCollection<IMedia>();
+            PlayList = ModuleManager.GetInstanceOf<IPlayList>("PlayList");
             this._volume = 5;
-            Play = new RelayCommand((param) => 
-                {
-                    MediaElement.Play();
-                });
+            Play = new RelayCommand((param) => MediaElement.Play());
             Stop = new RelayCommand((param) => MediaElement.Stop());
             Pause = new RelayCommand((param) => MediaElement.Pause());
             //Next = new RelayCommand((param) => this.player.Next());
-            AddMediaToPlayList = new RelayCommand((param) =>
-            {
-                IMedia media = param as IMedia;
-                if (media == null) return;
-                PlayList.Add(media);
-                RaisePropertyChange("PlayList");
-            });
-            Open = new RelayCommand((param) =>
-            {
-                IMedia media = param as IMedia;
-
-                Stop.Execute(new Object[0]);
-                PlayList.Clear();
-                if (media == null) return;
-                Source = media.Path;
-                AddMediaToPlayList.Execute(media);
-                RaisePropertyChange("Time");
-                Play.Execute(new object[0]);
-            });
+            AddMediaToPlayList = new RelayCommand((param) => this.AddMediaToPlayListCommand(param as IMedia));
+            Open = new RelayCommand((param) => this.OpenCommand(param as IMedia));
             clockTimer.Tick += clockTimer_Tick;
             clockTimer.Start();
         }
@@ -146,6 +127,25 @@ namespace MusicPlayerViewModel
             RaisePropertyChange("Time");
             RaisePropertyChange("PosOnCurrentPlay");
             RaisePropertyChange("DurationOnCurrentPlay");
+        }
+
+        private void AddMediaToPlayListCommand(IMedia media)
+        {
+            if (media == null) return;
+            PlayList.Add(media);
+            RaisePropertyChange("PlayList");
+        }
+
+        private void OpenCommand(IMedia media)
+        {
+            if (media == null) return ;
+            Stop.Execute(new Object[0]);
+            PlayList.Clear();
+            if (media == null) return;
+            Source = media.Path;
+            AddMediaToPlayList.Execute(media);
+            RaisePropertyChange("Time");
+            Play.Execute(new object[0]);
         }
         #endregion
     }

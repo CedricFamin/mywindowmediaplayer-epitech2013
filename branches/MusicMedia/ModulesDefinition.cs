@@ -15,6 +15,7 @@ namespace Medias
             List.Add(new GenericModule<InfoMedia>("InfoMedia"));
             List.Add(new GenericModule<MusicMedia>("MusicMedia"));
             List.Add(new GenericModule<VideoMedia>("VideoMedia"));
+            List.Add(new GenericModule<PlayList>("PlayList"));
         }
 
         public IList<IModule> List { get; private set; }

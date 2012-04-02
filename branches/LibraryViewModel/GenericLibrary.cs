@@ -11,7 +11,7 @@ using MWMP.Utils;
 
 namespace LibraryViewModel
 {
-    class GenericLibrary<T> : BindableObject, ILibrary<T> where T : IMedia
+    class GenericLibrary<T> : BindableObject, ILibrary<T>
     {
         #region Properties
         public ObservableCollection<T> MediaList { get; private set; }

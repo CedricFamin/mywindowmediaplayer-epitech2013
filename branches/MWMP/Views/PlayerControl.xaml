@@ -15,7 +15,7 @@
 			</Grid.ColumnDefinitions>
 			<MediaElement Grid.Column="0" x:Name="MediaPlayer" Source="{Binding Source, Mode=OneWay}" LoadedBehavior="Manual" 
 				UnloadedBehavior="Manual"  Volume="{Binding Volume, Mode=OneWay}" MediaFailed="MediaPlayer_MediaFailed" VerticalAlignment="Top" d:LayoutOverrides="Width"/>
-            <ListView Grid.Column="1" ItemsSource="{Binding PlayList}" HorizontalAlignment="Left" SelectedIndex="{Binding CurrentMedia}">
+            <ListView DataContext="{Binding PlayList}" Grid.Column="1" ItemsSource="{Binding Collection}" HorizontalAlignment="Left" SelectedIndex="{Binding CurrentMedia}">
 				<ListView.View>
                 	<GridView AllowsColumnReorder="False">
                 		<GridView.ColumnHeaderContainerStyle>

@@ -15,6 +15,7 @@ namespace LibraryViewModel
         public ILibrary<IMusicMedia> MusicLibrary { get; private set; }
         public ILibrary<IVideoMedia> VideoLibrary { get; private set; }
         public ILibrary<IImageMedia> ImageLibrary { get; private set; }
+        public ILibrary<IPlayList> PlayListLibrary { get; private set; }
         #endregion
 
         #region CTor
