@@ -24,16 +24,19 @@ namespace LibraryViewModel
             MusicLibrary = ModuleManager.GetInstanceOf<ILibrary<IMusicMedia>>("MusicLibrary");
             VideoLibrary = ModuleManager.GetInstanceOf<ILibrary<IVideoMedia>>("VideoLibrary");
             ImageLibrary = ModuleManager.GetInstanceOf<ILibrary<IImageMedia>>("ImageLibrary");
+            PlayListLibrary = ModuleManager.GetInstanceOf<ILibrary<IPlayList>>("PlayListLibrary");
 
             IDAL dal = ModuleManager.GetInstanceOf<IDAL>("XMLDAL");
             if (dal != null)
             {
                 foreach (IMusicMedia media in dal.MusicList)
-                    MusicLibrary.MediaList.Add(media); 
+                    MusicLibrary.MediaList.Add(media);
                 foreach (IVideoMedia media in dal.VideoList)
                     VideoLibrary.MediaList.Add(media); 
                 foreach (IImageMedia media in dal.ImageList)
                     ImageLibrary.MediaList.Add(media);
+                foreach (IPlayList plist in dal.PlayListList)
+                    PlayListLibrary.MediaList.Add(plist);
             }
         }
         #endregion
@@ -48,6 +51,8 @@ namespace LibraryViewModel
                 dal.Save(media, "video");
             foreach (IImageMedia media in ImageLibrary.MediaList)
                 dal.Save(media, "image");
+            foreach (IPlayList plist in PlayListLibrary.MediaList)
+                dal.Save(plist);
             dal.Save();
         }
         #endregion

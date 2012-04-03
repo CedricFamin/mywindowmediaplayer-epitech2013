@@ -68,6 +68,7 @@ namespace MusicPlayerViewModel
         public MusicPlayerViewModel()
         {
             PlayList = ModuleManager.GetInstanceOf<IPlayList>("PlayList");
+            PlayList.Title = "Current PlayList";
             this._volume = 5;
             Play = new RelayCommand((param) => MediaElement.Play());
             Stop = new RelayCommand((param) => MediaElement.Stop());

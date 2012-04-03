@@ -26,17 +26,17 @@ namespace LibraryViewModel
         {
             MediaList = new ObservableCollection<T>();
             PlayContextMenu = new RelayCommand((param) =>
-                {
-                    IMediaPlayer mp = ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel");
-                    if (mp != null && SelectedItem != null)
-                        mp.Open.Execute(SelectedItem);
-                });
+            {
+                IMediaPlayer mp = ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel");
+                if (mp != null && SelectedItem != null)
+                    mp.Open.Execute(SelectedItem);
+            });
             AddToPlayList = new RelayCommand((param) =>
-                {
-                    IMediaPlayer mp = ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel");
-                    if (mp != null && SelectedItem != null)
-                        mp.AddMediaToPlayList.Execute(SelectedItem);
-                });
+            {
+                IMediaPlayer mp = ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel");
+                if (mp != null && SelectedItem != null)
+                    mp.AddMediaToPlayList.Execute(SelectedItem);
+            });
             DeleteContextMenu = new RelayCommand((param) =>
                 {
                     IMediaPlayer mp = ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel");

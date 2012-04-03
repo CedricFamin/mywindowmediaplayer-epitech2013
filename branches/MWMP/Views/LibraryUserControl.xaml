@@ -25,6 +25,7 @@
                     <GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
                     <GridViewColumn Header="Album"     DisplayMemberBinding="{Binding Album}" />
                     <GridViewColumn Header="Track"     DisplayMemberBinding="{Binding Track}" />
+                    <GridViewColumn Header="Genre"     DisplayMemberBinding="{Binding Genre}" />
                     <GridViewColumn Header="Performer" DisplayMemberBinding="{Binding Performers}" />
                     <GridViewColumn Header="Duration"  DisplayMemberBinding="{Binding Duration, Converter={StaticResource msToStringConverter}}" />
                 </GridView>
@@ -62,6 +63,25 @@
                 </ContextMenu>
             </ListView.ContextMenu>
         </ListView>
+        <ListView DataContext="{Binding Source={StaticResource LibraryViewModel}, Path=PlayListLibrary}" ItemsSource="{Binding MediaList}" 
+                  SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" GridViewColumnHeader.Click="ListView_Sort" Name="PlayListList">
+            <ListView.View>
+                <GridView>
+                    <GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
+                </GridView>
+            </ListView.View>
+            <ListView.Resources>
+                <Style TargetType="{x:Type ListViewItem}">
+                    <EventSetter Event="MouseDoubleClick" Handler="HandleDoubleClick" />
+                </Style>
+            </ListView.Resources>
+            <ListView.ContextMenu>
+                <ContextMenu>
+                    <MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
+                    <MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
+                    <MenuItem Header="Delete" Command="{Binding DeleteContextMenu}"/>
+                </ContextMenu>
+            </ListView.ContextMenu>
+        </ListView>
     </StackPanel>
-
 </UserControl>

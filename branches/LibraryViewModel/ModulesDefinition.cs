@@ -11,6 +11,7 @@ namespace LibraryViewModel
         public ModulesDefinition()
         {
             List = new List<IModule>();
+            List.Add(new GenericModule<PlayListLibrary>("PlayListLibrary", true));
             List.Add(new GenericModule<MusicLibrary>("MusicLibrary", true));
             List.Add(new GenericModule<VideoLibrary>("VideoLibrary", true));
             List.Add(new GenericModule<ImageLibrary>("ImageLibrary", true));

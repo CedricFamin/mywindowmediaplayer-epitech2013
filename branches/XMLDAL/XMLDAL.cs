@@ -5,9 +5,9 @@ using System.Linq;
 using System.Reflection;
 using System.Xml.Linq;
 using MWMP;
+using MWMP.InjectionDepedency;
 using MWMP.Models;
 using MWMP.Models.DAL;
-using MWMP.InjectionDepedency;
 
 namespace XMLDAL
 {
@@ -23,35 +23,34 @@ namespace XMLDAL
         public IList<IMusicMedia> MusicList { get; private set; }
         public IList<IVideoMedia> VideoList { get; private set; }
         public IList<IImageMedia> ImageList { get; private set; }
+        public IList<IPlayList> PlayListList { get; private set; }
         #endregion
 
         #region Ctor
         public XMLDAL()
         {
+            XElement root;
+            Action<XElement> action;
+            Dictionary<string, Action<XElement>> AddList = new Dictionary<string, Action<XElement>>();
+            AddList.Add("audio", (param) => this.AddMusicMedia(param));
+            AddList.Add("video", (param) => this.AddVideoMedia(param));
+            AddList.Add("image", (param) => this.AddImageMedia(param));
+            AddList.Add("playList", (param) => this.AddPlayList(param));
+
             _root = new XElement("medias");
             MusicList = new List<IMusicMedia>();
             VideoList = new List<IVideoMedia>();
             ImageList = new List<IImageMedia>();
-            if (File.Exists("data.xml") == false) return;
-            XElement root;
+            PlayListList = new List<IPlayList>();
+            
             try { root = XElement.Load("data.xml"); }
             catch { return; }
             IEnumerable<XElement> medias = from els in root.Elements("media") select els;
 
             foreach (XElement media in medias)
             {
-                switch (media.Attribute("type").Value)
-                {
-                    case "audio":
-                        this.AddMusicMedia(media);
-                        break;
-                    case "video":
-                        this.AddVideoMedia(media);
-                        break;
-                    case "image":
-                        this.AddImageMedia(media);
-                        break;
-                }
+               if (AddList.TryGetValue(media.Attribute("type").Value, out action))
+                   action(media);
             }
         }
         #endregion
@@ -62,7 +61,7 @@ namespace XMLDAL
             InfoMediaFromXml mediaInfo = new InfoMediaFromXml();
             IMusicMedia realMedia = ModuleManager.GetInstanceOf<IMediaFactory>("MediaFactory").CreateMusic();
             mediaInfo.Infos = media;
-            realMedia.SetInfo(mediaInfo);
+            mediaInfo.SetInfo(realMedia);
             MusicList.Add(realMedia);
         }
         private void AddVideoMedia(XElement media)
@@ -70,7 +69,7 @@ namespace XMLDAL
             InfoMediaFromXml mediaInfo = new InfoMediaFromXml();
             IVideoMedia realMedia = ModuleManager.GetInstanceOf<IMediaFactory>("MediaFactory").CreateVideo();
             mediaInfo.Infos = media;
-            realMedia.SetInfo(mediaInfo);
+            mediaInfo.SetInfo(realMedia);
             VideoList.Add(realMedia);
         }
         private void AddImageMedia(XElement media)
@@ -78,8 +77,23 @@ namespace XMLDAL
             InfoMediaFromXml mediaInfo = new InfoMediaFromXml();
             IImageMedia realMedia = ModuleManager.GetInstanceOf<IMediaFactory>("MediaFactory").CreateImage();
             mediaInfo.Infos = media;
-            realMedia.SetInfo(mediaInfo);
+            mediaInfo.SetInfo(realMedia);
             ImageList.Add(realMedia);
+        }
+
+        private void AddPlayList(XElement param)
+        {
+            IPlayList plist = ModuleManager.GetInstanceOf<IPlayList>("PlayList");
+            plist.Title = param.Element("Title").Value;
+            IEnumerable<XElement> sequences = from els in param.Element("sequence").Elements("Element") select els;
+            foreach (XElement media in sequences)
+            {
+                IMedia realMedia = ModuleManager.GetInstanceOf<IMedia>("BasicMedia");
+                realMedia.Title = media.Element("Title").Value;
+                realMedia.Path = media.Element("Path").Value;
+                plist.Add(realMedia);
+            }
+            PlayListList.Add(plist);
         }
         #endregion
 
@@ -100,11 +114,28 @@ namespace XMLDAL
         {
             XElement medias = _root;
             XElement Element = new XElement("media");
-            Type type = typeof(T);
             _save<IMedia>(media, Element);
             _save<T>(media, Element);
             Element.SetAttributeValue("type", serviceName);
             medias.Add(Element);
+        }
+
+        public void Save(IPlayList plist)
+        {
+            XElement file = _root;
+            XElement Element = new XElement("media");
+            Element.SetAttributeValue("type", "playList");
+
+            Element.Add(new XElement("Title", plist.Title));
+            Element.Add(new XElement("sequence"));
+            foreach (IMedia media in plist.Collection)
+            {
+                XElement seqElement = Element.Element("sequence");
+                seqElement.Add(new XElement("Element", 
+                                new XElement("Title", media.Title),
+                                new XElement("Path", media.Path)));
+            }
+            file.Add(Element);
         }
 
         public void Save()

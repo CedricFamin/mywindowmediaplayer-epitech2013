@@ -14,6 +14,5 @@ namespace MWMP.Models
         string Filename { get; set; }
         string Path { get; set; }
         int FileSize { get; set; }
-        void SetInfo(IInfoMedia infoMedia);
     }
 }

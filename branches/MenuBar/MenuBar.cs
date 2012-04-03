@@ -72,26 +72,21 @@ namespace MenuBar
 
                 if (mediaInfo.Open(path))
                 {
-                    media = ModuleManager.GetInstanceOf<IMediaFactory>("MediaFactory").CreateWithInternetMediaType(mediaInfo.InternetMediaType);
+                    media = ModuleManager.GetInstanceOf<IMediaFactory>("MediaFactory").CreateWithInternetMediaType(mediaInfo.InternetMediaType, mediaInfo);
                     if (media != null)
-                    {
-                        media.SetInfo(mediaInfo);
                         _pendingMedia.Push(media);
-                    }
                     mediaInfo.Close();
                 }
             });
             action.Start();
             if (mediaPlayer != null)
             {
-                BasicMedia media = new BasicMedia()
-                {
-                    Title = path,
-                    Path = path,
-                    Filename = System.IO.Path.GetFileName(path),
-                    Extension = System.IO.Path.GetExtension(path),
-                    FileSize = 0
-                };
+                IMedia media = ModuleManager.GetInstanceOf<IMedia>("BasicMedia");
+                media.Title = path;
+                media.Path = path;
+                media.Filename = System.IO.Path.GetFileName(path);
+                media.Extension = System.IO.Path.GetExtension(path);
+                media.FileSize = 0;
                 mediaPlayer.Open.Execute(media);
             }
         }
