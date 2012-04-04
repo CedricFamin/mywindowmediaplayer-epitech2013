@@ -12,9 +12,9 @@ namespace LibraryViewModel
 {
     class PlayListLibrary : GenericLibrary<IPlayList>
     {
-        public IPlayList SelectedItem { get; set; }
-        public ICommand PlayContextMenu { get; private set; }
-        public ICommand AddToPlayList { get; private set; }
+        public new IPlayList SelectedItem { get; set; }
+        public new ICommand PlayContextMenu { get; private set; }
+        public new ICommand AddToPlayList { get; private set; }
 
         public PlayListLibrary() : base()
         {
@@ -38,11 +38,14 @@ namespace LibraryViewModel
                 if (mp != null && SelectedItem != null)
                 {
                     foreach (IMedia media in SelectedItem.Collection)
-                    {
                         mp.AddMediaToPlayList.Execute(media);
-                    }
                 }
             });
+        }
+
+        protected override bool CanAdd(IPlayList media)
+        {
+            return true;
         }
     }
 }

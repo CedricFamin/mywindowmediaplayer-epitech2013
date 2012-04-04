@@ -5,44 +5,48 @@
 	xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
 	mc:Ignorable="d"
 	x:Class="MWMP.PlayerControl"
-	x:Name="UserControl" DataContext="{Binding}">
+	x:Name="UserControl">
 
-	<StackPanel x:Name="LayoutRoot" VerticalAlignment="Top" Orientation="Vertical">
-        <Grid>
-        	<Grid.ColumnDefinitions>
-        		<ColumnDefinition/>
-				<ColumnDefinition Width="120"></ColumnDefinition>
-			</Grid.ColumnDefinitions>
-			<MediaElement Grid.Column="0" x:Name="MediaPlayer" Source="{Binding Source, Mode=OneWay}" LoadedBehavior="Manual" 
-				UnloadedBehavior="Manual"  Volume="{Binding Volume, Mode=OneWay}" MediaFailed="MediaPlayer_MediaFailed" VerticalAlignment="Top" d:LayoutOverrides="Width"/>
-            <ListView DataContext="{Binding PlayList}" Grid.Column="1" ItemsSource="{Binding Collection}" HorizontalAlignment="Left" SelectedIndex="{Binding CurrentMedia}">
-				<ListView.View>
-                	<GridView AllowsColumnReorder="False">
-                		<GridView.ColumnHeaderContainerStyle>
-							<Style>
-								<Setter Property="FrameworkElement.Visibility" Value="Collapsed"/>
-							</Style>
-						</GridView.ColumnHeaderContainerStyle>
-                    	<GridViewColumn DisplayMemberBinding="{Binding Title}"/>
-					</GridView>
-                </ListView.View>
-                <ListView.Resources>
-                    <Style TargetType="{x:Type ListViewItem}">
-                        <EventSetter Event="MouseDoubleClick" Handler="DoubleCLickPlayerList" />
-                    </Style>
-                </ListView.Resources>
-            </ListView>
-		</Grid>
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <Slider Margin="10,0" Width="500" Maximum="{Binding DurationOnCurrentPlay, Mode=OneWay}" Value="{Binding PosOnCurrentPlay, Mode=TwoWay}" Name="TimeSlider" IsMoveToPointEnabled="True"/>
-            <TextBlock Text="{Binding Time, Mode=OneWay}"/>
-        </StackPanel>
-        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-            <Button x:Name="PreviousButton" Content="¨Previous" Command="{Binding Previous}" />
-            <Button x:Name="PlayButton" Content="Play" Command="{Binding Play}" />
-            <Button x:Name="StopButton" Content="Pause" Command="{Binding Pause}" />
-			<Button x:Name="NextButton" Content="Next" Command="{Binding Next}" />
-            <Slider x:Name="VolumeSlider" Width="50" ValueChanged="VolumeChange" Value="{Binding Volume, Mode=OneTime}"/>
+	<Grid x:Name="LayoutRoot">
+		<Grid.ColumnDefinitions>
+			<ColumnDefinition Width="*"/>
+			<ColumnDefinition Width="120"/>
+		</Grid.ColumnDefinitions>
+		<Grid.RowDefinitions>
+			<RowDefinition Height="*"/>
+			<RowDefinition Height="40"/>
+		</Grid.RowDefinitions>
+		<MediaElement Grid.Row="0" Grid.Column="0" x:Name="MediaPlayer" Source="{Binding Source, Mode=OneWay}" LoadedBehavior="Manual" 
+			UnloadedBehavior="Manual"  Volume="{Binding Volume, Mode=OneWay}" MediaFailed="MediaPlayer_MediaFailed" />
+		<ListView Grid.Row="0" DataContext="{Binding PlayList}" Grid.Column="1" ItemsSource="{Binding Collection}" HorizontalAlignment="Left" SelectedIndex="{Binding CurrentMedia}">
+			<ListView.Resources>
+				<Style TargetType="{x:Type ListViewItem}">
+					<EventSetter Event="Control.MouseDoubleClick" Handler="DoubleCLickPlayerList" />
+				</Style>
+			</ListView.Resources>
+			<ListView.View>
+				<GridView AllowsColumnReorder="False">
+					<GridView.ColumnHeaderContainerStyle>
+						<Style>
+							<Setter Property="UIElement.Visibility" Value="Collapsed"/>
+						</Style>
+					</GridView.ColumnHeaderContainerStyle>
+					<GridViewColumn DisplayMemberBinding="{Binding Title}"/>
+				</GridView>
+			</ListView.View>
+		</ListView>
+		<StackPanel  Grid.Row="1" VerticalAlignment="Bottom">
+			<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
+				<Slider Margin="10,0" Width="500" Maximum="{Binding DurationOnCurrentPlay, Mode=OneWay}" Value="{Binding PosOnCurrentPlay, Mode=TwoWay}" x:Name="TimeSlider" IsMoveToPointEnabled="True"/>
+				<TextBlock Text="{Binding Time, Mode=OneWay}"/>
+			</StackPanel>
+			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
+				<Button x:Name="PreviousButton" Content="¨Previous" Command="{Binding Previous}" />
+				<Button x:Name="PlayButton" Content="Play" Command="{Binding Play}" />
+				<Button x:Name="StopButton" Content="Pause" Command="{Binding Pause}" />
+				<Button x:Name="NextButton" Content="Next" Command="{Binding Next}" />
+				<Slider x:Name="VolumeSlider" Width="50" ValueChanged="VolumeChange" Value="{Binding Volume, Mode=OneTime}"/>
+			</StackPanel>
 		</StackPanel>
-    </StackPanel>
+	</Grid>
 </UserControl>

@@ -14,6 +14,14 @@ namespace LibraryViewModel
 {
     class MusicLibrary : GenericLibrary<IMusicMedia>
     {
-        
+        protected override bool CanAdd(IMusicMedia media)
+        {
+            foreach (IMusicMedia currentMedia in MediaList)
+            {
+                if (currentMedia.Path == media.Path)
+                    return false;
+            }
+            return true;
+        }
     }
 }

@@ -11,7 +11,7 @@ using MWMP.Utils;
 
 namespace LibraryViewModel
 {
-    class GenericLibrary<T> : BindableObject, ILibrary<T>
+    abstract class GenericLibrary<T> : BindableObject, ILibrary<T>
     {
         #region Properties
         public ObservableCollection<T> MediaList { get; private set; }
@@ -38,20 +38,25 @@ namespace LibraryViewModel
                     mp.AddMediaToPlayList.Execute(SelectedItem);
             });
             DeleteContextMenu = new RelayCommand((param) =>
-                {
-                    IMediaPlayer mp = ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel");
-                    if (mp != null && SelectedItem != null)
-                        MediaList.Remove(SelectedItem);
-                });
+            {
+                IMediaPlayer mp = ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel");
+                if (mp != null && SelectedItem != null)
+                    MediaList.Remove(SelectedItem);
+            });
         }
         #endregion
 
         #region Method
         public void Add(T media)
         {
-            MediaList.Add(media);
-            RaisePropertyChange("MediaList");
+            if (this.CanAdd(media))
+            {
+                MediaList.Add(media);
+                RaisePropertyChange("MediaList");
+            }
         }
+
+        abstract protected bool CanAdd(T media);
         #endregion
     }
 }
