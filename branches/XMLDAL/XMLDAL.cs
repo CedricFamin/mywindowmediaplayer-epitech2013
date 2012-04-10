@@ -59,7 +59,9 @@ namespace XMLDAL
         private void AddMusicMedia(XElement media)
         {
             InfoMediaFromXml mediaInfo = new InfoMediaFromXml();
-            IMusicMedia realMedia = ModuleManager.GetInstanceOf<IMediaFactory>("MediaFactory").CreateMusic();
+            IMediaFactory mfactory = ModuleManager.GetInstanceOf<IMediaFactory>("MediaFactory");
+            if (mfactory == null) return;
+            IMusicMedia realMedia = mfactory.CreateMusic();
             mediaInfo.Infos = media;
             mediaInfo.SetInfo(realMedia);
             MusicList.Add(realMedia);
@@ -67,6 +69,8 @@ namespace XMLDAL
         private void AddVideoMedia(XElement media)
         {
             InfoMediaFromXml mediaInfo = new InfoMediaFromXml();
+            IMediaFactory mfactory = ModuleManager.GetInstanceOf<IMediaFactory>("MediaFactory");
+            if (mfactory == null) return;
             IVideoMedia realMedia = ModuleManager.GetInstanceOf<IMediaFactory>("MediaFactory").CreateVideo();
             mediaInfo.Infos = media;
             mediaInfo.SetInfo(realMedia);
@@ -75,6 +79,8 @@ namespace XMLDAL
         private void AddImageMedia(XElement media)
         {
             InfoMediaFromXml mediaInfo = new InfoMediaFromXml();
+            IMediaFactory mfactory = ModuleManager.GetInstanceOf<IMediaFactory>("MediaFactory");
+            if (mfactory == null) return;
             IImageMedia realMedia = ModuleManager.GetInstanceOf<IMediaFactory>("MediaFactory").CreateImage();
             mediaInfo.Infos = media;
             mediaInfo.SetInfo(realMedia);
@@ -84,6 +90,7 @@ namespace XMLDAL
         private void AddPlayList(XElement param)
         {
             IPlayList plist = ModuleManager.GetInstanceOf<IPlayList>("PlayList");
+            if (plist == null) return;
             plist.Title = param.Element("Title").Value;
             IEnumerable<XElement> sequences = from els in param.Element("sequence").Elements("Element") select els;
             foreach (XElement media in sequences)

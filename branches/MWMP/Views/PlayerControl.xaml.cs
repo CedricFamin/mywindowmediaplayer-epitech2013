@@ -31,12 +31,6 @@ namespace MWMP
             }
 		}
 
-        private void VolumeChange(object sender, RoutedPropertyChangedEventArgs<double> e)
-        {
-            Slider me = sender as Slider;
-            ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel").Volume = e.NewValue / me.Maximum;
-        }
-
         protected void DoubleCLickPlayerList(object sender, MouseButtonEventArgs e)
         {
             IMedia track = ((ListViewItem)sender).Content as IMedia;

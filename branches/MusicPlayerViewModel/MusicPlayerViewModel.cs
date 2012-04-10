@@ -32,6 +32,7 @@ namespace MusicPlayerViewModel
         public MediaState LoadedBehavior { set; get; }
         public bool CanCommandExecute { set; get; }
         public IPlayList PlayList { get; private set; }
+        public ICommand ChangeVolume { get; private set; }
         public double DurationOnCurrentPlay
         {
             get
@@ -68,11 +69,12 @@ namespace MusicPlayerViewModel
         public MusicPlayerViewModel()
         {
             PlayList = ModuleManager.GetInstanceOf<IPlayList>("PlayList");
-            PlayList.Title = "Current PlayList";
-            this._volume = 5;
+            if (PlayList != null) PlayList.Title = "Current PlayList";
+            this._volume = 50;
             Play = new RelayCommand((param) => MediaElement.Play());
             Stop = new RelayCommand((param) => MediaElement.Stop());
             Pause = new RelayCommand((param) => MediaElement.Pause());
+            ChangeVolume = new RelayCommand((param) => Volume = ((param as double?) ?? 0.0) / 100.0);
             //Next = new RelayCommand((param) => this.player.Next());
             AddMediaToPlayList = new RelayCommand((param) => this.AddMediaToPlayListCommand(param as IMedia));
             Open = new RelayCommand((param) => this.OpenCommand(param as IMedia));

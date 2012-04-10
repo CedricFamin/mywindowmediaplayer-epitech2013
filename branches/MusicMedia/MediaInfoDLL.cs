@@ -142,7 +142,7 @@ namespace MediaInfoLib
             else
                 MustUseAnsi=false;
         }
-        ~MediaInfo() { MediaInfo_Delete(Handle); }
+        ~MediaInfo() { try { MediaInfo_Delete(Handle); } catch { } }
         public int Open(String FileName)
         {
             if (MustUseAnsi)

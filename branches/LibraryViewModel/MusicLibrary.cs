@@ -23,5 +23,12 @@ namespace LibraryViewModel
             }
             return true;
         }
+
+        public override bool FilterOperator(object source)
+        {
+            IMusicMedia media = source as IMusicMedia;
+            if (media.Title.Contains("Sleep")) return true;
+            return false;
+        }
     }
 }

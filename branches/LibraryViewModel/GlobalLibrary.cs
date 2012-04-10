@@ -1,11 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MWMP.ViewModels;
-using MWMP.Models;
+﻿using System.ComponentModel;
 using MWMP;
+using MWMP.Models;
 using MWMP.Models.DAL;
+using MWMP.ViewModels;
 
 namespace LibraryViewModel
 {
@@ -45,15 +42,18 @@ namespace LibraryViewModel
         ~GlobalLibrary()
         {
             IDAL dal = ModuleManager.GetInstanceOf<IDAL>("XMLDAL");
-            foreach (IMusicMedia media in MusicLibrary.MediaList)
-                dal.Save(media, "audio");
-            foreach (IVideoMedia media in VideoLibrary.MediaList)
-                dal.Save(media, "video");
-            foreach (IImageMedia media in ImageLibrary.MediaList)
-                dal.Save(media, "image");
-            foreach (IPlayList plist in PlayListLibrary.MediaList)
-                dal.Save(plist);
-            dal.Save();
+            if (dal != null)
+            {
+                foreach (IMusicMedia media in MusicLibrary.MediaList)
+                    dal.Save(media, "audio");
+                foreach (IVideoMedia media in VideoLibrary.MediaList)
+                    dal.Save(media, "video");
+                foreach (IImageMedia media in ImageLibrary.MediaList)
+                    dal.Save(media, "image");
+                foreach (IPlayList plist in PlayListLibrary.MediaList)
+                    dal.Save(plist);
+                dal.Save();
+            }
         }
         #endregion
 
@@ -69,5 +69,11 @@ namespace LibraryViewModel
             else if (imageMedia != null) ImageLibrary.Add(imageMedia);
         }
         #endregion
+
+
+        public ICollectionView MusicFilter
+        {
+            get { return MusicLibrary.GetFilterCollectionView("Title", ""); }
+        }
     }
 }
