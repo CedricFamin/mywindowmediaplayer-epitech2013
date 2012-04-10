@@ -97,7 +97,14 @@ namespace MWMP
             Service s;
             if (services.TryGetValue(serviceName, out s))
             {
-                return s.GetInstance() as T;
+                try
+                {
+                    return s.GetInstance() as T;
+                }
+                catch
+                {
+                    return null;
+                }
             }
             return default(T);
         }
@@ -107,7 +114,14 @@ namespace MWMP
             Service s;
             if (services.TryGetValue(serviceName, out s))
             {
-                return s.GetInstance();
+                try
+                {
+                    return s.GetInstance();
+                }
+                catch
+                {
+                    return null;
+                }
             }
             return null;
         }

@@ -45,15 +45,18 @@ namespace LibraryViewModel
         ~GlobalLibrary()
         {
             IDAL dal = ModuleManager.GetInstanceOf<IDAL>("XMLDAL");
-            foreach (IMusicMedia media in MusicLibrary.MediaList)
-                dal.Save(media, "audio");
-            foreach (IVideoMedia media in VideoLibrary.MediaList)
-                dal.Save(media, "video");
-            foreach (IImageMedia media in ImageLibrary.MediaList)
-                dal.Save(media, "image");
-            foreach (IPlayList plist in PlayListLibrary.MediaList)
-                dal.Save(plist);
-            dal.Save();
+            if (dal != null)
+            {
+                foreach (IMusicMedia media in MusicLibrary.MediaList)
+                    dal.Save(media, "audio");
+                foreach (IVideoMedia media in VideoLibrary.MediaList)
+                    dal.Save(media, "video");
+                foreach (IImageMedia media in ImageLibrary.MediaList)
+                    dal.Save(media, "image");
+                foreach (IPlayList plist in PlayListLibrary.MediaList)
+                    dal.Save(plist);
+                dal.Save();
+            }
         }
         #endregion
 

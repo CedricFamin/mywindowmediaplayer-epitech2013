@@ -1,19 +1,10 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Text;
+﻿using System.ComponentModel;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
-using MWMP.ViewModels;
 using MWMP.Models;
-using MWMP.Models.DAL;
-using System.ComponentModel;
+using MWMP.ViewModels;
 
 namespace MWMP
 {
@@ -32,7 +23,10 @@ namespace MWMP
             IMedia track = ((ListViewItem)sender).Content as IMedia;
             if (track != null)
             {
-                ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel").Open.Execute(track);
+               IMediaPlayer player = ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel");
+                if (player == null)
+                    return;
+                player.Open.Execute(track);
             }
 
         }
@@ -62,12 +56,7 @@ namespace MWMP
                     if (headerClicked != _lastHeaderClicked)
                         direction = ListSortDirection.Ascending;
                     else
-                    {
-                        if (_lastDirection == ListSortDirection.Ascending)
-                            direction = ListSortDirection.Descending;
-                        else
-                            direction = ListSortDirection.Ascending;
-                    }
+                        direction = (_lastDirection == ListSortDirection.Ascending) ? ListSortDirection.Descending : ListSortDirection.Ascending;
                     string header = headerClicked.Column.Header as string;
                     Sort(header, direction);
                     _lastHeaderClicked = headerClicked;

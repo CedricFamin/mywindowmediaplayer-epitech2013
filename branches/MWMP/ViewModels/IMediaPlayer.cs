@@ -26,6 +26,7 @@ namespace MWMP.ViewModels
         ICommand Pause { get; }
         ICommand Play { get; }
         ICommand Open { get; }
+        ICommand ChangeVolume { get; }
         ICommand AddMediaToPlayList { get; }
     }
 }

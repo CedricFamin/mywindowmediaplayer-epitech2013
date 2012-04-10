@@ -69,7 +69,7 @@ namespace MenuBar
             {
                 IMedia media = null;
                 IInfoMedia mediaInfo = ModuleManager.GetInstanceOf<IInfoMedia>("InfoMedia");
-
+                if (mediaInfo == null) return;
                 if (mediaInfo.Open(path))
                 {
                     media = ModuleManager.GetInstanceOf<IMediaFactory>("MediaFactory").CreateWithInternetMediaType(mediaInfo.InternetMediaType, mediaInfo);
@@ -82,6 +82,12 @@ namespace MenuBar
             if (mediaPlayer != null)
             {
                 IMedia media = ModuleManager.GetInstanceOf<IMedia>("BasicMedia");
+                if (media == null)
+                {
+                    mediaPlayer.Source = path;
+                    mediaPlayer.Play.Execute(null);
+                    return;
+                }
                 media.Title = path;
                 media.Path = path;
                 media.Filename = System.IO.Path.GetFileName(path);

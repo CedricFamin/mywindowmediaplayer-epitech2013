@@ -23,5 +23,15 @@ namespace LibraryViewModel
             }
             return true;
         }
+
+        public override bool FilterOperator(object source)
+        {
+            ObservableCollection<IMusicMedia> mediaList = source as ObservableCollection<IMusicMedia>;
+            foreach (IMusicMedia media in mediaList)
+            {
+                if (media.Title.Contains("Sleep")) return true;
+            }
+            return false;
+        }
     }
 }
