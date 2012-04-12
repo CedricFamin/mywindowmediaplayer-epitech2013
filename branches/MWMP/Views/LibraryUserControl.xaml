@@ -18,7 +18,7 @@
         </ObjectDataProvider>
     </UserControl.Resources>
     <StackPanel>
-        <ListView DataContext="{Binding Source={StaticResource LibraryViewModel}}" ItemsSource="{Binding MusicFilter}"
+        <ListView DataContext="{Binding Source={StaticResource LibraryViewModel}, Path=MusicLibrary}" ItemsSource="{Binding MediaList}"
                   SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" GridViewColumnHeader.Click="ListView_Sort" Name="MusicList">
             <ListView.View>
                 <GridView>
