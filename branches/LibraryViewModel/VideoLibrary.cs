@@ -23,10 +23,5 @@ namespace LibraryViewModel
             }
             return true;
         }
-
-        public override bool FilterOperator(object source)
-        {
-            throw new NotImplementedException();
-        }
     }
 }

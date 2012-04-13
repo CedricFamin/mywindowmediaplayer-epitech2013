@@ -38,6 +38,7 @@
     <WarningLevel>4</WarningLevel>
   </PropertyGroup>
   <ItemGroup>
+    <Reference Include="Microsoft.Expression.Interactions" />
     <Reference Include="System" />
     <Reference Include="System.Data" />
     <Reference Include="System.Windows.Interactivity" />
@@ -73,6 +74,7 @@
     <Compile Include="ViewModels\ILibrary.cs" />
     <Compile Include="ViewModels\IMenuBar.cs" />
     <Compile Include="ViewModels\IMediaPlayer.cs" />
+    <Compile Include="ViewModels\IMusicLibrary.cs" />
     <Compile Include="Views\LibraryUserControl.xaml.cs">
       <DependentUpon>LibraryUserControl.xaml</DependentUpon>
     </Compile>

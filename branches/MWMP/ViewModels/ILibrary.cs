@@ -13,7 +13,6 @@ namespace MWMP.ViewModels
     public interface ILibrary<T>
     {
         ObservableCollection<T> MediaList { get; }
-        ICollectionView  GetFilterCollectionView(string property, string value);
         T SelectedItem { get; set; }
         ICommand PlayContextMenu { get; }
         ICommand AddToPlayList { get; }

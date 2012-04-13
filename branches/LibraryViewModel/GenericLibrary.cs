@@ -63,31 +63,5 @@ namespace LibraryViewModel
 
         abstract protected bool CanAdd(T media);
         #endregion
-
-        public ICollectionView GetFilterCollectionView(string pptName, string value)
-        {
-            PropertyInfo property;
-            Type type = typeof(MWMP.Models.IMedia);
-            try    { property = type.GetProperty(pptName); }
-            catch  { return null; }
-            if (property == null) return null;
-            ICollectionView cv = CollectionViewSource.GetDefaultView(MediaList);
-            cv.Filter = new Predicate<object>((param) =>
-            {
-                T media = param as T;
-                MethodInfo method = property.GetGetMethod();
-                if (media == null) 
-                    return false;
-                if (method == null)
-                    return false;
-                string pptValue = method.Invoke(media, new object[0]) as string;
-                if (pptValue == null)
-                    return false;
-                return pptValue.Contains(value);
-            });
-            return cv;
-        }
-
-        public abstract bool FilterOperator(object source);
     }
 }

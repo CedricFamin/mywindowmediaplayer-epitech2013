@@ -14,8 +14,6 @@ namespace MWMP.ViewModels
         ILibrary<IImageMedia> ImageLibrary { get; }
         ILibrary<IPlayList> PlayListLibrary { get; }
 
-        ICollectionView MusicFilter { get; }
-
         void AddMedia(IMedia media);
     }
 }

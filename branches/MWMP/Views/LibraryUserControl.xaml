@@ -6,6 +6,7 @@
 	xmlns:System="clr-namespace:System;assembly=mscorlib"
     xmlns:local="clr-namespace:MWMP"
     xmlns:converter="clr-namespace:MWMP.Models.Converter"
+	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
 	mc:Ignorable="d"
 	x:Class="MWMP.LibraryUserControl"
 	x:Name="UserControl">
@@ -17,71 +18,98 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </UserControl.Resources>
-    <StackPanel>
-        <ListView DataContext="{Binding Source={StaticResource LibraryViewModel}, Path=MusicLibrary}" ItemsSource="{Binding MediaList}"
-                  SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" GridViewColumnHeader.Click="ListView_Sort" Name="MusicList">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
-                    <GridViewColumn Header="Album"     DisplayMemberBinding="{Binding Album}" />
-                    <GridViewColumn Header="Track"     DisplayMemberBinding="{Binding Track}" />
-                    <GridViewColumn Header="Genre"     DisplayMemberBinding="{Binding Genre}" />
-                    <GridViewColumn Header="Performer" DisplayMemberBinding="{Binding Performers}" />
-                    <GridViewColumn Header="Duration"  DisplayMemberBinding="{Binding Duration, Converter={StaticResource msToStringConverter}}" />
-                </GridView>
-            </ListView.View>
-            <ListView.Resources>
-                <Style TargetType="{x:Type ListViewItem}">
-                    <EventSetter Event="MouseDoubleClick" Handler="HandleDoubleClick" />
-                </Style>
-            </ListView.Resources>
-            <ListView.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
-                    <MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
-                    <MenuItem Header="Delete" Command="{Binding DeleteContextMenu}"/>
-                </ContextMenu>
-            </ListView.ContextMenu>
-        </ListView>
-        <ListView DataContext="{Binding Source={StaticResource LibraryViewModel}, Path=VideoLibrary}" ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
-                    <GridViewColumn Header="Duration"  DisplayMemberBinding="{Binding Duration, Converter={StaticResource msToStringConverter}}" />
-                </GridView>
-            </ListView.View>
-            <ListView.Resources>
-                <Style TargetType="{x:Type ListViewItem}">
-                    <EventSetter Event="MouseDoubleClick" Handler="HandleDoubleClick" />
-                </Style>
-            </ListView.Resources>
-            <ListView.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
-                    <MenuItem Header="Add to current playlist" />
-                    <MenuItem Header="Delete" />
-                </ContextMenu>
-            </ListView.ContextMenu>
-        </ListView>
-        <ListView DataContext="{Binding Source={StaticResource LibraryViewModel}, Path=PlayListLibrary}" ItemsSource="{Binding MediaList}" 
-                  SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" GridViewColumnHeader.Click="ListView_Sort" Name="PlayListList">
-            <ListView.View>
-                <GridView>
-                    <GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
-                </GridView>
-            </ListView.View>
-            <ListView.Resources>
-                <Style TargetType="{x:Type ListViewItem}">
-                    <EventSetter Event="MouseDoubleClick" Handler="HandleDoubleClick" />
-                </Style>
-            </ListView.Resources>
-            <ListView.ContextMenu>
-                <ContextMenu>
-                    <MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
-                    <MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
-                    <MenuItem Header="Delete" Command="{Binding DeleteContextMenu}"/>
-                </ContextMenu>
-            </ListView.ContextMenu>
-        </ListView>
-    </StackPanel>
+    <StackPanel Orientation="Horizontal">
+		<TreeView Height="100" Width="152" VerticalAlignment="Top">
+			<TreeViewItem Header="Music" IsExpanded="True">
+				<StackPanel Orientation="Horizontal">
+					<TextBlock><Run Text="Title :"/></TextBlock>
+                    <TextBox DataContext="{Binding MusicLibrary, Source={StaticResource LibraryViewModel}}" Text="{Binding Title}" Margin="0,0,-0.001,0" Width="75" x:Name="TitleMusicFilter">
+                    	<i:Interaction.Triggers>
+                    		<i:EventTrigger EventName="TextChanged">
+                                <i:InvokeCommandAction Command="{Binding SetTitleFilter}" CommandParameter="{Binding ElementName=TitleMusicFilter, Path=Text}"/>
+                    		</i:EventTrigger>
+                    	</i:Interaction.Triggers>
+                    </TextBox>
+				</StackPanel>
+				<Label Content="Artist"/>
+				<Label Content="Genre"/>
+			</TreeViewItem>
+		</TreeView>
+		<StackPanel>
+			<ListView ItemsSource="{Binding FilteredMediaList}"
+				SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" ButtonBase.Click="ListView_Sort" x:Name="MusicList">
+				<ListView.Resources>
+					<Style TargetType="{x:Type ListViewItem}">
+						<EventSetter Event="Control.MouseDoubleClick" Handler="HandleDoubleClick" />
+					</Style>
+				</ListView.Resources>
+				<ListView.DataContext>
+					<Binding Path="MusicLibrary" Source="{StaticResource LibraryViewModel}"/>
+				</ListView.DataContext>
+				<ListView.View>
+					<GridView>
+						<GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
+						<GridViewColumn Header="Album"     DisplayMemberBinding="{Binding Album}" />
+						<GridViewColumn Header="Track"     DisplayMemberBinding="{Binding Track}" />
+						<GridViewColumn Header="Genre"     DisplayMemberBinding="{Binding Genre}" />
+						<GridViewColumn Header="Performer" DisplayMemberBinding="{Binding Performers}" />
+						<GridViewColumn Header="Duration"  DisplayMemberBinding="{Binding Duration, Converter={StaticResource msToStringConverter}}" />
+					</GridView>
+				</ListView.View>
+				<ListView.ContextMenu>
+					<ContextMenu>
+						<MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
+						<MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
+						<MenuItem Header="Delete" Command="{Binding DeleteContextMenu}"/>
+					</ContextMenu>
+				</ListView.ContextMenu>
+			</ListView>
+			<ListView ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
+				<ListView.Resources>
+					<Style TargetType="{x:Type ListViewItem}">
+						<EventSetter Event="Control.MouseDoubleClick" Handler="HandleDoubleClick" />
+					</Style>
+				</ListView.Resources>
+				<ListView.DataContext>
+					<Binding Path="VideoLibrary" Source="{StaticResource LibraryViewModel}"/>
+				</ListView.DataContext>
+				<ListView.View>
+					<GridView>
+						<GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
+						<GridViewColumn Header="Duration"  DisplayMemberBinding="{Binding Duration, Converter={StaticResource msToStringConverter}}" />
+					</GridView>
+				</ListView.View>
+				<ListView.ContextMenu>
+					<ContextMenu>
+						<MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
+						<MenuItem Header="Add to current playlist" />
+						<MenuItem Header="Delete" />
+					</ContextMenu>
+				</ListView.ContextMenu>
+			</ListView>
+			<ListView ItemsSource="{Binding MediaList}" 
+				SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" ButtonBase.Click="ListView_Sort" x:Name="PlayListList">
+				<ListView.Resources>
+					<Style TargetType="{x:Type ListViewItem}">
+						<EventSetter Event="Control.MouseDoubleClick" Handler="HandleDoubleClick" />
+					</Style>
+				</ListView.Resources>
+				<ListView.DataContext>
+					<Binding Path="PlayListLibrary" Source="{StaticResource LibraryViewModel}"/>
+				</ListView.DataContext>
+				<ListView.View>
+					<GridView>
+						<GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
+					</GridView>
+				</ListView.View>
+				<ListView.ContextMenu>
+					<ContextMenu>
+						<MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
+						<MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
+						<MenuItem Header="Delete" Command="{Binding DeleteContextMenu}"/>
+					</ContextMenu>
+				</ListView.ContextMenu>
+			</ListView>
+		</StackPanel>
+	</StackPanel>
 </UserControl>

@@ -127,8 +127,8 @@ namespace XMLDAL
             {
                 MethodInfo method = property.GetGetMethod();
                 object value = method.Invoke(media, new object[0]);
-               // if (property.PropertyType.IsSerializable == false)
-                //    continue;
+                if (property.PropertyType.IsSerializable == false)
+                    continue;
                 XmlSerializer serializer = new XmlSerializer(property.PropertyType);
                 XElement CurrentElement = serializer.SerializeAsXElement(value);
                 CurrentElement.SetAttributeValue("Property", property.Name);

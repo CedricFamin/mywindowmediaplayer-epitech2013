@@ -18,7 +18,7 @@ namespace LibraryViewModel
         #region CTor
         public GlobalLibrary()
         {
-            MusicLibrary = ModuleManager.GetInstanceOf<ILibrary<IMusicMedia>>("MusicLibrary");
+            MusicLibrary = ModuleManager.GetInstanceOf<IMusicLibrary>("MusicLibrary");
             VideoLibrary = ModuleManager.GetInstanceOf<ILibrary<IVideoMedia>>("VideoLibrary");
             ImageLibrary = ModuleManager.GetInstanceOf<ILibrary<IImageMedia>>("ImageLibrary");
             PlayListLibrary = ModuleManager.GetInstanceOf<ILibrary<IPlayList>>("PlayListLibrary");
@@ -69,11 +69,5 @@ namespace LibraryViewModel
             else if (imageMedia != null) ImageLibrary.Add(imageMedia);
         }
         #endregion
-
-
-        public ICollectionView MusicFilter
-        {
-            get { return MusicLibrary.GetFilterCollectionView("Title", ""); }
-        }
     }
 }
