@@ -8,12 +8,26 @@ using MWMP;
 using MWMP.InjectionDepedency;
 using MWMP.Models;
 using MWMP.Models.DAL;
+using System.Xml.Serialization;
+using System.Xml;
 
 namespace XMLDAL
 {
     public class Module : GenericModule<XMLDAL>
     {
         public Module() : base("XMLDAL", true) { }
+    }
+
+    static class XmlSerializerExtension
+    {
+        public static XElement SerializeAsXElement(this XmlSerializer xs, object o)
+        {
+            XDocument d = new XDocument();
+            using (XmlWriter w = d.CreateWriter()) xs.Serialize(w, o);
+            XElement e = d.Root;
+            e.Remove();
+            return e;
+        }
     }
 
     public class XMLDAL : IDAL
@@ -90,14 +104,15 @@ namespace XMLDAL
         private void AddPlayList(XElement param)
         {
             IPlayList plist = ModuleManager.GetInstanceOf<IPlayList>("PlayList");
+            InfoMediaFromXml mediaInfo = new InfoMediaFromXml();
             if (plist == null) return;
             plist.Title = param.Element("Title").Value;
             IEnumerable<XElement> sequences = from els in param.Element("sequence").Elements("Element") select els;
             foreach (XElement media in sequences)
             {
+                mediaInfo.Infos = media;
                 IMedia realMedia = ModuleManager.GetInstanceOf<IMedia>("BasicMedia");
-                realMedia.Title = media.Element("Title").Value;
-                realMedia.Path = media.Element("Path").Value;
+                mediaInfo.SetInfo(realMedia);
                 plist.Add(realMedia);
             }
             PlayListList.Add(plist);
@@ -112,7 +127,11 @@ namespace XMLDAL
             {
                 MethodInfo method = property.GetGetMethod();
                 object value = method.Invoke(media, new object[0]);
-                XElement CurrentElement = new XElement(property.Name, value);
+               // if (property.PropertyType.IsSerializable == false)
+                //    continue;
+                XmlSerializer serializer = new XmlSerializer(property.PropertyType);
+                XElement CurrentElement = serializer.SerializeAsXElement(value);
+                CurrentElement.SetAttributeValue("Property", property.Name);
                 e.Add(CurrentElement);
             }
         }
@@ -132,15 +151,14 @@ namespace XMLDAL
             XElement file = _root;
             XElement Element = new XElement("media");
             Element.SetAttributeValue("type", "playList");
-
             Element.Add(new XElement("Title", plist.Title));
             Element.Add(new XElement("sequence"));
             foreach (IMedia media in plist.Collection)
             {
+                XElement element = new XElement("Element");
                 XElement seqElement = Element.Element("sequence");
-                seqElement.Add(new XElement("Element", 
-                                new XElement("Title", media.Title),
-                                new XElement("Path", media.Path)));
+                _save<IMedia>(media, element);
+                seqElement.Add(element);
             }
             file.Add(Element);
         }

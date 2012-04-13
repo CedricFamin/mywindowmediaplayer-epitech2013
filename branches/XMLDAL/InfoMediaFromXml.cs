@@ -2,6 +2,7 @@
 using System.Reflection;
 using System.Xml.Linq;
 using MWMP.Models;
+using System.Xml.Serialization;
 
 namespace XMLDAL
 {
@@ -33,13 +34,20 @@ namespace XMLDAL
         private void _load<T>(T media)
         {
             Type type = typeof(T);
-            foreach (PropertyInfo property in type.GetProperties())
+            foreach (XElement e in Infos.Elements())
             {
+                PropertyInfo property = type.GetProperty(e.Attribute("Property").Value);
+                if (property == null)
+                    continue;
                 MethodInfo method = property.GetSetMethod();
                 object[] parameters = new object[1];
+                if (!property.PropertyType.IsSerializable)
+                    continue;
+                XmlSerializer serializer = new XmlSerializer(property.PropertyType);
+                object value = serializer.Deserialize(e.CreateReader());
                 try
                 {
-                    parameters[0] =  Convert.ChangeType(Get(property.Name), property.PropertyType);
+                    parameters[0] = Convert.ChangeType(value, property.PropertyType);
                 }
                 catch
                 {
@@ -67,6 +75,11 @@ namespace XMLDAL
         {
             _load<IMedia>(media);
             _load<IImageMedia>(media);
+        }
+
+        public void SetInfo(IMedia media)
+        {
+            _load<IMedia>(media);
         }
         #endregion
 
