@@ -9,7 +9,7 @@ namespace LibraryViewModel
     class GlobalLibrary : IGlobalLibrary
     {
         #region Properties
-        public ILibrary<IMusicMedia> MusicLibrary { get; private set; }
+        public IMusicLibrary MusicLibrary { get; private set; }
         public ILibrary<IVideoMedia> VideoLibrary { get; private set; }
         public ILibrary<IImageMedia> ImageLibrary { get; private set; }
         public ILibrary<IPlayList> PlayListLibrary { get; private set; }

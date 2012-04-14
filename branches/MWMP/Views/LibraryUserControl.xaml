@@ -18,9 +18,12 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </UserControl.Resources>
+	<UserControl.Background>
+		<ImageBrush ImageSource="pack://siteoforigin:,,,/Views/bg_library.jpg" Stretch="UniformToFill"/>
+	</UserControl.Background>
     <StackPanel Orientation="Horizontal">
-		<TreeView Height="100" Width="152" VerticalAlignment="Top">
-			<TreeViewItem Header="Music" IsExpanded="True">
+		<TreeView Background="{x:Null}" BorderThickness="0">
+			<TreeViewItem Header="Music" IsExpanded="True" Background="{x:Null}">
 				<StackPanel Orientation="Horizontal">
 					<TextBlock><Run Text="Title :"/></TextBlock>
                     <TextBox DataContext="{Binding MusicLibrary, Source={StaticResource LibraryViewModel}}" Text="{Binding Title}" Margin="0,0,-0.001,0" Width="75" x:Name="TitleMusicFilter">
@@ -37,12 +40,12 @@
 		</TreeView>
 		<StackPanel>
 			<ListView ItemsSource="{Binding FilteredMediaList}"
-				SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" ButtonBase.Click="ListView_Sort" x:Name="MusicList">
-				<ListView.Resources>
-					<Style TargetType="{x:Type ListViewItem}">
-						<EventSetter Event="Control.MouseDoubleClick" Handler="HandleDoubleClick" />
-					</Style>
-				</ListView.Resources>
+				SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" ButtonBase.Click="ListView_Sort" x:Name="MusicList" Background="{x:Null}" Foreground="Black">
+				<i:Interaction.Triggers>
+					<i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding PlayContextMenu}" />
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
 				<ListView.DataContext>
 					<Binding Path="MusicLibrary" Source="{StaticResource LibraryViewModel}"/>
 				</ListView.DataContext>
@@ -64,13 +67,13 @@
 					</ContextMenu>
 				</ListView.ContextMenu>
 			</ListView>
-			<ListView ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}">
-				<ListView.Resources>
-					<Style TargetType="{x:Type ListViewItem}">
-						<EventSetter Event="Control.MouseDoubleClick" Handler="HandleDoubleClick" />
-					</Style>
-				</ListView.Resources>
-				<ListView.DataContext>
+			<ListView ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" Background="{x:Null}" Foreground="Black">
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding PlayContextMenu}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
+                <ListView.DataContext>
 					<Binding Path="VideoLibrary" Source="{StaticResource LibraryViewModel}"/>
 				</ListView.DataContext>
 				<ListView.View>
@@ -88,15 +91,15 @@
 				</ListView.ContextMenu>
 			</ListView>
 			<ListView ItemsSource="{Binding MediaList}" 
-				SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" ButtonBase.Click="ListView_Sort" x:Name="PlayListList">
-				<ListView.Resources>
-					<Style TargetType="{x:Type ListViewItem}">
-						<EventSetter Event="Control.MouseDoubleClick" Handler="HandleDoubleClick" />
-					</Style>
-				</ListView.Resources>
-				<ListView.DataContext>
-					<Binding Path="PlayListLibrary" Source="{StaticResource LibraryViewModel}"/>
-				</ListView.DataContext>
+				SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" ButtonBase.Click="ListView_Sort" x:Name="PlayListList" Background="{x:Null}" Foreground="Black">
+                <ListView.DataContext>
+                    <Binding Path="PlayListLibrary" Source="{StaticResource LibraryViewModel}"/>
+                </ListView.DataContext>
+                <i:Interaction.Triggers>
+                    <i:EventTrigger EventName="MouseDoubleClick">
+                        <i:InvokeCommandAction Command="{Binding PlayContextMenu}" />
+                    </i:EventTrigger>
+                </i:Interaction.Triggers>
 				<ListView.View>
 					<GridView>
 						<GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />

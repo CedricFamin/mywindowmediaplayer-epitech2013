@@ -28,7 +28,11 @@
     		</DockPanel>
     		<TabControl Margin="0,20.96,0,0">
     			<TabItem Header="Player">
-    				<local:PlayerControl />
+    				<local:PlayerControl >
+    					<local:PlayerControl.Background>
+    						<ImageBrush ImageSource="background.jpg" Stretch="UniformToFill"/>
+    					</local:PlayerControl.Background>
+    				</local:PlayerControl>
     			</TabItem>
     			<TabItem Header="Library">
     				<local:LibraryUserControl />

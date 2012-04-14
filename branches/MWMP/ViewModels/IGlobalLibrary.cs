@@ -9,7 +9,7 @@ namespace MWMP.ViewModels
 {
     public interface IGlobalLibrary
     {
-        ILibrary<IMusicMedia> MusicLibrary { get; }
+        IMusicLibrary MusicLibrary { get; }
         ILibrary<IVideoMedia> VideoLibrary { get; }
         ILibrary<IImageMedia> ImageLibrary { get; }
         ILibrary<IPlayList> PlayListLibrary { get; }

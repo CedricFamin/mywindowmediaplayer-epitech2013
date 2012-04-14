@@ -18,19 +18,6 @@ namespace MWMP
 			this.InitializeComponent();
 		}
 
-        protected void HandleDoubleClick(object sender, MouseButtonEventArgs e)
-        {
-            IMedia track = ((ListViewItem)sender).Content as IMedia;
-            if (track != null)
-            {
-               IMediaPlayer player = ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel");
-                if (player == null)
-                    return;
-                player.Open.Execute(track);
-            }
-
-        }
-
         GridViewColumnHeader _lastHeaderClicked = null;
         ListSortDirection _lastDirection = ListSortDirection.Ascending;
 

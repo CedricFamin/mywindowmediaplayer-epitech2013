@@ -6,6 +6,7 @@ using MWMP.Utils;
 using System.Windows.Controls;
 using System.Windows.Input;
 using MWMP.Models;
+using System.Windows;
 
 namespace MWMP.ViewModels
 {
@@ -20,7 +21,12 @@ namespace MWMP.ViewModels
 		double DurationOnCurrentPlay  {get; }
         double PosOnCurrentPlay { get; set; }
         int CurrentMedia { get; set; }
+        Duration NaturalDuration { get; set; }
+        TimeSpan Position { get; set; }
 
+        void LoadedMediaFaild();
+
+        ICommand SeekToMediaPosition { get; }
         ICommand Stop { get; }
         ICommand Next { get; }
         ICommand Pause { get; }

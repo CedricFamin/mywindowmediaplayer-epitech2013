@@ -9,6 +9,7 @@ using MWMP.ViewModels;
 using System.Collections;
 using MWMP.InjectionDepedency;
 using MWMP;
+using System.Windows;
 
 
 namespace MusicPlayerViewModel
@@ -33,10 +34,14 @@ namespace MusicPlayerViewModel
         public bool CanCommandExecute { set; get; }
         public IPlayList PlayList { get; private set; }
         public ICommand ChangeVolume { get; private set; }
+        public Duration NaturalDuration { get; set; }
+        public TimeSpan Position {get; set;}
         public double DurationOnCurrentPlay
         {
             get
             {
+                if (MediaElement == null)
+                    return 0;
                 if (MediaElement.NaturalDuration.HasTimeSpan == false)
                     return 1;
                 return MediaElement.NaturalDuration.TimeSpan.TotalSeconds;
@@ -46,6 +51,8 @@ namespace MusicPlayerViewModel
         {
             get
             {
+                if (MediaElement == null)
+                    return 0;
                 return MediaElement.Position.TotalSeconds;
             }
             set
@@ -57,6 +64,7 @@ namespace MusicPlayerViewModel
         #endregion
 
         #region Command
+        public ICommand SeekToMediaPosition { get; protected set; }
         public ICommand Stop { get; protected set; }
         public ICommand Next { get; protected set; }
         public ICommand Pause { get; protected set; }
@@ -75,6 +83,11 @@ namespace MusicPlayerViewModel
             Stop = new RelayCommand((param) => MediaElement.Stop());
             Pause = new RelayCommand((param) => MediaElement.Pause());
             ChangeVolume = new RelayCommand((param) => Volume = ((param as double?) ?? 0.0) / 100.0);
+            SeekToMediaPosition = new RelayCommand((param) =>
+            {
+                
+
+            });
             //Next = new RelayCommand((param) => this.player.Next());
             AddMediaToPlayList = new RelayCommand((param) => this.AddMediaToPlayListCommand(param as IMedia));
             Open = new RelayCommand((param) => this.OpenCommand(param as IMedia));
@@ -110,7 +123,7 @@ namespace MusicPlayerViewModel
         {
             get
             {
-                if (MediaElement.NaturalDuration.HasTimeSpan == false)
+                if (MediaElement == null || MediaElement.NaturalDuration.HasTimeSpan == false)
                     return "0:0:0/0:0:0";
                 string format = "";
                 if (MediaElement.NaturalDuration.TimeSpan.Hours > 0)
@@ -121,6 +134,11 @@ namespace MusicPlayerViewModel
                 return MediaElement.Position.ToString(format) + "/" +
                        MediaElement.NaturalDuration.TimeSpan.ToString(format);
             }
+        }
+
+        public void LoadedMediaFaild()
+        {
+            MessageBox.Show("Error during loading");
         }
         #endregion
 
@@ -141,7 +159,8 @@ namespace MusicPlayerViewModel
 
         private void OpenCommand(IMedia media)
         {
-            if (media == null) return ;
+            if (media == null) 
+                return ;
             Stop.Execute(new Object[0]);
             PlayList.Clear();
             if (media == null) return;

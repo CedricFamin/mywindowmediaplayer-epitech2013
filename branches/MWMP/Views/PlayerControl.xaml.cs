@@ -27,24 +27,7 @@ namespace MWMP
             if (player != null)
             {
                 player.MediaElement = this.MediaPlayer;
-                DataContext = player;
             }
 		}
-
-        protected void DoubleCLickPlayerList(object sender, MouseButtonEventArgs e)
-        {
-            IMedia track = ((ListViewItem)sender).Content as IMedia;
-            if (track != null)
-            {
-                ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel").Source = track.Path;
-                ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel").Play.Execute(null);
-            }
-
-        }
-
-        private void MediaPlayer_MediaFailed(object sender, ExceptionRoutedEventArgs e)
-        {
-            MessageBox.Show(e.ErrorException.Message);
-        }
 	}
 }
