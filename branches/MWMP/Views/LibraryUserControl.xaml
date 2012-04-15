@@ -22,10 +22,10 @@
 		<ImageBrush ImageSource="pack://siteoforigin:,,,/Views/bg_library.jpg" Stretch="UniformToFill"/>
 	</UserControl.Background>
     <StackPanel Orientation="Horizontal">
-		<TreeView Background="{x:Null}" BorderThickness="0">
-			<TreeViewItem Header="Music" IsExpanded="True" Background="{x:Null}">
+		<TreeView Background="Black" BorderThickness="0" Opacity="0.7" Foreground="White">
+			<TreeViewItem Header="Music" IsExpanded="True" Background="{x:Null}" Foreground="White" Width="150.329">
 				<StackPanel Orientation="Horizontal">
-					<TextBlock><Run Text="Title :"/></TextBlock>
+					<TextBlock Foreground="White"><Run Text="Title :"/></TextBlock>
                     <TextBox DataContext="{Binding MusicLibrary, Source={StaticResource LibraryViewModel}}" Text="{Binding Title}" Margin="0,0,-0.001,0" Width="75" x:Name="TitleMusicFilter">
                     	<i:Interaction.Triggers>
                     		<i:EventTrigger EventName="TextChanged">
@@ -34,8 +34,8 @@
                     	</i:Interaction.Triggers>
                     </TextBox>
 				</StackPanel>
-				<Label Content="Artist"/>
-				<Label Content="Genre"/>
+				<Label Content="Artist" Foreground="White"/>
+				<Label Content="Genre" Foreground="White"/>
 			</TreeViewItem>
 		</TreeView>
 		<StackPanel>
