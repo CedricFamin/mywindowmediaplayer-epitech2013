@@ -27,7 +27,10 @@ namespace Medias
 
         public IImageMedia CreateImage(IInfoMedia infoMedia = null)
         {
-            throw new NotImplementedException();
+            IImageMedia media = new ImageMedia();
+            if (infoMedia != null)
+                infoMedia.SetInfo(media);
+            return media;
         }
 
         public IMedia CreateWithInternetMediaType(string IMType, IInfoMedia infoMedia = null)

@@ -3,6 +3,8 @@ using MWMP;
 using MWMP.Models;
 using MWMP.Models.DAL;
 using MWMP.ViewModels;
+using System.Windows.Input;
+using MWMP.Utils;
 
 namespace LibraryViewModel
 {
@@ -22,6 +24,14 @@ namespace LibraryViewModel
             VideoLibrary = ModuleManager.GetInstanceOf<ILibrary<IVideoMedia>>("VideoLibrary");
             ImageLibrary = ModuleManager.GetInstanceOf<ILibrary<IImageMedia>>("ImageLibrary");
             PlayListLibrary = ModuleManager.GetInstanceOf<ILibrary<IPlayList>>("PlayListLibrary");
+
+            CreatePlaylist = new RelayCommand((param) => CreatePlaylistBody(param as string));
+            OpenPlayListWindow = new RelayCommand((param) =>
+                {
+                    CreatePlayListWindows window = new CreatePlayListWindows();
+                    window.Show();
+                    window.Activate();
+                });
 
             IDAL dal = ModuleManager.GetInstanceOf<IDAL>("XMLDAL");
             if (dal != null)
@@ -67,6 +77,20 @@ namespace LibraryViewModel
             if (musicMedia != null) MusicLibrary.Add(musicMedia);
             else if (videoMedia != null) VideoLibrary.Add(videoMedia);
             else if (imageMedia != null) ImageLibrary.Add(imageMedia);
+        }
+
+        public ICommand CreatePlaylist { get; private set; }
+        public ICommand OpenPlayListWindow { get; private set; }
+
+        private void CreatePlaylistBody(string name)
+        {
+            if (name == null)
+                return;
+            IPlayList plist = ModuleManager.GetInstanceOf<IPlayList>("PlayList");
+            if (plist == null)
+                return;
+            plist.Title = name;
+            PlayListLibrary.Add(plist);
         }
         #endregion
     }

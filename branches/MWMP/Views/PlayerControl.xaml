@@ -9,7 +9,7 @@
 	xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
 	mc:Ignorable="d"
 	x:Class="MWMP.PlayerControl"
-	x:Name="UserControl">
+	x:Name="UserControl" d:DesignWidth="671" d:DesignHeight="339">
     <UserControl.Resources>
         <ObjectDataProvider MethodName="GetService" ObjectType="{x:Type local:ModuleManager}" x:Key="MusicPlayer">
             <ObjectDataProvider.MethodParameters>
@@ -18,13 +18,16 @@
         </ObjectDataProvider>
     </UserControl.Resources>
 	<Grid x:Name="LayoutRoot" DataContext="{StaticResource ResourceKey=MusicPlayer}">
+		<Grid.Background>
+			<ImageBrush ImageSource="background.jpg" Stretch="UniformToFill"/>
+		</Grid.Background>
 		<Grid.ColumnDefinitions>
-			<ColumnDefinition Width="*"/>
+			<ColumnDefinition/>
 			<ColumnDefinition Width="120"/>
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
-			<RowDefinition Height="*"/>
-			<RowDefinition Height="40"/>
+			<RowDefinition/>
+			<RowDefinition Height="64"/>
 		</Grid.RowDefinitions>
 		<MediaElement Grid.Row="0" Grid.Column="0" x:Name="MediaPlayer" Source="{Binding Source, Mode=OneWay}" LoadedBehavior="Manual" 
 			UnloadedBehavior="Manual"  Volume="{Binding Volume, Mode=OneWay}">
@@ -34,43 +37,77 @@
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</MediaElement>
-		<ListView x:Name="PlayList" Grid.Row="0" DataContext="{Binding PlayList}" Grid.Column="1" ItemsSource="{Binding Collection}" HorizontalAlignment="Left" SelectedIndex="{Binding CurrentMedia}">
-            <ListView.View>
-                <GridView AllowsColumnReorder="False">
-                    <GridView.ColumnHeaderContainerStyle>
-                        <Style>
-                            <Setter Property="UIElement.Visibility" Value="Collapsed"/>
-                        </Style>
-                    </GridView.ColumnHeaderContainerStyle>
-                    <GridViewColumn DisplayMemberBinding="{Binding Title}"/>
-                </GridView>
-            </ListView.View>
-            <i:Interaction.Triggers>
-                <i:EventTrigger EventName="MouseDoubleClick">
-                    <i:InvokeCommandAction  Command="{Binding Source={StaticResource ResourceKey=MusicPlayer}, Path=Open}" CommandParameter="{Binding ElementName=PlayList, Path=SelectedItem}"/>
-                </i:EventTrigger>
-            </i:Interaction.Triggers>
-        </ListView>
-		<StackPanel  Grid.Row="1" VerticalAlignment="Bottom">
+		<StackPanel Grid.Column="1" Orientation="Vertical" d:LayoutOverrides="Height" Background="Black" Opacity="0.7">
+			<TextBlock TextWrapping="Wrap" Text="Current Playlist" FontFamily="Showcard Gothic" HorizontalAlignment="Center" Foreground="White"/>
+			<ListView x:Name="PlayList" DataContext="{Binding PlayList}" ItemsSource="{Binding Collection}" SelectedIndex="{Binding CurrentMedia}" Background="{x:Null}" Opacity="0.7" BorderBrush="{x:Null}">
+				<ListView.View>
+					<GridView AllowsColumnReorder="False">
+						<GridView.ColumnHeaderContainerStyle>
+							<Style>
+								<Setter Property="UIElement.Visibility" Value="Collapsed"/>
+							</Style>
+						</GridView.ColumnHeaderContainerStyle>
+						<GridViewColumn DisplayMemberBinding="{Binding Title}"/>
+					</GridView>
+				</ListView.View>
+				<i:Interaction.Triggers>
+					<i:EventTrigger EventName="MouseDoubleClick">
+						<i:InvokeCommandAction  Command="{Binding Open, Source={StaticResource ResourceKey=MusicPlayer}}" CommandParameter="{Binding SelectedItem, ElementName=PlayList}"/>
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
+			</ListView>
+		</StackPanel>
+		<StackPanel Grid.Column="0"  Grid.ColumnSpan="2" Grid.Row="1" Background="Black" Opacity="0.7" >
 			<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-				<Slider Margin="10,0" Width="500" Maximum="{Binding DurationOnCurrentPlay, Mode=OneWay}" Value="{Binding PosOnCurrentPlay, Mode=OneWay}" x:Name="TimeSlider" IsMoveToPointEnabled="True">
+				<Slider Margin="10,0" Maximum="{Binding DurationOnCurrentPlay, Mode=OneWay}" Value="{Binding PosOnCurrentPlay, Mode=OneWay}" x:Name="TimeSlider" IsMoveToPointEnabled="True" Width="501" BorderThickness="0,8,0,0" Background="{x:Null}">
 					<i:Interaction.Triggers>
 						<i:EventTrigger EventName="ValueChanged">
-							<i:InvokeCommandAction Command="{Binding SeekToMediaPosition}" CommandParameter="{Binding ElementName=TimeSlider, Path=Value}"/>
+							<i:InvokeCommandAction Command="{Binding SeekToMediaPosition}" CommandParameter="{Binding Value, ElementName=TimeSlider}"/>
 						</i:EventTrigger>
 					</i:Interaction.Triggers>
 				</Slider>
 				<TextBlock Text="{Binding Time, Mode=OneWay}"/>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
-				<Button x:Name="PreviousButton" Content="¨Previous" Command="{Binding Previous}" />
-				<Button x:Name="PlayButton" Content="Play" Command="{Binding Play}" />
-				<Button x:Name="StopButton" Content="Pause" Command="{Binding Pause}" />
-				<Button x:Name="NextButton" Content="Next" Command="{Binding Next}" />
-				<Slider x:Name="VolumeSlider" Width="50" Value="{Binding Volume, Mode=OneTime}" Maximum="100" Minimum="0">
+				<Image Height="32" Width="32" Source="player_start.png">
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="MouseLeftButtonDown">
+							<i:InvokeCommandAction Command="{Binding Previous}"/>
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</Image>
+				<Image Height="32" Width="32" Source="player_stop.png">
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="MouseLeftButtonDown">
+							<i:InvokeCommandAction Command="{Binding Pause}"/>
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</Image>
+				<Image Height="32" Width="32" Source="player_pause.png">
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="MouseLeftButtonDown">
+							<i:InvokeCommandAction Command="{Binding Pause}"/>
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</Image>
+				<Image Height="32" Width="32" Source="player_play.png">
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="MouseLeftButtonDown">
+							<i:InvokeCommandAction Command="{Binding Play}"/>
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</Image>
+				<Image Height="32" Width="32" Source="player_end.png">
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="MouseLeftButtonDown">
+							<i:InvokeCommandAction Command="{Binding Next}"/>
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</Image>
+				<Slider x:Name="VolumeSlider" Width="50" Value="{Binding Volume, Mode=OneTime}" Maximum="100" Minimum="0" Margin="0,5,0,0">
 					<i:Interaction.Triggers>
 						<i:EventTrigger EventName="ValueChanged">
-                            <i:InvokeCommandAction Command="{Binding ChangeVolume}" CommandParameter="{Binding Value, ElementName=VolumeSlider}"/>
+							<i:InvokeCommandAction Command="{Binding ChangeVolume}" CommandParameter="{Binding Value, ElementName=VolumeSlider}"/>
 						</i:EventTrigger>
 					</i:Interaction.Triggers>
 				</Slider>

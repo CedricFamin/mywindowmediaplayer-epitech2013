@@ -75,12 +75,19 @@
     <Compile Include="ViewModels\IMenuBar.cs" />
     <Compile Include="ViewModels\IMediaPlayer.cs" />
     <Compile Include="ViewModels\IMusicLibrary.cs" />
+    <Compile Include="Views\CreatePlayListWindows.xaml.cs">
+      <DependentUpon>CreatePlayListWindows.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\LibraryUserControl.xaml.cs">
       <DependentUpon>LibraryUserControl.xaml</DependentUpon>
     </Compile>
     <Compile Include="Views\PlayerControl.xaml.cs">
       <DependentUpon>PlayerControl.xaml</DependentUpon>
     </Compile>
+    <Page Include="Views\CreatePlayListWindows.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
+    </Page>
     <Page Include="Views\LibraryUserControl.xaml">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -137,8 +144,18 @@
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Views\background.jpg" />
+    <Resource Include="Views\bg_createPlayList.jpg" />
+    <Resource Include="Views\player_end.png" />
+    <Resource Include="Views\player_pause.png" />
+    <Resource Include="Views\player_play.png" />
+    <Resource Include="Views\player_start.png" />
+    <Resource Include="Views\player_stop.png" />
+  </ItemGroup>
+  <ItemGroup>
+    <Folder Include="Fonts\" />
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
+  <Import Project="$(MSBuildExtensionsPath)\Microsoft\Expression\Blend\.NETFramework\v4.0\Microsoft.Expression.Blend.WPF.targets" />
   <!-- To modify your build process, add your task inside one of the targets below and uncomment it. 
        Other similar extension points exist, see Microsoft.Common.targets.
   <Target Name="BeforeBuild">

@@ -16,25 +16,23 @@
         </ObjectDataProvider>
     </Window.Resources>
     <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-        <Grid>
-    		<DockPanel DataContext="{Binding Source={StaticResource MenuBarViewModel}}">
-    			<Menu>
-    				<MenuItem Header="Fichier">
-    					<MenuItem Header="Ouvrir" x:Name="DockPanelOpen" Command="{Binding Open}"/>
-    					<MenuItem Header="Fermer" Command="{Binding Close}"/>
+        <Grid Background="Black">
+    		<DockPanel DataContext="{Binding Source={StaticResource MenuBarViewModel}}" Background="#FF0E0D0D">
+    			<Menu Foreground="White" Background="{x:Null}">
+    				<MenuItem Header="Fichier" FontFamily="Snap ITC" Background="{x:Null}">
+    					<MenuItem Header="Ouvrir" x:Name="DockPanelOpen" Command="{Binding Open}" Background="{x:Null}"/>
+    					<MenuItem Header="Fermer" Command="{Binding Close}" Background="{x:Null}"/>
     				</MenuItem>
-    				<MenuItem Header="Aide"/>
+    				<MenuItem Header="Aide" FontFamily="Snap ITC"/>
     			</Menu>
     		</DockPanel>
-    		<TabControl Margin="0,20.96,0,0">
-    			<TabItem Header="Player">
+    		<TabControl Margin="0,20.96,0,0" Background="#FF0A0A0A">
+    			<TabItem Header="Player" FontFamily="Snap ITC" Background="#FF9B9B9B" Foreground="Black">
     				<local:PlayerControl >
-    					<local:PlayerControl.Background>
-    						<ImageBrush ImageSource="background.jpg" Stretch="UniformToFill"/>
-    					</local:PlayerControl.Background>
+    					
     				</local:PlayerControl>
     			</TabItem>
-    			<TabItem Header="Library">
+    			<TabItem Header="Library" FontFamily="Snap ITC" Foreground="Black" Background="#FF858585">
     				<local:LibraryUserControl />
     			</TabItem>
     		</TabControl>

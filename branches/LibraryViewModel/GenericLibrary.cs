@@ -19,10 +19,10 @@ namespace LibraryViewModel
 
         #region Properties
         public ObservableCollection<T> MediaList { get; private set; }
-        public T SelectedItem { get; set; }
-        public ICommand PlayContextMenu { get; private set; }
-        public ICommand AddToPlayList { get; private set; }
-        public ICommand DeleteContextMenu { get; private set; }
+        public virtual T SelectedItem { get; set; }
+        public virtual ICommand PlayContextMenu { get; protected set; }
+        public virtual ICommand AddToPlayList { get; protected set; }
+        public virtual ICommand DeleteContextMenu { get; protected set; }
         #endregion
 
         #region Ctor
@@ -44,8 +44,7 @@ namespace LibraryViewModel
             });
             DeleteContextMenu = new RelayCommand((param) =>
             {
-                IMediaPlayer mp = ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel");
-                if (mp != null && SelectedItem != null)
+                if (SelectedItem != null)
                     MediaList.Remove(SelectedItem);
             });
         }

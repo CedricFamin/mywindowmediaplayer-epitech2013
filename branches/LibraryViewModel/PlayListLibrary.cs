@@ -12,9 +12,9 @@ namespace LibraryViewModel
 {
     class PlayListLibrary : GenericLibrary<IPlayList>
     {
-        public new IPlayList SelectedItem { get; set; }
-        public new ICommand PlayContextMenu { get; private set; }
-        public new ICommand AddToPlayList { get; private set; }
+        public override IPlayList SelectedItem { get; set; }
+        public override ICommand PlayContextMenu { get; protected set; }
+        public override ICommand AddToPlayList { get; protected set; }
 
         public PlayListLibrary() : base()
         {

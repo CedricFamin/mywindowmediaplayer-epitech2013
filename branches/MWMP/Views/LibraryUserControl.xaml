@@ -9,7 +9,7 @@
 	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
 	mc:Ignorable="d"
 	x:Class="MWMP.LibraryUserControl"
-	x:Name="UserControl">
+	x:Name="UserControl" d:DesignHeight="294" d:DesignWidth="662">
     <UserControl.Resources>
         <converter:MilisecondsToStringConverter x:Key="msToStringConverter"/>
         <ObjectDataProvider MethodName="GetService" ObjectType="{x:Type local:ModuleManager}" x:Key="LibraryViewModel">
@@ -19,36 +19,54 @@
         </ObjectDataProvider>
     </UserControl.Resources>
 	<UserControl.Background>
-		<ImageBrush ImageSource="pack://siteoforigin:,,,/Views/bg_library.jpg" Stretch="UniformToFill"/>
+		<ImageBrush ImageSource="background.jpg" Stretch="UniformToFill"/>
 	</UserControl.Background>
-    <StackPanel Orientation="Horizontal">
-		<TreeView Background="{x:Null}" BorderThickness="0">
-			<TreeViewItem Header="Music" IsExpanded="True" Background="{x:Null}">
+    <Grid DataContext="{Binding Source={StaticResource LibraryViewModel}}">
+    	<Grid.ColumnDefinitions>
+    		<ColumnDefinition Width="166.162"/>
+    		<ColumnDefinition Width="Auto" MinWidth="495.838"/>
+    	</Grid.ColumnDefinitions>
+		<TreeView Background="Black" BorderThickness="0" Opacity="0.7" Foreground="White" RenderTransformOrigin="0.5,0.5">
+			<TreeView.RenderTransform>
+				<TransformGroup>
+					<ScaleTransform/>
+					<SkewTransform AngleY="-0.366"/>
+					<RotateTransform/>
+					<TranslateTransform Y="-0.494"/>
+				</TransformGroup>
+			</TreeView.RenderTransform>
+			<TreeViewItem x:Name="treeViewItem" Header="Music" Background="{x:Null}" Foreground="White">
 				<StackPanel Orientation="Horizontal">
-					<TextBlock><Run Text="Title :"/></TextBlock>
-                    <TextBox DataContext="{Binding MusicLibrary, Source={StaticResource LibraryViewModel}}" Text="{Binding Title}" Margin="0,0,-0.001,0" Width="75" x:Name="TitleMusicFilter">
-                    	<i:Interaction.Triggers>
-                    		<i:EventTrigger EventName="TextChanged">
-                                <i:InvokeCommandAction Command="{Binding SetTitleFilter}" CommandParameter="{Binding ElementName=TitleMusicFilter, Path=Text}"/>
-                    		</i:EventTrigger>
-                    	</i:Interaction.Triggers>
-                    </TextBox>
+					<TextBlock Foreground="White"><Run Text="Title :"/></TextBlock>
+					<TextBox DataContext="{Binding MusicLibrary, Source={StaticResource LibraryViewModel}}" Text="{Binding Title}" Margin="0,0,-0.001,0" Width="75" x:Name="TitleMusicFilter">
+						<i:Interaction.Triggers>
+							<i:EventTrigger EventName="TextChanged">
+								<i:InvokeCommandAction Command="{Binding SetTitleFilter}" CommandParameter="{Binding Text, ElementName=TitleMusicFilter}"/>
+							</i:EventTrigger>
+						</i:Interaction.Triggers>
+					</TextBox>
 				</StackPanel>
-				<Label Content="Artist"/>
-				<Label Content="Genre"/>
+				<Label Content="Artist" Foreground="White"/>
+				<Label Content="Genre" Foreground="White"/>
+			</TreeViewItem>
+			<TreeViewItem Header="Image" IsExpanded="True" Foreground="White"/>
+			<TreeViewItem Header="Video" IsExpanded="True" Foreground="White"/>
+            <TreeViewItem Header="PlayList" Foreground="White">
+				<TreeViewItem.ContextMenu>
+					<ContextMenu HorizontalAlignment="Center" Background="Black" Foreground="White">
+                        <MenuItem Command="{Binding Path=OpenPlayListWindow, Mode=OneWay}" Background="{x:Null}" Foreground="White" Header="Create Playlist"></MenuItem>
+					</ContextMenu>
+				</TreeViewItem.ContextMenu>
 			</TreeViewItem>
 		</TreeView>
-		<StackPanel>
-			<ListView ItemsSource="{Binding FilteredMediaList}"
-				SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" ButtonBase.Click="ListView_Sort" x:Name="MusicList" Background="{x:Null}" Foreground="Black">
+		<StackPanel Margin="0" Grid.Column="1" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.ColumnSpan="1" Orientation="Vertical" Visibility="Visible">
+			<ListView ItemsSource="{Binding FilteredMediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" x:Name="MusicList" 
+                      DataContext="{Binding MusicLibrary, Source={StaticResource LibraryViewModel}}">
 				<i:Interaction.Triggers>
 					<i:EventTrigger EventName="MouseDoubleClick">
-                        <i:InvokeCommandAction Command="{Binding PlayContextMenu}" />
+						<i:InvokeCommandAction Command="{Binding PlayContextMenu}" />
 					</i:EventTrigger>
 				</i:Interaction.Triggers>
-				<ListView.DataContext>
-					<Binding Path="MusicLibrary" Source="{StaticResource LibraryViewModel}"/>
-				</ListView.DataContext>
 				<ListView.View>
 					<GridView>
 						<GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
@@ -67,15 +85,13 @@
 					</ContextMenu>
 				</ListView.ContextMenu>
 			</ListView>
-			<ListView ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" Background="{x:Null}" Foreground="Black">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDoubleClick">
-                        <i:InvokeCommandAction Command="{Binding PlayContextMenu}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <ListView.DataContext>
-					<Binding Path="VideoLibrary" Source="{StaticResource LibraryViewModel}"/>
-				</ListView.DataContext>
+			<ListView x:Name="VideoList" ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" 
+                      DataContext="{Binding VideoLibrary, Source={StaticResource LibraryViewModel}}">
+				<i:Interaction.Triggers>
+					<i:EventTrigger EventName="MouseDoubleClick">
+						<i:InvokeCommandAction Command="{Binding PlayContextMenu}" />
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
 				<ListView.View>
 					<GridView>
 						<GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
@@ -90,19 +106,36 @@
 					</ContextMenu>
 				</ListView.ContextMenu>
 			</ListView>
-			<ListView ItemsSource="{Binding MediaList}" 
-				SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" ButtonBase.Click="ListView_Sort" x:Name="PlayListList" Background="{x:Null}" Foreground="Black">
-                <ListView.DataContext>
-                    <Binding Path="PlayListLibrary" Source="{StaticResource LibraryViewModel}"/>
-                </ListView.DataContext>
+            <ListView ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" x:Name="ImageList" 
+                      DataContext="{Binding ImageLibrary, Source={StaticResource LibraryViewModel}}">
                 <i:Interaction.Triggers>
                     <i:EventTrigger EventName="MouseDoubleClick">
                         <i:InvokeCommandAction Command="{Binding PlayContextMenu}" />
                     </i:EventTrigger>
                 </i:Interaction.Triggers>
+                <ListView.View>
+                    <GridView>
+                        <GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
+                    </GridView>
+                </ListView.View>
+                <ListView.ContextMenu>
+                    <ContextMenu>
+                        <MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
+                        <MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
+                        <MenuItem Header="Delete" Command="{Binding DeleteContextMenu}"/>
+                    </ContextMenu>
+                </ListView.ContextMenu>
+            </ListView>
+            <ListView ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" x:Name="PlayListList" 
+                      DataContext="{Binding PlayListLibrary, Source={StaticResource LibraryViewModel}}">
+				<i:Interaction.Triggers>
+					<i:EventTrigger EventName="MouseDoubleClick">
+						<i:InvokeCommandAction Command="{Binding PlayContextMenu}" />
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
 				<ListView.View>
 					<GridView>
-						<GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
+						<GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" />
 					</GridView>
 				</ListView.View>
 				<ListView.ContextMenu>
@@ -114,5 +147,5 @@
 				</ListView.ContextMenu>
 			</ListView>
 		</StackPanel>
-	</StackPanel>
+	</Grid>
 </UserControl>

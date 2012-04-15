@@ -79,7 +79,9 @@ namespace Medias
 
         public void SetInfo(IImageMedia media)
         {
-            throw new NotImplementedException();
+            int value;
+
+            SetInfo((IMedia)media);
         }
         #endregion
     }

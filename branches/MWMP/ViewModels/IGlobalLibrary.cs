@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using MWMP.Models;
 using System.ComponentModel;
+using System.Windows.Input;
 
 namespace MWMP.ViewModels
 {
@@ -13,6 +14,9 @@ namespace MWMP.ViewModels
         ILibrary<IVideoMedia> VideoLibrary { get; }
         ILibrary<IImageMedia> ImageLibrary { get; }
         ILibrary<IPlayList> PlayListLibrary { get; }
+
+        ICommand CreatePlaylist { get; }
+        ICommand OpenPlayListWindow { get; }
 
         void AddMedia(IMedia media);
     }

@@ -1,0 +1,26 @@
+﻿<Window
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" mc:Ignorable="d"
+    xmlns:System="clr-namespace:System;assembly=mscorlib"
+    xmlns:local="clr-namespace:MWMP"
+	x:Class="MWMP.CreatePlayListWindows"
+	x:Name="Window"
+	Title="Create Playlist" Height="115" Width="384">
+    <Window.Resources>
+        <ObjectDataProvider MethodName="GetService" ObjectType="{x:Type local:ModuleManager}" x:Key="LibraryViewModel">
+            <ObjectDataProvider.MethodParameters>
+                <System:String>GlobalLibrary</System:String>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+    </Window.Resources>
+
+	<Grid x:Name="LayoutRoot" DataContext="{Binding Source={StaticResource LibraryViewModel}}">
+		<Grid.Background>
+			<ImageBrush ImageSource="bg_createPlayList.jpg" Stretch="UniformToFill"/>
+		</Grid.Background>
+		<TextBlock Margin="3,33,0,0" TextWrapping="Wrap" Foreground="White" FontFamily="Snap ITC" HorizontalAlignment="Left" VerticalAlignment="Top" d:LayoutOverrides="HorizontalAlignment"><Run Language="fr-fr" Text="Enter the PlayList name:"/></TextBlock>
+		<TextBox x:Name="PlayListName" TextWrapping="Wrap" Text="Playlist" Margin="179.5,30.5,0,0" VerticalAlignment="Top" HorizontalAlignment="Left" Width="137"/>
+        <Button x:Name="button" Content="Create" Margin="0,30,3.5,25.04" HorizontalAlignment="Right" Width="43.5" d:LayoutOverrides="Height" Command="{Binding CreatePlaylist}" CommandParameter="{Binding Text, ElementName=PlayListName}" />
+	</Grid>
+</Window>
