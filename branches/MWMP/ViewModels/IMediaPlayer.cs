@@ -20,7 +20,7 @@ namespace MWMP.ViewModels
         bool CanCommandExecute { set; get; }
 		double DurationOnCurrentPlay  {get; }
         double PosOnCurrentPlay { get; set; }
-        int CurrentMedia { get; set; }
+        IMedia CurrentMedia { get; set; }
         Duration NaturalDuration { get; set; }
         TimeSpan Position { get; set; }
 
@@ -29,6 +29,7 @@ namespace MWMP.ViewModels
         ICommand SeekToMediaPosition { get; }
         ICommand Stop { get; }
         ICommand Next { get; }
+        ICommand Previous { get; }
         ICommand Pause { get; }
         ICommand Play { get; }
         ICommand Open { get; }

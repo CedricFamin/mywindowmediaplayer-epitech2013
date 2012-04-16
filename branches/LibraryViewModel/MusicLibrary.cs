@@ -16,30 +16,70 @@ namespace LibraryViewModel
 {
     class MusicLibrary : GenericLibrary<IMusicMedia>, IMusicLibrary
     {
-        public ICommand SetTitleFilter { get; private set; }
+        #region Fields
+        private string _title;
+        private string _performer;
+        private string _genre;
+        #endregion
 
+        #region Properties
+        public ICommand SetTitleFilter { get; private set; }
+        public ICommand SetGenreFilter { get; private set; }
+        public ICommand SetPerformerFilter { get; private set; }
+        public ICollectionView FilteredMediaList { get; private set; }
+        public string Title
+        {
+            get { return _title; }
+            set
+            {
+                _title = value;
+                FilteredMediaList.Refresh();
+            }
+        }
+        public string Performer
+        {
+            get { return _performer; }
+            set 
+            { 
+                _performer = value;
+                FilteredMediaList.Refresh();
+            }
+        }
+        public string Genre
+        {
+            get { return _genre; }
+            set 
+            { 
+                _genre = value;
+                FilteredMediaList.Refresh();
+            }
+        }
+        #endregion
+
+        #region CTor
         public MusicLibrary()
         {
             SetTitleFilter = new RelayCommand((param) => Title = param as string);
+            SetGenreFilter = new RelayCommand((param) => Genre = param as string);
+            SetPerformerFilter = new RelayCommand((param) => Performer = param as string);
             FilteredMediaList = CollectionViewSource.GetDefaultView(MediaList);
-            Title = "";
-            Performer = "";
-            Genre = "";
             FilteredMediaList.Filter = new Predicate<object>((item) =>
                 {
                     IMusicMedia media = item as IMusicMedia;
                     if (media == null)
                         return false;
-                    if (media.Title.Contains(Title) == false)
+                    if (Title != null && media.Title.Contains(Title) == false)
                         return false;
-                    if (media.Genre.Contains(Genre) == false)
+                    if (Genre != null && media.Genre.Contains(Genre) == false)
                         return false;
-                    if (media.Performers.Contains(Performer) == false)
+                    if (Performer != null && media.Performers.Contains(Performer) == false)
                         return false;
                     return true;
                 });
         }
+        #endregion
 
+        #region Methods
         protected override bool CanAdd(IMusicMedia media)
         {
             foreach (IMusicMedia currentMedia in MediaList)
@@ -49,32 +89,6 @@ namespace LibraryViewModel
             }
             return true;
         }
-
-        public ICollectionView FilteredMediaList { get; private set; }
-
-        private string _title;
-        public string Title
-        {
-            get { return _title; }
-            set
-            { 
-                _title = value;
-                FilteredMediaList.Refresh();
-            }
-        }
-
-        private string _performer;
-        public string Performer
-        {
-            get { return _performer; }
-            set { _performer = value; }
-        }
-
-        private string _genre;
-        public string Genre
-        {
-            get { return _genre; }
-            set { _genre = value; }
-        }
+        #endregion
     }
 }

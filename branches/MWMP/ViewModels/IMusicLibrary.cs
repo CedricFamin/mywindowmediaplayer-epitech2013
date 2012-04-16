@@ -12,6 +12,8 @@ namespace MWMP.ViewModels
     {
         ICollectionView FilteredMediaList { get; }
         ICommand SetTitleFilter { get; }
+        ICommand SetPerformerFilter { get; }
+        ICommand SetGenreFilter { get; }
 
         string Performer { get; set; }
         string Genre { get; set; }

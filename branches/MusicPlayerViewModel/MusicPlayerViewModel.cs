@@ -60,55 +60,18 @@ namespace MusicPlayerViewModel
                 this.MediaElement.Position = new TimeSpan(0, 0, (int)value);
             }
         }
-        public int CurrentMedia { get; set; }
-        #endregion
-
-        #region Command
-        public ICommand SeekToMediaPosition { get; protected set; }
-        public ICommand Stop { get; protected set; }
-        public ICommand Next { get; protected set; }
-        public ICommand Pause { get; protected set; }
-        public ICommand Play { get; protected set; }
-        public ICommand Open { get; protected set; }
-        public ICommand AddMediaToPlayList { get; protected set; }
-        #endregion
-
-        #region Ctor
-        public MusicPlayerViewModel()
+        public IMedia CurrentMedia { get; set; }
+        public string Source
         {
-            PlayList = ModuleManager.GetInstanceOf<IPlayList>("PlayList");
-            if (PlayList != null) PlayList.Title = "Current PlayList";
-            this._volume = 50;
-            Play = new RelayCommand((param) => MediaElement.Play());
-            Stop = new RelayCommand((param) => MediaElement.Stop());
-            Pause = new RelayCommand((param) => MediaElement.Pause());
-            ChangeVolume = new RelayCommand((param) => Volume = ((param as double?) ?? 0.0) / 100.0);
-            SeekToMediaPosition = new RelayCommand((param) =>
-            {
-                
-
-            });
-            //Next = new RelayCommand((param) => this.player.Next());
-            AddMediaToPlayList = new RelayCommand((param) => this.AddMediaToPlayListCommand(param as IMedia));
-            Open = new RelayCommand((param) => this.OpenCommand(param as IMedia));
-            clockTimer.Tick += clockTimer_Tick;
-            clockTimer.Start();
-        }
-        #endregion
-
-        #region Methods
-        public string Source 
-        { 
             set
             {
                 this._source = value;
                 RaisePropertyChange("Source");
                 RaisePropertyChange("Time");
-                
-            }
-            get {return this._source; }
-        }
 
+            }
+            get { return this._source; }
+        }
         public double Volume
         {
             set
@@ -118,7 +81,6 @@ namespace MusicPlayerViewModel
             }
             get { return this._volume; }
         }
-
         public string Time
         {
             get
@@ -135,7 +97,44 @@ namespace MusicPlayerViewModel
                        MediaElement.NaturalDuration.TimeSpan.ToString(format);
             }
         }
+        #endregion
 
+        #region Command
+        public ICommand SeekToMediaPosition { get; protected set; }
+        public ICommand Stop { get; protected set; }
+        public ICommand Next { get; protected set; }
+        public ICommand Previous { get; protected set; }
+        public ICommand Pause { get; protected set; }
+        public ICommand Play { get; protected set; }
+        public ICommand Open { get; protected set; }
+        public ICommand AddMediaToPlayList { get; protected set; }
+        #endregion
+
+        #region Ctor
+        public MusicPlayerViewModel()
+        {
+            PlayList = ModuleManager.GetInstanceOf<IPlayList>("PlayList");
+            if (PlayList != null) PlayList.Title = "Current PlayList";
+            this._volume = 100;
+            Play = new RelayCommand((param) => MediaElement.Play());
+            Stop = new RelayCommand((param) => MediaElement.Stop());
+            Pause = new RelayCommand((param) => MediaElement.Pause());
+            ChangeVolume = new RelayCommand((param) => Volume = ((param as double?) ?? 0.0) / 100.0);
+            SeekToMediaPosition = new RelayCommand((param) =>
+            {
+                ;
+
+            });
+            Next = new RelayCommand((param) => NextBody());
+            Previous = new RelayCommand((param) => PreviousBody());
+            AddMediaToPlayList = new RelayCommand((param) => this.AddMediaToPlayListCommand(param as IMedia));
+            Open = new RelayCommand((param) => this.OpenCommand(param as IMedia));
+            clockTimer.Tick += clockTimer_Tick;
+            clockTimer.Start();
+        }
+        #endregion
+
+        #region Methods
         public void LoadedMediaFaild()
         {
             MessageBox.Show("Error during loading");
@@ -164,10 +163,34 @@ namespace MusicPlayerViewModel
             Stop.Execute(new Object[0]);
             PlayList.Clear();
             if (media == null) return;
+            CurrentMedia = media;
+            RaisePropertyChange("CurrentMedia");
             Source = media.Path;
             AddMediaToPlayList.Execute(media);
-            RaisePropertyChange("Time");
             Play.Execute(new object[0]);
+        }
+
+        private void NextBody()
+        {
+            if (PlayList.Collection.Contains(CurrentMedia) == false)
+                return;
+            int indexOfCurrent = PlayList.Collection.IndexOf(CurrentMedia) + 1;
+            if (PlayList.Collection.Count <= indexOfCurrent)
+                indexOfCurrent = 0;
+            CurrentMedia = PlayList.Collection[indexOfCurrent];
+            RaisePropertyChange("CurrentMedia");
+            Source = CurrentMedia.Path;
+        }
+        private void PreviousBody()
+        {
+            if (PlayList.Collection.Contains(CurrentMedia) == false)
+                return;
+            int indexOfCurrent = PlayList.Collection.IndexOf(CurrentMedia) - 1;
+            if (indexOfCurrent < 0)
+                indexOfCurrent = PlayList.Collection.Count - 1;
+            CurrentMedia = PlayList.Collection[indexOfCurrent];
+            RaisePropertyChange("CurrentMedia");
+            Source = CurrentMedia.Path;
         }
         #endregion
     }

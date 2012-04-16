@@ -16,45 +16,25 @@ namespace LibraryViewModel
         public ILibrary<IImageMedia> ImageLibrary { get; private set; }
         public ILibrary<IPlayList> PlayListLibrary { get; private set; }
 
-        public string MusicLibActive { get; set; }
-        public string VideoLibActive { get; set; }
-        public string ImageLibActive { get; set; }
-        public string PlayListLibActive { get; set; }
-
         public ICommand Display { get; private set; }
+        public ICommand CreatePlaylist { get; private set; }
+        public ICommand OpenPlayListWindow { get; private set; }
         #endregion
 
         #region CTor
         public GlobalLibrary()
         {
-            MusicLibActive = "Visible";
-            VideoLibActive = "Hidden";
-            ImageLibActive = "Hidden";
-            PlayListLibActive = "Hidden";
             MusicLibrary = ModuleManager.GetInstanceOf<IMusicLibrary>("MusicLibrary");
             VideoLibrary = ModuleManager.GetInstanceOf<ILibrary<IVideoMedia>>("VideoLibrary");
             ImageLibrary = ModuleManager.GetInstanceOf<ILibrary<IImageMedia>>("ImageLibrary");
             PlayListLibrary = ModuleManager.GetInstanceOf<ILibrary<IPlayList>>("PlayListLibrary");
-
             CreatePlaylist = new RelayCommand((param) => CreatePlaylistBody(param as string));
-
-            Display = new RelayCommand((param) => 
-                {
-                    string lib = param as string;
-                    if (lib == null)
-                        return;
-                    MusicLibrary.Visibility = (lib == "MusicLib") ? "Visible":"Hidden";
-                    VideoLibrary.Visibility = (lib == "VideoLib") ? "Visible" : "Hidden";
-                    ImageLibrary.Visibility = (lib == "ImageLib") ? "Visible" : "Hidden";
-                    PlayListLibrary.Visibility = (lib == "PlayListLib") ? "Visible" : "Hidden";
-                });
-
+            Display = new RelayCommand((param) => DisplayBody(param as string));
             OpenPlayListWindow = new RelayCommand((param) =>
                 {
                     CreatePlayListWindows window = new CreatePlayListWindows();
                     window.ShowDialog();
                 });
-
             IDAL dal = ModuleManager.GetInstanceOf<IDAL>("XMLDAL");
             if (dal != null)
             {
@@ -100,10 +80,18 @@ namespace LibraryViewModel
             else if (videoMedia != null) VideoLibrary.Add(videoMedia);
             else if (imageMedia != null) ImageLibrary.Add(imageMedia);
         }
+        #endregion
 
-        public ICommand CreatePlaylist { get; private set; }
-        public ICommand OpenPlayListWindow { get; private set; }
-
+        #region Private methods
+        void DisplayBody(string lib)
+        {
+            if (lib == null)
+                return;
+            MusicLibrary.Visibility = (lib == "MusicLib") ? "Visible" : "Hidden";
+            VideoLibrary.Visibility = (lib == "VideoLib") ? "Visible" : "Hidden";
+            ImageLibrary.Visibility = (lib == "ImageLib") ? "Visible" : "Hidden";
+            PlayListLibrary.Visibility = (lib == "PlayListLib") ? "Visible" : "Hidden";
+        }
         private void CreatePlaylistBody(string name)
         {
             if (name == null)

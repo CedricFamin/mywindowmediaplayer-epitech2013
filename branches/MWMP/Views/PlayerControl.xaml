@@ -17,13 +17,13 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </UserControl.Resources>
-	<Grid x:Name="LayoutRoot" DataContext="{StaticResource ResourceKey=MusicPlayer}">
+	<Grid x:Name="LayoutRoot" DataContext="{StaticResource ResourceKey=MusicPlayer}" MinWidth="650">
 		<Grid.Background>
 			<ImageBrush ImageSource="background.jpg" Stretch="UniformToFill"/>
 		</Grid.Background>
 		<Grid.ColumnDefinitions>
 			<ColumnDefinition/>
-			<ColumnDefinition Width="120"/>
+			<ColumnDefinition Width="160"/>
 		</Grid.ColumnDefinitions>
 		<Grid.RowDefinitions>
 			<RowDefinition/>
@@ -35,11 +35,14 @@
 				<i:EventTrigger EventName="MediaFailed">
                     <ei:CallMethodAction MethodName="LoadedMediaFaild" TargetObject="{Binding Source={StaticResource MusicPlayer}}" />
 				</i:EventTrigger>
+				<i:EventTrigger EventName="MediaEnded">
+					<i:InvokeCommandAction Command="{Binding Next}"/>
+				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</MediaElement>
-		<StackPanel Grid.Column="1" Orientation="Vertical" d:LayoutOverrides="Height" Background="Black" Opacity="0.7">
+		<StackPanel Grid.Column="1" Orientation="Vertical" d:LayoutOverrides="Height" Background="Black" Opacity="0.7" ScrollViewer.HorizontalScrollBarVisibility="Auto">
 			<TextBlock TextWrapping="Wrap" Text="Current Playlist" HorizontalAlignment="Center" Foreground="White"/>
-			<ListView x:Name="PlayList" DataContext="{Binding PlayList}" ItemsSource="{Binding Collection}" SelectedIndex="{Binding CurrentMedia}" Background="{x:Null}" Opacity="0.7" BorderBrush="{x:Null}">
+            <ListView x:Name="PlayList" ItemsSource="{Binding PlayList.Collection}" Background="{x:Null}" Opacity="0.7" BorderBrush="{x:Null}" SelectedItem="{Binding CurrentMedia, Mode=OneWay}" IsSynchronizedWithCurrentItem="False" Focusable="False" IsHitTestVisible="False">
 				<ListView.View>
 					<GridView AllowsColumnReorder="False">
 						<GridView.ColumnHeaderContainerStyle>

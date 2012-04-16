@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MWMP"
         x:Class="MWMP.MainWindow"
 		mc:Ignorable="d"
-		Title="MainWindow" MinWidth="500" MinHeight="300" HorizontalAlignment="Left" VerticalAlignment="Top">
+		Title="MainWindow" MinWidth="700" MinHeight="300" HorizontalAlignment="Left" VerticalAlignment="Top" ScrollViewer.HorizontalScrollBarVisibility="Visible">
     
     <Window.Resources>
         <ObjectDataProvider MethodName="GetService" ObjectType="{x:Type local:ModuleManager}" x:Key="MenuBarViewModel">
@@ -15,27 +15,23 @@
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
     </Window.Resources>
-    <ScrollViewer HorizontalScrollBarVisibility="Auto" VerticalScrollBarVisibility="Auto">
-        <Grid Background="Black">
-    		<DockPanel DataContext="{Binding Source={StaticResource MenuBarViewModel}}" Background="#FF0E0D0D">
-    			<Menu Foreground="White" Background="{x:Null}">
-    				<MenuItem Header="Fichier" Background="{x:Null}">
-    					<MenuItem Header="Ouvrir" x:Name="DockPanelOpen" Command="{Binding Open}" Background="{x:Null}"/>
-    					<MenuItem Header="Fermer" Command="{Binding Close}" Background="{x:Null}"/>
-    				</MenuItem>
-    				<MenuItem Header="Aide"/>
-    			</Menu>
-    		</DockPanel>
-    		<TabControl Margin="0,20.96,0,0" Background="#FF0A0A0A">
-    			<TabItem Header="Player" Background="#FF9B9B9B" Foreground="Black">
-    				<local:PlayerControl >
-    					
-    				</local:PlayerControl>
-    			</TabItem>
-    			<TabItem Header="Library" Foreground="Black" Background="#FF858585">
-    				<local:LibraryUserControl />
-    			</TabItem>
-    		</TabControl>
-    	</Grid>
-    </ScrollViewer>
+    <Grid Background="Black">
+		<DockPanel DataContext="{Binding Source={StaticResource MenuBarViewModel}}" Background="#FF0E0D0D">
+			<Menu Foreground="White" Background="{x:Null}">
+				<MenuItem Header="Fichier" Background="{x:Null}">
+					<MenuItem Header="Ouvrir" x:Name="DockPanelOpen" Command="{Binding Open}" Background="{x:Null}"/>
+					<MenuItem Header="Fermer" Command="{Binding Close}" Background="{x:Null}"/>
+				</MenuItem>
+				<MenuItem Header="Aide"/>
+			</Menu>
+		</DockPanel>
+		<TabControl Margin="0,20.96,0,0" Background="#FF0A0A0A">
+			<TabItem Header="Player" Background="#FF9B9B9B" Foreground="Black">
+				<local:PlayerControl />
+			</TabItem>
+			<TabItem Header="Library" Foreground="Black" Background="#FF858585">
+				<local:LibraryUserControl />
+			</TabItem>
+		</TabControl>
+	</Grid>
 </Window>

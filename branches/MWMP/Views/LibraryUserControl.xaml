@@ -26,47 +26,59 @@
         	<Setter Property="Template">
         		<Setter.Value>
         			<ControlTemplate TargetType="{x:Type ListViewItem}">
-        				<Border x:Name="border" Height="166" Margin="5,1" Opacity="1" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="True" VerticalAlignment="Stretch" Width="366" d:DesignWidth="360" d:DesignHeight="158" CornerRadius="20" BorderThickness="0,1" >
+        				<Border x:Name="border" Height="Auto" Margin="5,1" Opacity="1"  VerticalAlignment="Stretch" Width="366" d:DesignWidth="360" d:DesignHeight="158" CornerRadius="20" BorderThickness="0,1" >
         					<Border.Background>
         						<SolidColorBrush Color="Black" Opacity="0.7"/>
         					</Border.Background>
-        					<StackPanel HorizontalAlignment="Stretch" MinHeight="150" VerticalAlignment="Stretch" >
-        						<TextBlock TextWrapping="Wrap" Text="{Binding Title}" VerticalAlignment="Stretch" HorizontalAlignment="Center" Foreground="White" FontFamily="Stencil Std" FontSize="16" TextDecorations="Underline" FontWeight="Bold" Cursor="Hand" Margin="20,0">
+        					<Grid HorizontalAlignment="Stretch" MinHeight="150" VerticalAlignment="Stretch" Margin="10,0,0,0" >
+        						<Grid.RowDefinitions>
+        							<RowDefinition Height="Auto"/>
+        							<RowDefinition Height="Auto"/>
+        							<RowDefinition Height="Auto"/>
+        							<RowDefinition Height="Auto"/>
+        							<RowDefinition Height="Auto"/>
+        							<RowDefinition Height="Auto"/>
+        							<RowDefinition Height="Auto"/>
+        						</Grid.RowDefinitions>
+        						<Grid.ColumnDefinitions>
+        							<ColumnDefinition Width="Auto"/>
+        							<ColumnDefinition Width="*"/>
+        						</Grid.ColumnDefinitions>
+        						<TextBlock TextWrapping="Wrap" Text="{Binding Title}" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White" FontFamily="Stencil Std" FontSize="16" TextDecorations="Underline" FontWeight="Bold" Cursor="Hand" Margin="0,1,0,0" Grid.ColumnSpan="2" d:LayoutOverrides="GridBox">
         							<i:Interaction.Triggers>
         								<i:EventTrigger EventName="MouseLeftButtonDown">
         									<i:InvokeCommandAction Command="{Binding Open, Mode=OneWay, Source={StaticResource MediaPlayerVM}}" CommandParameter="{Binding DataContext, ElementName=border}"/>
         								</i:EventTrigger>
         							</i:Interaction.Triggers>
         						</TextBlock>
-        						<StackPanel Margin="15,5,0,0" Orientation="Horizontal" Height="Auto" d:LayoutOverrides="Width" VerticalAlignment="Center" HorizontalAlignment="Left">
-        							<StackPanel Orientation="Vertical">
-        								<TextBlock TextWrapping="Wrap" Text="Album:" Foreground="White" d:LayoutOverrides="Width"/>
-        								<TextBlock TextWrapping="Wrap" Text="Track:" Foreground="White"/>
-        								<TextBlock TextWrapping="Wrap" Text="Genre:" Foreground="White"/>
-        								<TextBlock TextWrapping="Wrap" Text="Duration:" Foreground="White"/>
-        								<TextBlock TextWrapping="Wrap" Text="Size:" Foreground="White"/>
-        							</StackPanel>
-        							<StackPanel Orientation="Vertical" Margin="15,0,0,0">
-        								<TextBlock TextWrapping="Wrap" Text="{Binding Album}" Foreground="White" d:LayoutOverrides="Width"/>
-        								<TextBlock TextWrapping="Wrap" Text="{Binding Track}" Foreground="White" d:LayoutOverrides="Width"/>
-        								<TextBlock TextWrapping="Wrap" Text="{Binding Genre}" Foreground="White" d:LayoutOverrides="Width"/>
-        								<TextBlock TextWrapping="Wrap" Text="{Binding Duration, Converter={StaticResource msToStringConverter}}" Foreground="White" d:LayoutOverrides="Width"/>
-        								<TextBlock TextWrapping="Wrap" Text="{Binding FileSize}" Foreground="White" d:LayoutOverrides="Width"/>
-        							</StackPanel>
-        						</StackPanel>
-        					</StackPanel>
+        						<TextBlock Text="Performers:" Foreground="White" d:LayoutOverrides="Width, Height" Grid.ColumnSpan="1" Margin="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Right" Padding="0,0,10,0"/>
+        						<TextBlock TextWrapping="Wrap" Text="Album:" Foreground="White" d:LayoutOverrides="Width" Grid.ColumnSpan="1" VerticalAlignment="Stretch" Grid.Row="2" HorizontalAlignment="Right" Padding="0,0,10,0"/>
+        						<TextBlock TextWrapping="Wrap" Text="Track:" Foreground="White" Grid.ColumnSpan="1" Grid.Row="3" d:LayoutOverrides="Height" VerticalAlignment="Stretch" HorizontalAlignment="Right" Padding="0,0,10,0"/>
+        						<TextBlock TextWrapping="Wrap" Text="Genre:" Foreground="White" Grid.ColumnSpan="1" Grid.Row="4" d:LayoutOverrides="Height" HorizontalAlignment="Right" Padding="0,0,10,0"/>
+        						<TextBlock TextWrapping="Wrap" Text="Duration:" Foreground="White" Grid.ColumnSpan="1" Grid.Row="5" d:LayoutOverrides="Height" HorizontalAlignment="Right" Padding="0,0,10,0"/>
+        						<TextBlock TextWrapping="Wrap" Text="Size:" Foreground="White" Grid.ColumnSpan="1" Grid.Row="6" d:LayoutOverrides="Height" HorizontalAlignment="Right" Padding="0,0,10,0"/>
+        						<TextBlock Text="{Binding Performers}" Foreground="White" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch" Grid.Row="1" TextWrapping="Wrap"/>
+        						<TextBlock TextWrapping="Wrap" Text="{Binding Album}" Foreground="White" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch" Grid.Row="2"/>
+        						<TextBlock TextWrapping="Wrap" Text="{Binding Track}" Foreground="White" d:LayoutOverrides="Height" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0" Grid.Row="3"/>
+        						<TextBlock TextWrapping="Wrap" Text="{Binding Genre}" Foreground="White" d:LayoutOverrides="Height" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,2,0,0" Grid.Row="4"/>
+        						<TextBlock TextWrapping="Wrap" Text="{Binding Duration, Converter={StaticResource msToStringConverter}}" Foreground="White" d:LayoutOverrides="Height" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,2,0,0" Grid.Row="5"/>
+        						<TextBlock TextWrapping="Wrap" Text="{Binding FileSize}" Foreground="White" d:LayoutOverrides="Height" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0" Grid.Row="6" Grid.RowSpan="3"/>
+        					</Grid>
         				</Border>
         			</ControlTemplate>
         		</Setter.Value>
         	</Setter>
         </Style>
+        <ItemsPanelTemplate x:Key="MusicItemPanel">
+        	<WrapPanel IsItemsHost="True" Width="Auto" />
+        </ItemsPanelTemplate>
     </UserControl.Resources>
 	<UserControl.Background>
 		<ImageBrush ImageSource="background.jpg" Stretch="UniformToFill"/>
 	</UserControl.Background>
     <Grid DataContext="{Binding Source={StaticResource LibraryViewModel}}">
     	<Grid.ColumnDefinitions>
-    		<ColumnDefinition Width="166.162"/>
+    		<ColumnDefinition Width="185.2"/>
     		<ColumnDefinition/>
     	</Grid.ColumnDefinitions>
 		<TreeView Background="Black" BorderThickness="0" Opacity="0.7" Foreground="White" RenderTransformOrigin="0.5,0.5">
@@ -78,24 +90,47 @@
 					<TranslateTransform Y="-0.494"/>
 				</TransformGroup>
 			</TreeView.RenderTransform>
-			<TreeViewItem x:Name="treeViewItem" Header="Music" Background="{x:Null}" Foreground="White">
+			<TreeViewItem x:Name="treeViewItem" Header="Music" Background="{x:Null}" Foreground="White" DataContext="{Binding MusicLibrary, Source={StaticResource LibraryViewModel}}" VerticalContentAlignment="Center" HorizontalContentAlignment="Right">
 				<i:Interaction.Triggers>
 					<i:EventTrigger EventName="Selected">
 						<i:InvokeCommandAction Command="{Binding Display, Source={StaticResource LibraryViewModel}}" CommandParameter="MusicLib"/>
 					</i:EventTrigger>
 				</i:Interaction.Triggers>
-				<StackPanel Orientation="Horizontal">
-					<TextBlock Foreground="White"><Run Text="Title :"/></TextBlock>
-					<TextBox DataContext="{Binding MusicLibrary, Source={StaticResource LibraryViewModel}}" Text="{Binding Title}" Margin="0,0,-0.001,0" Width="75" x:Name="TitleMusicFilter">
+				<Grid>
+					<Grid.RowDefinitions>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+						<RowDefinition Height="Auto"/>
+					</Grid.RowDefinitions>
+					<Grid.ColumnDefinitions>
+						<ColumnDefinition/>
+						<ColumnDefinition/>
+					</Grid.ColumnDefinitions>
+					<TextBlock Foreground="White" d:LayoutOverrides="Height" HorizontalAlignment="Left"><Run Text="Title :"/></TextBlock>
+					<TextBox Text="{Binding Title}" Width="75" x:Name="TitleMusicFilter" HorizontalAlignment="Right" d:LayoutOverrides="Height" Grid.Column="1">
 						<i:Interaction.Triggers>
 							<i:EventTrigger EventName="TextChanged">
 								<i:InvokeCommandAction Command="{Binding SetTitleFilter}" CommandParameter="{Binding Text, ElementName=TitleMusicFilter}"/>
 							</i:EventTrigger>
 						</i:Interaction.Triggers>
 					</TextBox>
-				</StackPanel>
-				<Label Content="Artist" Foreground="White"/>
-				<Label Content="Genre" Foreground="White"/>
+					<TextBlock TextWrapping="Wrap" Text="Performer :" Margin="0" d:LayoutOverrides="Width, Height" Grid.Row="1"/>
+					<TextBox x:Name="PerformerFilter" TextWrapping="Wrap" Text="{Binding Performer}" Margin="0" d:LayoutOverrides="Height" Grid.Column="1" Grid.Row="1">
+						<i:Interaction.Triggers>
+							<i:EventTrigger EventName="TextChanged">
+								<i:InvokeCommandAction Command="{Binding SetPerformerFilter}" CommandParameter="{Binding Text, ElementName=PerformerFilter}"/>
+							</i:EventTrigger>
+						</i:Interaction.Triggers>
+					</TextBox>
+					<TextBlock TextWrapping="Wrap" d:LayoutOverrides="Height" HorizontalAlignment="Left" Grid.Row="2"><Run Language="fr-fr" Text="Genre:"/></TextBlock>
+					<TextBox x:Name="GenreFilter" TextWrapping="Wrap" Text="{Binding Genre}" d:LayoutOverrides="Height" Grid.Column="1" Grid.Row="2">
+						<i:Interaction.Triggers>
+							<i:EventTrigger EventName="TextChanged">
+								<i:InvokeCommandAction Command="{Binding SetGenreFilter}" CommandParameter="{Binding Text, ElementName=GenreFilter}"/>
+							</i:EventTrigger>
+						</i:Interaction.Triggers>
+					</TextBox>
+				</Grid>
 			</TreeViewItem>
 			<TreeViewItem Header="Image" IsExpanded="True" Foreground="White">
 				<i:Interaction.Triggers>
@@ -125,7 +160,7 @@
 			</TreeViewItem>
 		</TreeView>
 		<ListView ItemsSource="{Binding FilteredMediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" x:Name="MusicList" 
-			DataContext="{Binding MusicLibrary, Source={StaticResource LibraryViewModel}}" SelectionMode="Single" ItemContainerStyle="{DynamicResource LibraryMusicItem}" Background="{x:Null}" BorderThickness="0" Visibility="{Binding Visibility}" VerticalAlignment="Top" Grid.Column="1">
+			DataContext="{Binding MusicLibrary, Source={StaticResource LibraryViewModel}}" SelectionMode="Single" ItemContainerStyle="{DynamicResource LibraryMusicItem}" Background="{x:Null}" BorderThickness="0" Visibility="{Binding Visibility}" VerticalAlignment="Top" Grid.Column="1" ItemsPanel="{DynamicResource MusicItemPanel}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 			<ListView.ContextMenu>
 				<ContextMenu>
 					<MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
@@ -134,11 +169,7 @@
 					<MenuItem Header="Delete" Command="{Binding DeleteContextMenu}"/>
 				</ContextMenu>
 			</ListView.ContextMenu>
-			<ListView.ItemsPanel>
-				<ItemsPanelTemplate>
-					<WrapPanel/>
-				</ItemsPanelTemplate>
-			</ListView.ItemsPanel>
+
 		</ListView>
 		<ListView x:Name="VideoList" ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" 
 			DataContext="{Binding VideoLibrary, Source={StaticResource LibraryViewModel}}" Visibility="{Binding Visibility}"  VerticalAlignment="Top" Grid.Column="1">
