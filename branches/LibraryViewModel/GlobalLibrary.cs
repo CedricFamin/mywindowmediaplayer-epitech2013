@@ -8,29 +8,51 @@ using MWMP.Utils;
 
 namespace LibraryViewModel
 {
-    class GlobalLibrary : IGlobalLibrary
+    class GlobalLibrary : BindableObject, IGlobalLibrary
     {
         #region Properties
         public IMusicLibrary MusicLibrary { get; private set; }
         public ILibrary<IVideoMedia> VideoLibrary { get; private set; }
         public ILibrary<IImageMedia> ImageLibrary { get; private set; }
         public ILibrary<IPlayList> PlayListLibrary { get; private set; }
+
+        public string MusicLibActive { get; set; }
+        public string VideoLibActive { get; set; }
+        public string ImageLibActive { get; set; }
+        public string PlayListLibActive { get; set; }
+
+        public ICommand Display { get; private set; }
         #endregion
 
         #region CTor
         public GlobalLibrary()
         {
+            MusicLibActive = "Visible";
+            VideoLibActive = "Hidden";
+            ImageLibActive = "Hidden";
+            PlayListLibActive = "Hidden";
             MusicLibrary = ModuleManager.GetInstanceOf<IMusicLibrary>("MusicLibrary");
             VideoLibrary = ModuleManager.GetInstanceOf<ILibrary<IVideoMedia>>("VideoLibrary");
             ImageLibrary = ModuleManager.GetInstanceOf<ILibrary<IImageMedia>>("ImageLibrary");
             PlayListLibrary = ModuleManager.GetInstanceOf<ILibrary<IPlayList>>("PlayListLibrary");
 
             CreatePlaylist = new RelayCommand((param) => CreatePlaylistBody(param as string));
+
+            Display = new RelayCommand((param) => 
+                {
+                    string lib = param as string;
+                    if (lib == null)
+                        return;
+                    MusicLibrary.Visibility = (lib == "MusicLib") ? "Visible":"Hidden";
+                    VideoLibrary.Visibility = (lib == "VideoLib") ? "Visible" : "Hidden";
+                    ImageLibrary.Visibility = (lib == "ImageLib") ? "Visible" : "Hidden";
+                    PlayListLibrary.Visibility = (lib == "PlayListLib") ? "Visible" : "Hidden";
+                });
+
             OpenPlayListWindow = new RelayCommand((param) =>
                 {
                     CreatePlayListWindows window = new CreatePlayListWindows();
-                    window.Show();
-                    window.Activate();
+                    window.ShowDialog();
                 });
 
             IDAL dal = ModuleManager.GetInstanceOf<IDAL>("XMLDAL");

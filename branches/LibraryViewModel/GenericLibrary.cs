@@ -13,8 +13,8 @@ namespace LibraryViewModel
 {
     abstract class GenericLibrary<T> : BindableObject, ILibrary<T> where T : class
     {
-        #region Method
-        private Dictionary<string, ICollectionView> CollectionViewCache { get; set; }
+        #region Fields
+        protected string _visibility;
         #endregion
 
         #region Properties
@@ -23,12 +23,24 @@ namespace LibraryViewModel
         public virtual ICommand PlayContextMenu { get; protected set; }
         public virtual ICommand AddToPlayList { get; protected set; }
         public virtual ICommand DeleteContextMenu { get; protected set; }
+        public virtual string Visibility 
+        { 
+            get
+            {
+                return _visibility;
+            }
+            set
+            {
+                _visibility = value;
+                RaisePropertyChange("Visibility");
+            }
+        }
         #endregion
 
         #region Ctor
         public GenericLibrary()
         {
-            CollectionViewCache = new Dictionary<string, ICollectionView>();
+            _visibility = "Hidden";
             MediaList = new ObservableCollection<T>();
             PlayContextMenu = new RelayCommand((param) =>
             {

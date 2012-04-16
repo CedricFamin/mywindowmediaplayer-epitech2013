@@ -17,6 +17,7 @@ namespace MWMP.ViewModels
 
         ICommand CreatePlaylist { get; }
         ICommand OpenPlayListWindow { get; }
+        ICommand Display { get; }
 
         void AddMedia(IMedia media);
     }

@@ -6,7 +6,7 @@
     xmlns:local="clr-namespace:MWMP"
 	x:Class="MWMP.CreatePlayListWindows"
 	x:Name="Window"
-	Title="Create Playlist" Height="115" Width="384">
+	Title="Create Playlist" Height="115" Width="384" ResizeMode="NoResize" WindowStyle="ToolWindow">
     <Window.Resources>
         <ObjectDataProvider MethodName="GetService" ObjectType="{x:Type local:ModuleManager}" x:Key="LibraryViewModel">
             <ObjectDataProvider.MethodParameters>

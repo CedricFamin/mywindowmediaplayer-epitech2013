@@ -38,7 +38,7 @@
 			</i:Interaction.Triggers>
 		</MediaElement>
 		<StackPanel Grid.Column="1" Orientation="Vertical" d:LayoutOverrides="Height" Background="Black" Opacity="0.7">
-			<TextBlock TextWrapping="Wrap" Text="Current Playlist" FontFamily="Showcard Gothic" HorizontalAlignment="Center" Foreground="White"/>
+			<TextBlock TextWrapping="Wrap" Text="Current Playlist" HorizontalAlignment="Center" Foreground="White"/>
 			<ListView x:Name="PlayList" DataContext="{Binding PlayList}" ItemsSource="{Binding Collection}" SelectedIndex="{Binding CurrentMedia}" Background="{x:Null}" Opacity="0.7" BorderBrush="{x:Null}">
 				<ListView.View>
 					<GridView AllowsColumnReorder="False">

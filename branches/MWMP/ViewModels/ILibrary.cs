@@ -17,6 +17,9 @@ namespace MWMP.ViewModels
         ICommand PlayContextMenu { get; }
         ICommand AddToPlayList { get; }
         ICommand DeleteContextMenu { get; }
+
+        string Visibility { get; set; }
+
         void Add(T media);
     }
 }

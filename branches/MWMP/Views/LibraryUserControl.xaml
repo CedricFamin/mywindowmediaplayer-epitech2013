@@ -17,6 +17,49 @@
                 <System:String>GlobalLibrary</System:String>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
+		<ObjectDataProvider MethodName="GetService" ObjectType="{x:Type local:ModuleManager}" x:Key="MediaPlayerVM">
+            <ObjectDataProvider.MethodParameters>
+                <System:String>MusicPlayerViewModel</System:String>
+            </ObjectDataProvider.MethodParameters>
+        </ObjectDataProvider>
+        <Style x:Key="LibraryMusicItem" TargetType="{x:Type ListViewItem}">
+        	<Setter Property="Template">
+        		<Setter.Value>
+        			<ControlTemplate TargetType="{x:Type ListViewItem}">
+        				<Border x:Name="border" Height="166" Margin="5,1" Opacity="1" RenderTransformOrigin="0.5,0.5" UseLayoutRounding="True" VerticalAlignment="Stretch" Width="366" d:DesignWidth="360" d:DesignHeight="158" CornerRadius="20" BorderThickness="0,1" >
+        					<Border.Background>
+        						<SolidColorBrush Color="Black" Opacity="0.7"/>
+        					</Border.Background>
+        					<StackPanel HorizontalAlignment="Stretch" MinHeight="150" VerticalAlignment="Stretch" >
+        						<TextBlock TextWrapping="Wrap" Text="{Binding Title}" VerticalAlignment="Stretch" HorizontalAlignment="Center" Foreground="White" FontFamily="Stencil Std" FontSize="16" TextDecorations="Underline" FontWeight="Bold" Cursor="Hand" Margin="20,0">
+        							<i:Interaction.Triggers>
+        								<i:EventTrigger EventName="MouseLeftButtonDown">
+        									<i:InvokeCommandAction Command="{Binding Open, Mode=OneWay, Source={StaticResource MediaPlayerVM}}" CommandParameter="{Binding DataContext, ElementName=border}"/>
+        								</i:EventTrigger>
+        							</i:Interaction.Triggers>
+        						</TextBlock>
+        						<StackPanel Margin="15,5,0,0" Orientation="Horizontal" Height="Auto" d:LayoutOverrides="Width" VerticalAlignment="Center" HorizontalAlignment="Left">
+        							<StackPanel Orientation="Vertical">
+        								<TextBlock TextWrapping="Wrap" Text="Album:" Foreground="White" d:LayoutOverrides="Width"/>
+        								<TextBlock TextWrapping="Wrap" Text="Track:" Foreground="White"/>
+        								<TextBlock TextWrapping="Wrap" Text="Genre:" Foreground="White"/>
+        								<TextBlock TextWrapping="Wrap" Text="Duration:" Foreground="White"/>
+        								<TextBlock TextWrapping="Wrap" Text="Size:" Foreground="White"/>
+        							</StackPanel>
+        							<StackPanel Orientation="Vertical" Margin="15,0,0,0">
+        								<TextBlock TextWrapping="Wrap" Text="{Binding Album}" Foreground="White" d:LayoutOverrides="Width"/>
+        								<TextBlock TextWrapping="Wrap" Text="{Binding Track}" Foreground="White" d:LayoutOverrides="Width"/>
+        								<TextBlock TextWrapping="Wrap" Text="{Binding Genre}" Foreground="White" d:LayoutOverrides="Width"/>
+        								<TextBlock TextWrapping="Wrap" Text="{Binding Duration, Converter={StaticResource msToStringConverter}}" Foreground="White" d:LayoutOverrides="Width"/>
+        								<TextBlock TextWrapping="Wrap" Text="{Binding FileSize}" Foreground="White" d:LayoutOverrides="Width"/>
+        							</StackPanel>
+        						</StackPanel>
+        					</StackPanel>
+        				</Border>
+        			</ControlTemplate>
+        		</Setter.Value>
+        	</Setter>
+        </Style>
     </UserControl.Resources>
 	<UserControl.Background>
 		<ImageBrush ImageSource="background.jpg" Stretch="UniformToFill"/>
@@ -24,7 +67,7 @@
     <Grid DataContext="{Binding Source={StaticResource LibraryViewModel}}">
     	<Grid.ColumnDefinitions>
     		<ColumnDefinition Width="166.162"/>
-    		<ColumnDefinition Width="Auto" MinWidth="495.838"/>
+    		<ColumnDefinition/>
     	</Grid.ColumnDefinitions>
 		<TreeView Background="Black" BorderThickness="0" Opacity="0.7" Foreground="White" RenderTransformOrigin="0.5,0.5">
 			<TreeView.RenderTransform>
@@ -36,6 +79,11 @@
 				</TransformGroup>
 			</TreeView.RenderTransform>
 			<TreeViewItem x:Name="treeViewItem" Header="Music" Background="{x:Null}" Foreground="White">
+				<i:Interaction.Triggers>
+					<i:EventTrigger EventName="Selected">
+						<i:InvokeCommandAction Command="{Binding Display, Source={StaticResource LibraryViewModel}}" CommandParameter="MusicLib"/>
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
 				<StackPanel Orientation="Horizontal">
 					<TextBlock Foreground="White"><Run Text="Title :"/></TextBlock>
 					<TextBox DataContext="{Binding MusicLibrary, Source={StaticResource LibraryViewModel}}" Text="{Binding Title}" Margin="0,0,-0.001,0" Width="75" x:Name="TitleMusicFilter">
@@ -49,9 +97,26 @@
 				<Label Content="Artist" Foreground="White"/>
 				<Label Content="Genre" Foreground="White"/>
 			</TreeViewItem>
-			<TreeViewItem Header="Image" IsExpanded="True" Foreground="White"/>
-			<TreeViewItem Header="Video" IsExpanded="True" Foreground="White"/>
+			<TreeViewItem Header="Image" IsExpanded="True" Foreground="White">
+				<i:Interaction.Triggers>
+					<i:EventTrigger EventName="Selected">
+						<i:InvokeCommandAction Command="{Binding Display, Source={StaticResource LibraryViewModel}}" CommandParameter="ImageLib"/>
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
+			</TreeViewItem>
+			<TreeViewItem Header="Video" IsExpanded="True" Foreground="White">
+				<i:Interaction.Triggers>
+					<i:EventTrigger EventName="Selected">
+						<i:InvokeCommandAction Command="{Binding Display, Source={StaticResource LibraryViewModel}}" CommandParameter="VideoLib"/>
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
+			</TreeViewItem>
             <TreeViewItem Header="PlayList" Foreground="White">
+            	<i:Interaction.Triggers>
+					<i:EventTrigger EventName="Selected">
+						<i:InvokeCommandAction Command="{Binding Display, Source={StaticResource LibraryViewModel}}" CommandParameter="PlayListLib"/>
+					</i:EventTrigger>
+				</i:Interaction.Triggers>
 				<TreeViewItem.ContextMenu>
 					<ContextMenu HorizontalAlignment="Center" Background="Black" Foreground="White">
                         <MenuItem Command="{Binding Path=OpenPlayListWindow, Mode=OneWay}" Background="{x:Null}" Foreground="White" Header="Create Playlist"></MenuItem>
@@ -59,93 +124,82 @@
 				</TreeViewItem.ContextMenu>
 			</TreeViewItem>
 		</TreeView>
-		<StackPanel Margin="0" Grid.Column="1" HorizontalAlignment="Stretch" Grid.RowSpan="1" Grid.ColumnSpan="1" Orientation="Vertical" Visibility="Visible">
-			<ListView ItemsSource="{Binding FilteredMediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" x:Name="MusicList" 
-                      DataContext="{Binding MusicLibrary, Source={StaticResource LibraryViewModel}}">
-				<i:Interaction.Triggers>
-					<i:EventTrigger EventName="MouseDoubleClick">
-						<i:InvokeCommandAction Command="{Binding PlayContextMenu}" />
-					</i:EventTrigger>
-				</i:Interaction.Triggers>
-				<ListView.View>
-					<GridView>
-						<GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
-						<GridViewColumn Header="Album"     DisplayMemberBinding="{Binding Album}" />
-						<GridViewColumn Header="Track"     DisplayMemberBinding="{Binding Track}" />
-						<GridViewColumn Header="Genre"     DisplayMemberBinding="{Binding Genre}" />
-						<GridViewColumn Header="Performer" DisplayMemberBinding="{Binding Performers}" />
-						<GridViewColumn Header="Duration"  DisplayMemberBinding="{Binding Duration, Converter={StaticResource msToStringConverter}}" />
-					</GridView>
-				</ListView.View>
-				<ListView.ContextMenu>
-					<ContextMenu>
-						<MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
-						<MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
-						<MenuItem Header="Delete" Command="{Binding DeleteContextMenu}"/>
-					</ContextMenu>
-				</ListView.ContextMenu>
-			</ListView>
-			<ListView x:Name="VideoList" ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" 
-                      DataContext="{Binding VideoLibrary, Source={StaticResource LibraryViewModel}}">
-				<i:Interaction.Triggers>
-					<i:EventTrigger EventName="MouseDoubleClick">
-						<i:InvokeCommandAction Command="{Binding PlayContextMenu}" />
-					</i:EventTrigger>
-				</i:Interaction.Triggers>
-				<ListView.View>
-					<GridView>
-						<GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
-						<GridViewColumn Header="Duration"  DisplayMemberBinding="{Binding Duration, Converter={StaticResource msToStringConverter}}" />
-					</GridView>
-				</ListView.View>
-				<ListView.ContextMenu>
-					<ContextMenu>
-						<MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
-						<MenuItem Header="Add to current playlist" />
-						<MenuItem Header="Delete" />
-					</ContextMenu>
-				</ListView.ContextMenu>
-			</ListView>
-            <ListView ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" x:Name="ImageList" 
-                      DataContext="{Binding ImageLibrary, Source={StaticResource LibraryViewModel}}">
-                <i:Interaction.Triggers>
-                    <i:EventTrigger EventName="MouseDoubleClick">
-                        <i:InvokeCommandAction Command="{Binding PlayContextMenu}" />
-                    </i:EventTrigger>
-                </i:Interaction.Triggers>
-                <ListView.View>
-                    <GridView>
-                        <GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
-                    </GridView>
-                </ListView.View>
-                <ListView.ContextMenu>
-                    <ContextMenu>
-                        <MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
-                        <MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
-                        <MenuItem Header="Delete" Command="{Binding DeleteContextMenu}"/>
-                    </ContextMenu>
-                </ListView.ContextMenu>
-            </ListView>
-            <ListView ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" x:Name="PlayListList" 
-                      DataContext="{Binding PlayListLibrary, Source={StaticResource LibraryViewModel}}">
-				<i:Interaction.Triggers>
-					<i:EventTrigger EventName="MouseDoubleClick">
-						<i:InvokeCommandAction Command="{Binding PlayContextMenu}" />
-					</i:EventTrigger>
-				</i:Interaction.Triggers>
-				<ListView.View>
-					<GridView>
-						<GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" />
-					</GridView>
-				</ListView.View>
-				<ListView.ContextMenu>
-					<ContextMenu>
-						<MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
-						<MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
-						<MenuItem Header="Delete" Command="{Binding DeleteContextMenu}"/>
-					</ContextMenu>
-				</ListView.ContextMenu>
-			</ListView>
-		</StackPanel>
+		<ListView ItemsSource="{Binding FilteredMediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" x:Name="MusicList" 
+			DataContext="{Binding MusicLibrary, Source={StaticResource LibraryViewModel}}" SelectionMode="Single" ItemContainerStyle="{DynamicResource LibraryMusicItem}" Background="{x:Null}" BorderThickness="0" Visibility="{Binding Visibility}" VerticalAlignment="Top" Grid.Column="1">
+			<ListView.ContextMenu>
+				<ContextMenu>
+					<MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
+					<MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
+					<MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
+					<MenuItem Header="Delete" Command="{Binding DeleteContextMenu}"/>
+				</ContextMenu>
+			</ListView.ContextMenu>
+			<ListView.ItemsPanel>
+				<ItemsPanelTemplate>
+					<WrapPanel/>
+				</ItemsPanelTemplate>
+			</ListView.ItemsPanel>
+		</ListView>
+		<ListView x:Name="VideoList" ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" 
+			DataContext="{Binding VideoLibrary, Source={StaticResource LibraryViewModel}}" Visibility="{Binding Visibility}"  VerticalAlignment="Top" Grid.Column="1">
+			<i:Interaction.Triggers>
+				<i:EventTrigger EventName="MouseDoubleClick">
+					<i:InvokeCommandAction Command="{Binding PlayContextMenu}" />
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
+			<ListView.View>
+				<GridView>
+					<GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
+					<GridViewColumn Header="Duration"  DisplayMemberBinding="{Binding Duration, Converter={StaticResource msToStringConverter}}" />
+				</GridView>
+			</ListView.View>
+			<ListView.ContextMenu>
+				<ContextMenu>
+					<MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
+					<MenuItem Header="Add to current playlist" />
+					<MenuItem Header="Delete" />
+				</ContextMenu>
+			</ListView.ContextMenu>
+		</ListView>
+		<ListView ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" x:Name="ImageList" 
+			DataContext="{Binding ImageLibrary, Source={StaticResource LibraryViewModel}}" Visibility="{Binding Visibility}" VerticalAlignment="Top" Grid.Column="1">
+			<i:Interaction.Triggers>
+				<i:EventTrigger EventName="MouseDoubleClick">
+					<i:InvokeCommandAction Command="{Binding PlayContextMenu}" />
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
+			<ListView.View>
+				<GridView>
+					<GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
+				</GridView>
+			</ListView.View>
+			<ListView.ContextMenu>
+				<ContextMenu>
+					<MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
+					<MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
+					<MenuItem Header="Delete" Command="{Binding DeleteContextMenu}"/>
+				</ContextMenu>
+			</ListView.ContextMenu>
+		</ListView>
+		<ListView ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" x:Name="PlayListList" 
+			DataContext="{Binding PlayListLibrary, Source={StaticResource LibraryViewModel}}" Visibility="{Binding Visibility}" VerticalAlignment="Top" Grid.Column="1">
+			<i:Interaction.Triggers>
+				<i:EventTrigger EventName="MouseDoubleClick">
+					<i:InvokeCommandAction Command="{Binding PlayContextMenu}" />
+				</i:EventTrigger>
+			</i:Interaction.Triggers>
+			<ListView.View>
+				<GridView>
+					<GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" />
+				</GridView>
+			</ListView.View>
+			<ListView.ContextMenu>
+				<ContextMenu>
+					<MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
+					<MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
+					<MenuItem Header="Delete" Command="{Binding DeleteContextMenu}"/>
+				</ContextMenu>
+			</ListView.ContextMenu>
+		</ListView>
 	</Grid>
 </UserControl>
