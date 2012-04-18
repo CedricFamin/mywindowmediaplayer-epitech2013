@@ -9,7 +9,7 @@
         
     	<ResourceDictionary>
     		<ResourceDictionary.MergedDictionaries>
-    			<ResourceDictionary Source="/MWMP;component/Simple Styles.xaml"/>
+    			<ResourceDictionary Source="BaseStyle.xaml"/>
     		</ResourceDictionary.MergedDictionaries>
     	</ResourceDictionary>
 		

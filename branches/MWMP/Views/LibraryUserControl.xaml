@@ -26,10 +26,7 @@
         	<Setter Property="Template">
         		<Setter.Value>
         			<ControlTemplate TargetType="{x:Type ListViewItem}">
-        				<Border x:Name="border" Height="Auto" Margin="5,1" Opacity="1"  VerticalAlignment="Stretch" Width="366" d:DesignWidth="360" d:DesignHeight="158" CornerRadius="20" BorderThickness="0,1" >
-        					<Border.Background>
-        						<SolidColorBrush Color="Black" Opacity="0.7"/>
-        					</Border.Background>
+        				<Border x:Name="border" Height="Auto" Opacity="1" Width="366" d:DesignWidth="360" d:DesignHeight="158" Style="{DynamicResource MediaBorderStyle}" >
         					<Grid HorizontalAlignment="Stretch" MinHeight="150" VerticalAlignment="Stretch" Margin="10,0,0,0" >
         						<Grid.RowDefinitions>
         							<RowDefinition Height="Auto"/>
@@ -44,25 +41,25 @@
         							<ColumnDefinition Width="Auto"/>
         							<ColumnDefinition Width="*"/>
         						</Grid.ColumnDefinitions>
-        						<TextBlock TextWrapping="Wrap" Text="{Binding Title}" VerticalAlignment="Top" HorizontalAlignment="Center" Foreground="White" FontFamily="Stencil Std" FontSize="16" TextDecorations="Underline" FontWeight="Bold" Cursor="Hand" Margin="0,1,0,0" Grid.ColumnSpan="2" d:LayoutOverrides="GridBox">
+        						<TextBlock TextWrapping="Wrap" Text="{Binding Title}" Margin="0,1,0,0" Grid.ColumnSpan="2" d:LayoutOverrides="GridBox" Style="{DynamicResource TextBlockTitle}">
         							<i:Interaction.Triggers>
         								<i:EventTrigger EventName="MouseLeftButtonDown">
         									<i:InvokeCommandAction Command="{Binding Open, Mode=OneWay, Source={StaticResource MediaPlayerVM}}" CommandParameter="{Binding DataContext, ElementName=border}"/>
         								</i:EventTrigger>
         							</i:Interaction.Triggers>
         						</TextBlock>
-        						<TextBlock Text="Performers:" Foreground="White" d:LayoutOverrides="Width, Height" Grid.ColumnSpan="1" Margin="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Right" Padding="0,0,10,0"/>
-        						<TextBlock TextWrapping="Wrap" Text="Album:" Foreground="White" d:LayoutOverrides="Width" Grid.ColumnSpan="1" VerticalAlignment="Stretch" Grid.Row="2" HorizontalAlignment="Right" Padding="0,0,10,0"/>
-        						<TextBlock TextWrapping="Wrap" Text="Track:" Foreground="White" Grid.ColumnSpan="1" Grid.Row="3" d:LayoutOverrides="Height" VerticalAlignment="Stretch" HorizontalAlignment="Right" Padding="0,0,10,0"/>
-        						<TextBlock TextWrapping="Wrap" Text="Genre:" Foreground="White" Grid.ColumnSpan="1" Grid.Row="4" d:LayoutOverrides="Height" HorizontalAlignment="Right" Padding="0,0,10,0"/>
-        						<TextBlock TextWrapping="Wrap" Text="Duration:" Foreground="White" Grid.ColumnSpan="1" Grid.Row="5" d:LayoutOverrides="Height" HorizontalAlignment="Right" Padding="0,0,10,0"/>
-        						<TextBlock TextWrapping="Wrap" Text="Size:" Foreground="White" Grid.ColumnSpan="1" Grid.Row="6" d:LayoutOverrides="Height" HorizontalAlignment="Right" Padding="0,0,10,0"/>
-        						<TextBlock Text="{Binding Performers}" Foreground="White" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch" Grid.Row="1" TextWrapping="Wrap"/>
-        						<TextBlock TextWrapping="Wrap" Text="{Binding Album}" Foreground="White" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch" Grid.Row="2"/>
-        						<TextBlock TextWrapping="Wrap" Text="{Binding Track}" Foreground="White" d:LayoutOverrides="Height" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0" Grid.Row="3"/>
-        						<TextBlock TextWrapping="Wrap" Text="{Binding Genre}" Foreground="White" d:LayoutOverrides="Height" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,2,0,0" Grid.Row="4"/>
-        						<TextBlock TextWrapping="Wrap" Text="{Binding Duration, Converter={StaticResource msToStringConverter}}" Foreground="White" d:LayoutOverrides="Height" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,2,0,0" Grid.Row="5"/>
-        						<TextBlock TextWrapping="Wrap" Text="{Binding FileSize}" Foreground="White" d:LayoutOverrides="Height" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0" Grid.Row="6" Grid.RowSpan="3"/>
+        						<TextBlock Text="Performers:" d:LayoutOverrides="Width, Height" Grid.ColumnSpan="1" Margin="0" Grid.Row="1" VerticalAlignment="Stretch" HorizontalAlignment="Right" Padding="0,0,10,0"/>
+        						<TextBlock TextWrapping="Wrap" Text="Album:" d:LayoutOverrides="Width" Grid.ColumnSpan="1" VerticalAlignment="Stretch" Grid.Row="2" HorizontalAlignment="Right" Padding="0,0,10,0"/>
+        						<TextBlock TextWrapping="Wrap" Text="Track:" Grid.ColumnSpan="1" Grid.Row="3" d:LayoutOverrides="Height" VerticalAlignment="Stretch" HorizontalAlignment="Right" Padding="0,0,10,0"/>
+        						<TextBlock TextWrapping="Wrap" Text="Genre:" Grid.ColumnSpan="1" Grid.Row="4" d:LayoutOverrides="Height" HorizontalAlignment="Right" Padding="0,0,10,0"/>
+        						<TextBlock TextWrapping="Wrap" Text="Duration:" Grid.ColumnSpan="1" Grid.Row="5" d:LayoutOverrides="Height" HorizontalAlignment="Right" Padding="0,0,10,0"/>
+        						<TextBlock TextWrapping="Wrap" Text="Size:" Grid.ColumnSpan="1" Grid.Row="6" d:LayoutOverrides="Height" HorizontalAlignment="Right" Padding="0,0,10,0"/>
+        						<TextBlock Text="{Binding Performers}" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch" Grid.Row="1" TextWrapping="Wrap"/>
+        						<TextBlock TextWrapping="Wrap" Text="{Binding Album}" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch" Grid.Row="2"/>
+        						<TextBlock TextWrapping="Wrap" Text="{Binding Track}" d:LayoutOverrides="Height" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0" Grid.Row="3"/>
+        						<TextBlock TextWrapping="Wrap" Text="{Binding Genre}" d:LayoutOverrides="Height" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,2,0,0" Grid.Row="4"/>
+        						<TextBlock TextWrapping="Wrap" Text="{Binding Duration, Converter={StaticResource msToStringConverter}}" d:LayoutOverrides="Height" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,2,0,0" Grid.Row="5"/>
+        						<TextBlock TextWrapping="Wrap" Text="{Binding FileSize}" d:LayoutOverrides="Height" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0" Grid.Row="6" Grid.RowSpan="3"/>
         					</Grid>
         				</Border>
         			</ControlTemplate>
@@ -72,6 +69,96 @@
         <ItemsPanelTemplate x:Key="MusicItemPanel">
         	<WrapPanel IsItemsHost="True" Width="Auto" />
         </ItemsPanelTemplate>
+        <Style TargetType="{x:Type Border}" x:Key="MediaBorderStyle">
+        	<Setter Property="Background">
+        		<Setter.Value>
+        			<LinearGradientBrush EndPoint="1,1" StartPoint="0,0" Opacity="0.7" MappingMode="RelativeToBoundingBox" SpreadMethod="Reflect">
+        				<GradientStop Color="Black" Offset="0"/>
+        				<GradientStop Color="#FF393939" Offset="1"/>
+        			</LinearGradientBrush>
+        		</Setter.Value>
+        	</Setter>
+        	<Setter Property="CornerRadius" Value="20"/>
+        	<Setter Property="BorderThickness" Value="1"/>
+        	<Setter Property="BorderBrush" Value="Black"/>
+        	<Setter Property="Margin" Value="1"/>
+        	<Setter Property="Padding" Value="20,5"/>
+        	<Setter Property="Width" Value="350"/>
+        	<Setter Property="Height" Value="150"/>
+        </Style>
+        <Style x:Key="VideoItemView" TargetType="{x:Type ListViewItem}">
+        	<Setter Property="Template">
+        		<Setter.Value>
+        			<ControlTemplate TargetType="{x:Type ListViewItem}">
+        				<Border x:Name="border" Style="{DynamicResource MediaBorderStyle}" Width="350" Height="150">
+        					<Grid Background="{x:Null}">
+        						<Grid.ColumnDefinitions>
+        							<ColumnDefinition Width="Auto"/>
+        							<ColumnDefinition Width="*"/>
+        						</Grid.ColumnDefinitions>
+        						<Grid.RowDefinitions>
+        							<RowDefinition Height="Auto"/>
+        							<RowDefinition Height="Auto"/>
+        							<RowDefinition Height="Auto"/>
+        						</Grid.RowDefinitions>
+        						<TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Title}" d:LayoutOverrides="Height" TextDecorations="Underline" Style="{DynamicResource TextBlockTitle}" Grid.ColumnSpan="2">
+        							<i:Interaction.Triggers>
+        								<i:EventTrigger EventName="MouseLeftButtonDown">
+        										<i:InvokeCommandAction Command="{Binding Open, Mode=OneWay, Source={StaticResource MediaPlayerVM}}" CommandParameter="{Binding DataContext, ElementName=border}"/>
+        								</i:EventTrigger>
+        							</i:Interaction.Triggers>
+        						</TextBlock>
+        						<TextBlock HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="Duration" d:LayoutOverrides="Height" Grid.Row="1"/>
+        						<TextBlock HorizontalAlignment="Left" Margin="0,0,0,5.32" TextWrapping="Wrap" Text="{Binding Duration, Converter={StaticResource msToStringConverter}}" d:LayoutOverrides="Height" Grid.Row="1" Grid.Column="1"/>
+        						<TextBlock Margin="0,0,0,5.32" TextWrapping="Wrap" Text="Genre:" d:LayoutOverrides="Width, Height" Grid.Row="2"/>
+        						<TextBlock Margin="0" TextWrapping="Wrap" Text="{Binding Genre}" d:LayoutOverrides="Width, Height" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left"/>
+        					</Grid>
+        				</Border>
+        			</ControlTemplate>
+        		</Setter.Value>
+        	</Setter>
+        </Style>
+        <Style x:Key="ImageItemView" TargetType="{x:Type ListViewItem}">
+        	<Setter Property="Template">
+        		<Setter.Value>
+        			<ControlTemplate TargetType="{x:Type ListViewItem}">
+        				<Border Style="{DynamicResource MediaBorderStyle}">
+        					<Grid>
+        						<Grid.RowDefinitions>
+        							<RowDefinition Height="Auto"/>
+        							<RowDefinition Height="Auto"/>
+        							<RowDefinition Height="Auto"/>
+        						</Grid.RowDefinitions>
+        						<Grid.ColumnDefinitions>
+        							<ColumnDefinition Width="Auto"/>
+        							<ColumnDefinition Width="Auto"/>
+        							<ColumnDefinition/>
+        						</Grid.ColumnDefinitions>
+        						<Border HorizontalAlignment="Center" Height="125" Margin="0,6,0,0" MinWidth="4" VerticalAlignment="Center" Width="125" BorderThickness="2" Grid.RowSpan="3">
+        							<Border.BorderBrush>
+        								<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
+        									<GradientStop Color="#FF4A6EFF" Offset="0"/>
+        									<GradientStop Color="White" Offset="1"/>
+        								</LinearGradientBrush>
+        							</Border.BorderBrush>
+        							<Image Source="{Binding Path}" Style="{DynamicResource ThumbnailStyle}" HorizontalAlignment="Stretch"/>
+        						</Border>
+        						<TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Title}" VerticalAlignment="Top" Grid.Column="1" Style="{DynamicResource TextBlockTitle}" Grid.ColumnSpan="2"/>
+        						<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Size:" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1"/>
+        						<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding FileSize}" VerticalAlignment="Top" Grid.Column="2" Grid.Row="1"/>
+        						<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Filename:" VerticalAlignment="Stretch" Grid.Column="1" Margin="0" Grid.Row="2" d:LayoutOverrides="Height"/>
+        						<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Filename}" VerticalAlignment="Stretch" Grid.Column="2" Margin="0" Grid.Row="2" d:LayoutOverrides="Height"/>
+        					</Grid>
+        				</Border>
+        			</ControlTemplate>
+        		</Setter.Value>
+        	</Setter>
+        </Style>
+        <DataTemplate x:Key="PlayListDataTemplte">
+        	<Grid>
+        		<TextBlock Margin="0,0,0,4.04" TextWrapping="Wrap" Text="{Binding Title}" d:LayoutOverrides="Width, Height"/>
+        	</Grid>
+        </DataTemplate>
     </UserControl.Resources>
 	<UserControl.Background>
 		<ImageBrush ImageSource="background.jpg" Stretch="UniformToFill"/>
@@ -90,7 +177,7 @@
 					<TranslateTransform Y="-0.494"/>
 				</TransformGroup>
 			</TreeView.RenderTransform>
-			<TreeViewItem x:Name="treeViewItem" Header="Music" Background="{x:Null}" Foreground="White" DataContext="{Binding MusicLibrary, Source={StaticResource LibraryViewModel}}" VerticalContentAlignment="Center" HorizontalContentAlignment="Right">
+			<TreeViewItem x:Name="treeViewItem" Header="Music" Background="{x:Null}" Foreground="White" DataContext="{Binding MusicLibrary, Source={StaticResource LibraryViewModel}}" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" IsSelected="True">
 				<i:Interaction.Triggers>
 					<i:EventTrigger EventName="Selected">
 						<i:InvokeCommandAction Command="{Binding Display, Source={StaticResource LibraryViewModel}}" CommandParameter="MusicLib"/>
@@ -106,7 +193,7 @@
 						<ColumnDefinition/>
 						<ColumnDefinition/>
 					</Grid.ColumnDefinitions>
-					<TextBlock Foreground="White" d:LayoutOverrides="Height" HorizontalAlignment="Left"><Run Text="Title :"/></TextBlock>
+					<TextBlock d:LayoutOverrides="Height" HorizontalAlignment="Left"><Run Text="Title :"/></TextBlock>
 					<TextBox Text="{Binding Title}" Width="75" x:Name="TitleMusicFilter" HorizontalAlignment="Right" d:LayoutOverrides="Height" Grid.Column="1">
 						<i:Interaction.Triggers>
 							<i:EventTrigger EventName="TextChanged">
@@ -135,21 +222,21 @@
 			<TreeViewItem Header="Image" IsExpanded="True" Foreground="White">
 				<i:Interaction.Triggers>
 					<i:EventTrigger EventName="Selected">
-						<i:InvokeCommandAction Command="{Binding Display, Source={StaticResource LibraryViewModel}}" CommandParameter="ImageLib"/>
+						<i:InvokeCommandAction Command="{Binding Display}" CommandParameter="ImageLib"/>
 					</i:EventTrigger>
 				</i:Interaction.Triggers>
 			</TreeViewItem>
 			<TreeViewItem Header="Video" IsExpanded="True" Foreground="White">
 				<i:Interaction.Triggers>
 					<i:EventTrigger EventName="Selected">
-						<i:InvokeCommandAction Command="{Binding Display, Source={StaticResource LibraryViewModel}}" CommandParameter="VideoLib"/>
+						<i:InvokeCommandAction Command="{Binding Display}" CommandParameter="VideoLib"/>
 					</i:EventTrigger>
 				</i:Interaction.Triggers>
 			</TreeViewItem>
-            <TreeViewItem Header="PlayList" Foreground="White">
+            <TreeViewItem Header="PlayList" Foreground="White" ItemsSource="{Binding PlayListLibrary.MediaList}" ItemTemplate="{DynamicResource PlayListDataTemplte}">
             	<i:Interaction.Triggers>
 					<i:EventTrigger EventName="Selected">
-						<i:InvokeCommandAction Command="{Binding Display, Source={StaticResource LibraryViewModel}}" CommandParameter="PlayListLib"/>
+						<i:InvokeCommandAction Command="{Binding Display}" CommandParameter="PlayListLib"/>
 					</i:EventTrigger>
 				</i:Interaction.Triggers>
 				<TreeViewItem.ContextMenu>
@@ -169,21 +256,9 @@
 					<MenuItem Header="Delete" Command="{Binding DeleteContextMenu}"/>
 				</ContextMenu>
 			</ListView.ContextMenu>
-
 		</ListView>
 		<ListView x:Name="VideoList" ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" 
-			DataContext="{Binding VideoLibrary, Source={StaticResource LibraryViewModel}}" Visibility="{Binding Visibility}"  VerticalAlignment="Top" Grid.Column="1">
-			<i:Interaction.Triggers>
-				<i:EventTrigger EventName="MouseDoubleClick">
-					<i:InvokeCommandAction Command="{Binding PlayContextMenu}" />
-				</i:EventTrigger>
-			</i:Interaction.Triggers>
-			<ListView.View>
-				<GridView>
-					<GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
-					<GridViewColumn Header="Duration"  DisplayMemberBinding="{Binding Duration, Converter={StaticResource msToStringConverter}}" />
-				</GridView>
-			</ListView.View>
+			DataContext="{Binding VideoLibrary, Source={StaticResource LibraryViewModel}}" Visibility="{Binding Visibility}" Grid.Column="1" ItemContainerStyle="{DynamicResource VideoItemView}" Background="{x:Null}" ItemsPanel="{DynamicResource MusicItemPanel}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
 			<ListView.ContextMenu>
 				<ContextMenu>
 					<MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
@@ -193,37 +268,12 @@
 			</ListView.ContextMenu>
 		</ListView>
 		<ListView ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" x:Name="ImageList" 
-			DataContext="{Binding ImageLibrary, Source={StaticResource LibraryViewModel}}" Visibility="{Binding Visibility}" VerticalAlignment="Top" Grid.Column="1">
+			DataContext="{Binding ImageLibrary, Source={StaticResource LibraryViewModel}}" Visibility="{Binding Visibility}" VerticalAlignment="Top" Grid.Column="1" ItemContainerStyle="{DynamicResource ImageItemView}" Background="{x:Null}" ItemsPanel="{DynamicResource MusicItemPanel}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="{x:Null}">
 			<i:Interaction.Triggers>
 				<i:EventTrigger EventName="MouseDoubleClick">
 					<i:InvokeCommandAction Command="{Binding PlayContextMenu}" />
 				</i:EventTrigger>
 			</i:Interaction.Triggers>
-			<ListView.View>
-				<GridView>
-					<GridViewColumn Header="Title"     DisplayMemberBinding="{Binding Title}" />
-				</GridView>
-			</ListView.View>
-			<ListView.ContextMenu>
-				<ContextMenu>
-					<MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
-					<MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
-					<MenuItem Header="Delete" Command="{Binding DeleteContextMenu}"/>
-				</ContextMenu>
-			</ListView.ContextMenu>
-		</ListView>
-		<ListView ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" x:Name="PlayListList" 
-			DataContext="{Binding PlayListLibrary, Source={StaticResource LibraryViewModel}}" Visibility="{Binding Visibility}" VerticalAlignment="Top" Grid.Column="1">
-			<i:Interaction.Triggers>
-				<i:EventTrigger EventName="MouseDoubleClick">
-					<i:InvokeCommandAction Command="{Binding PlayContextMenu}" />
-				</i:EventTrigger>
-			</i:Interaction.Triggers>
-			<ListView.View>
-				<GridView>
-					<GridViewColumn Header="Title" DisplayMemberBinding="{Binding Title}" />
-				</GridView>
-			</ListView.View>
 			<ListView.ContextMenu>
 				<ContextMenu>
 					<MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
