@@ -154,6 +154,13 @@ namespace MusicPlayerViewModel
             if (media == null) return;
             PlayList.Add(media);
             RaisePropertyChange("PlayList");
+            if (CurrentMedia == null)
+            {
+                CurrentMedia = media;
+                Source = media.Path;
+                Play.Execute(null);
+                RaisePropertyChange("CurrentMedia");
+            }
         }
 
         private void OpenCommand(IMedia media)

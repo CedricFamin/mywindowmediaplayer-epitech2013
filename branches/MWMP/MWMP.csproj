@@ -71,6 +71,7 @@
     <Compile Include="Models\IPlayList.cs" />
     <Compile Include="Models\IVideoMedia.cs" />
     <Compile Include="Models\Converter\MilisecondsToStringConverter.cs" />
+    <Compile Include="Utils\EventToCommandBehavior.cs" />
     <Compile Include="ViewModels\IGlobalLibrary.cs" />
     <Compile Include="ViewModels\ILibrary.cs" />
     <Compile Include="ViewModels\IMenuBar.cs" />

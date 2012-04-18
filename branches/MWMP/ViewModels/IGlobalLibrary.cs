@@ -15,7 +15,10 @@ namespace MWMP.ViewModels
         ILibrary<IImageMedia> ImageLibrary { get; }
         ILibrary<IPlayList> PlayListLibrary { get; }
 
+        ICommand DropData { get; }
+        ICommand BeginDragData { get; }
         ICommand CreatePlaylist { get; }
+        ICommand PlayPlayList { get; }
         ICommand OpenPlayListWindow { get; }
         ICommand Display { get; }
 

@@ -5,6 +5,9 @@ using MWMP.Models.DAL;
 using MWMP.ViewModels;
 using System.Windows.Input;
 using MWMP.Utils;
+using System.Windows.Controls;
+using System.Windows;
+using System;
 
 namespace LibraryViewModel
 {
@@ -16,9 +19,12 @@ namespace LibraryViewModel
         public ILibrary<IImageMedia> ImageLibrary { get; private set; }
         public ILibrary<IPlayList> PlayListLibrary { get; private set; }
 
+        public ICommand DropData { get; private set; }
+        public ICommand BeginDragData { get; private set; }
         public ICommand Display { get; private set; }
         public ICommand CreatePlaylist { get; private set; }
         public ICommand OpenPlayListWindow { get; private set; }
+        public ICommand PlayPlayList { get; private set; }
         #endregion
 
         #region CTor
@@ -30,11 +36,10 @@ namespace LibraryViewModel
             PlayListLibrary = ModuleManager.GetInstanceOf<ILibrary<IPlayList>>("PlayListLibrary");
             CreatePlaylist = new RelayCommand((param) => CreatePlaylistBody(param as string));
             Display = new RelayCommand((param) => DisplayBody(param as string));
-            OpenPlayListWindow = new RelayCommand((param) =>
-                {
-                    CreatePlayListWindows window = new CreatePlayListWindows();
-                    window.ShowDialog();
-                });
+            OpenPlayListWindow = new RelayCommand((param) => OpenPlayListWindowBody());
+            PlayPlayList = new RelayCommand((param) => PlayPlayListBody(param as IPlayList));
+            BeginDragData = new RelayCommand((param) => BeginDragDataBody(param as FrameworkElement));
+            DropData = new RelayCommand((param) => DropDataBody(param as object[]));
             IDAL dal = ModuleManager.GetInstanceOf<IDAL>("XMLDAL");
             if (dal != null)
             {
@@ -101,6 +106,54 @@ namespace LibraryViewModel
                 return;
             plist.Title = name;
             PlayListLibrary.Add(plist);
+        }
+        private void PlayPlayListBody(IPlayList plist)
+        {
+            if (plist == null)
+                return;
+            IMediaPlayer mp = ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel");
+            if (mp != null)
+            {
+                foreach (IMedia media in plist.Collection)
+                    mp.AddMediaToPlayList.Execute(media);
+            }
+        }
+        private void OpenPlayListWindowBody()
+        {
+            CreatePlayListWindows window = new CreatePlayListWindows();
+            window.ShowDialog();
+        }
+        private void BeginDragDataBody(FrameworkElement element)
+        {
+            if (element == null)
+                return;
+            IMedia media = element.DataContext as IMedia;
+            if (media == null) return;
+            MediaWrapper mediaWrapper = new MediaWrapper()
+            {
+                Media = media
+            };
+            DragDrop.DoDragDrop(element, mediaWrapper, DragDropEffects.Move);
+        }
+        private void DropDataBody(object[] p)
+        {
+            if (p == null)
+                return;
+            DragEventArgs args = p[0] as DragEventArgs;
+            IPlayList plist = p[2] as IPlayList;
+            if (args == null)
+                return;
+            if (plist == null)
+                return;
+            MediaWrapper media = args.Data.GetData(typeof(MediaWrapper)) as MediaWrapper;
+            plist.Add(media.Media);
+        }
+        #endregion
+
+        #region IMediaWrapper
+        class MediaWrapper
+        {
+            public IMedia Media { get; set; }
         }
         #endregion
     }

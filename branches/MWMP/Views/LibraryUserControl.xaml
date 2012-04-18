@@ -7,6 +7,7 @@
     xmlns:local="clr-namespace:MWMP"
     xmlns:converter="clr-namespace:MWMP.Models.Converter"
 	xmlns:i="http://schemas.microsoft.com/expression/2010/interactivity" xmlns:ei="http://schemas.microsoft.com/expression/2010/interactions"
+	xmlns:MWMP_Utils="clr-namespace:MWMP.Utils"
 	mc:Ignorable="d"
 	x:Class="MWMP.LibraryUserControl"
 	x:Name="UserControl" d:DesignHeight="294" d:DesignWidth="662">
@@ -26,7 +27,12 @@
         	<Setter Property="Template">
         		<Setter.Value>
         			<ControlTemplate TargetType="{x:Type ListViewItem}">
-        				<Border x:Name="border" Height="Auto" Opacity="1" Width="366" d:DesignWidth="360" d:DesignHeight="158" Style="{DynamicResource MediaBorderStyle}" >
+        				<Border x:Name="border" Height="Auto" Opacity="1" Width="366" d:DesignWidth="360" d:DesignHeight="158" Style="{DynamicResource MediaBorderStyle}">
+        					<i:Interaction.Triggers>
+        						<i:EventTrigger EventName="MouseLeftButtonDown">
+        							<i:InvokeCommandAction CommandParameter="{Binding ElementName=border, Mode=OneWay}" Command="{Binding BeginDragData, Source={StaticResource LibraryViewModel}}"/>
+        						</i:EventTrigger>
+        					</i:Interaction.Triggers>
         					<Grid HorizontalAlignment="Stretch" MinHeight="150" VerticalAlignment="Stretch" Margin="10,0,0,0" >
         						<Grid.RowDefinitions>
         							<RowDefinition Height="Auto"/>
@@ -155,15 +161,26 @@
         	</Setter>
         </Style>
         <DataTemplate x:Key="PlayListDataTemplte">
-        	<Grid>
-        		<TextBlock Margin="0,0,0,4.04" TextWrapping="Wrap" Text="{Binding Title}" d:LayoutOverrides="Width, Height"/>
+        	<Grid x:Name="grid" AllowDrop="True">
+        		<i:Interaction.Triggers>
+        			<i:EventTrigger EventName="Drop">
+        				<MWMP_Utils:EventToCommandBehavior Command="{Binding DropData, Source={StaticResource LibraryViewModel}}" CommandParameter="{Binding DataContext, ElementName=grid}" />
+        			</i:EventTrigger>
+        		</i:Interaction.Triggers>
+        		<Label Content="{Binding Title}" Margin="0,0,-0.001,0" d:LayoutOverrides="Width, Height" Foreground="White" AllowDrop="True">
+        			<i:Interaction.Triggers>
+        				<i:EventTrigger EventName="MouseDoubleClick">
+        					<i:InvokeCommandAction Command="{Binding PlayPlayList, Source={StaticResource LibraryViewModel}}" CommandParameter="{Binding DataContext, ElementName=grid}"/>
+        				</i:EventTrigger>
+        			</i:Interaction.Triggers>
+        		</Label>
         	</Grid>
         </DataTemplate>
     </UserControl.Resources>
 	<UserControl.Background>
 		<ImageBrush ImageSource="background.jpg" Stretch="UniformToFill"/>
 	</UserControl.Background>
-    <Grid DataContext="{Binding Source={StaticResource LibraryViewModel}}">
+    <Grid x:Name="grid" DataContext="{Binding Source={StaticResource LibraryViewModel}}">
     	<Grid.ColumnDefinitions>
     		<ColumnDefinition Width="185.2"/>
     		<ColumnDefinition/>
@@ -241,13 +258,14 @@
 				</i:Interaction.Triggers>
 				<TreeViewItem.ContextMenu>
 					<ContextMenu HorizontalAlignment="Center" Background="Black" Foreground="White">
-                        <MenuItem Command="{Binding Path=OpenPlayListWindow, Mode=OneWay}" Background="{x:Null}" Foreground="White" Header="Create Playlist"></MenuItem>
+                        <MenuItem Command="{Binding OpenPlayListWindow, Mode=OneWay}" Background="{x:Null}" Foreground="White" Header="Create Playlist"/>
 					</ContextMenu>
 				</TreeViewItem.ContextMenu>
 			</TreeViewItem>
 		</TreeView>
 		<ListView ItemsSource="{Binding FilteredMediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" x:Name="MusicList" 
 			DataContext="{Binding MusicLibrary, Source={StaticResource LibraryViewModel}}" SelectionMode="Single" ItemContainerStyle="{DynamicResource LibraryMusicItem}" Background="{x:Null}" BorderThickness="0" Visibility="{Binding Visibility}" VerticalAlignment="Top" Grid.Column="1" ItemsPanel="{DynamicResource MusicItemPanel}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
+
 			<ListView.ContextMenu>
 				<ContextMenu>
 					<MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
