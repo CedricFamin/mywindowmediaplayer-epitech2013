@@ -23,11 +23,11 @@ namespace MWMP
 		public PlayerControl()
 		{
 			this.InitializeComponent();
-            IMediaPlayer player = ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel");
-            if (player != null)
-            {
-                player.MediaElement = this.MediaPlayer;
-            }
 		}
+
+        private void MediaTimeline_CurrentTimeInvalidated(object sender, EventArgs e)
+        {
+
+        }
 	}
 }

@@ -12,7 +12,7 @@
 	x:Class="MWMP.LibraryUserControl"
 	x:Name="UserControl" d:DesignHeight="294" d:DesignWidth="662">
     <UserControl.Resources>
-        <converter:MilisecondsToStringConverter x:Key="msToStringConverter"/>
+    	<converter:MilisecondsToStringConverter x:Key="MilisecondsToStringConverter"/>
         <ObjectDataProvider MethodName="GetService" ObjectType="{x:Type local:ModuleManager}" x:Key="LibraryViewModel">
             <ObjectDataProvider.MethodParameters>
                 <System:String>GlobalLibrary</System:String>
@@ -64,7 +64,7 @@
         						<TextBlock TextWrapping="Wrap" Text="{Binding Album}" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0" VerticalAlignment="Stretch" Grid.Row="2"/>
         						<TextBlock TextWrapping="Wrap" Text="{Binding Track}" d:LayoutOverrides="Height" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0" Grid.Row="3"/>
         						<TextBlock TextWrapping="Wrap" Text="{Binding Genre}" d:LayoutOverrides="Height" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,2,0,0" Grid.Row="4"/>
-        						<TextBlock TextWrapping="Wrap" Text="{Binding Duration, Converter={StaticResource msToStringConverter}}" d:LayoutOverrides="Height" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,2,0,0" Grid.Row="5"/>
+        						<TextBlock TextWrapping="Wrap" Text="{Binding Duration, Converter={StaticResource MilisecondsToStringConverter}}" d:LayoutOverrides="Height" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0,2,0,0" Grid.Row="5"/>
         						<TextBlock TextWrapping="Wrap" Text="{Binding FileSize}" d:LayoutOverrides="Height" Grid.Column="1" HorizontalAlignment="Stretch" Margin="0" Grid.Row="6" Grid.RowSpan="3"/>
         					</Grid>
         				</Border>
@@ -97,6 +97,11 @@
         		<Setter.Value>
         			<ControlTemplate TargetType="{x:Type ListViewItem}">
         				<Border x:Name="border" Style="{DynamicResource MediaBorderStyle}" Width="350" Height="150">
+        					<i:Interaction.Triggers>
+        						<i:EventTrigger EventName="MouseLeftButtonDown">
+        							<i:InvokeCommandAction CommandParameter="{Binding ElementName=border}" Command="{Binding BeginDragData, Source={StaticResource LibraryViewModel}}"/>
+        						</i:EventTrigger>
+        					</i:Interaction.Triggers>
         					<Grid Background="{x:Null}">
         						<Grid.ColumnDefinitions>
         							<ColumnDefinition Width="Auto"/>
@@ -115,7 +120,7 @@
         							</i:Interaction.Triggers>
         						</TextBlock>
         						<TextBlock HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="Duration" d:LayoutOverrides="Height" Grid.Row="1"/>
-        						<TextBlock HorizontalAlignment="Left" Margin="0,0,0,5.32" TextWrapping="Wrap" Text="{Binding Duration, Converter={StaticResource msToStringConverter}}" d:LayoutOverrides="Height" Grid.Row="1" Grid.Column="1"/>
+        						<TextBlock HorizontalAlignment="Left" Margin="0,0,0,5.32" TextWrapping="Wrap" Text="{Binding Duration, Converter={StaticResource MilisecondsToStringConverter}}" d:LayoutOverrides="Height" Grid.Row="1" Grid.Column="1"/>
         						<TextBlock Margin="0,0,0,5.32" TextWrapping="Wrap" Text="Genre:" d:LayoutOverrides="Width, Height" Grid.Row="2"/>
         						<TextBlock Margin="0" TextWrapping="Wrap" Text="{Binding Genre}" d:LayoutOverrides="Width, Height" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left"/>
         					</Grid>
@@ -128,7 +133,12 @@
         	<Setter Property="Template">
         		<Setter.Value>
         			<ControlTemplate TargetType="{x:Type ListViewItem}">
-        				<Border Style="{DynamicResource MediaBorderStyle}">
+        				<Border x:Name="border" Style="{DynamicResource MediaBorderStyle}" AllowDrop="True">
+        					<i:Interaction.Triggers>
+        						<i:EventTrigger EventName="MouseLeftButtonDown">
+        							<i:InvokeCommandAction CommandParameter="{Binding ElementName=border}" Command="{Binding BeginDragData, Source={StaticResource LibraryViewModel}}"/>
+        						</i:EventTrigger>
+        					</i:Interaction.Triggers>
         					<Grid>
         						<Grid.RowDefinitions>
         							<RowDefinition Height="Auto"/>
@@ -162,15 +172,13 @@
         </Style>
         <DataTemplate x:Key="PlayListDataTemplte">
         	<Grid x:Name="grid" AllowDrop="True">
-        		<i:Interaction.Triggers>
-        			<i:EventTrigger EventName="Drop">
-        				<MWMP_Utils:EventToCommandBehavior Command="{Binding DropData, Source={StaticResource LibraryViewModel}}" CommandParameter="{Binding DataContext, ElementName=grid}" />
-        			</i:EventTrigger>
-        		</i:Interaction.Triggers>
         		<Label Content="{Binding Title}" Margin="0,0,-0.001,0" d:LayoutOverrides="Width, Height" Foreground="White" AllowDrop="True">
         			<i:Interaction.Triggers>
         				<i:EventTrigger EventName="MouseDoubleClick">
         					<i:InvokeCommandAction Command="{Binding PlayPlayList, Source={StaticResource LibraryViewModel}}" CommandParameter="{Binding DataContext, ElementName=grid}"/>
+        				</i:EventTrigger>
+        				<i:EventTrigger EventName="Drop">
+        					<MWMP_Utils:EventToCommandBehavior Command="{Binding DropData, Source={StaticResource LibraryViewModel}}" CommandParameter="{Binding DataContext, ElementName=grid}" />
         				</i:EventTrigger>
         			</i:Interaction.Triggers>
         		</Label>
@@ -287,11 +295,6 @@
 		</ListView>
 		<ListView ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" x:Name="ImageList" 
 			DataContext="{Binding ImageLibrary, Source={StaticResource LibraryViewModel}}" Visibility="{Binding Visibility}" VerticalAlignment="Top" Grid.Column="1" ItemContainerStyle="{DynamicResource ImageItemView}" Background="{x:Null}" ItemsPanel="{DynamicResource MusicItemPanel}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="{x:Null}">
-			<i:Interaction.Triggers>
-				<i:EventTrigger EventName="MouseDoubleClick">
-					<i:InvokeCommandAction Command="{Binding PlayContextMenu}" />
-				</i:EventTrigger>
-			</i:Interaction.Triggers>
 			<ListView.ContextMenu>
 				<ContextMenu>
 					<MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>

@@ -25,50 +25,19 @@ namespace MusicPlayerViewModel
         #region Fields
         private string _source;
         private double _volume;
-        private DispatcherTimer clockTimer = new DispatcherTimer() { Interval = new TimeSpan(0, 0, 1) };
         #endregion
 
         #region Properties
-        public MediaElement MediaElement { set; get; }
-        public MediaState LoadedBehavior { set; get; }
-        public bool CanCommandExecute { set; get; }
+        public int MaxTime { get; private set; }
+        public int CurrentTime { get; set; }
+        public int CurrentMedia { get; set; }
         public IPlayList PlayList { get; private set; }
-        public ICommand ChangeVolume { get; private set; }
-        public Duration NaturalDuration { get; set; }
-        public TimeSpan Position {get; set;}
-        public double DurationOnCurrentPlay
-        {
-            get
-            {
-                if (MediaElement == null)
-                    return 0;
-                if (MediaElement.NaturalDuration.HasTimeSpan == false)
-                    return 1;
-                return MediaElement.NaturalDuration.TimeSpan.TotalSeconds;
-            }
-        }
-        public double PosOnCurrentPlay
-        {
-            get
-            {
-                if (MediaElement == null)
-                    return 0;
-                return MediaElement.Position.TotalSeconds;
-            }
-            set
-            {
-                this.MediaElement.Position = new TimeSpan(0, 0, (int)value);
-            }
-        }
-        public IMedia CurrentMedia { get; set; }
         public string Source
         {
             set
             {
                 this._source = value;
                 RaisePropertyChange("Source");
-                RaisePropertyChange("Time");
-
             }
             get { return this._source; }
         }
@@ -81,31 +50,15 @@ namespace MusicPlayerViewModel
             }
             get { return this._volume; }
         }
-        public string Time
-        {
-            get
-            {
-                if (MediaElement == null || MediaElement.NaturalDuration.HasTimeSpan == false)
-                    return "0:0:0/0:0:0";
-                string format = "";
-                if (MediaElement.NaturalDuration.TimeSpan.Hours > 0)
-                    format += "hh':'";
-                if (MediaElement.NaturalDuration.TimeSpan.Minutes > 0)
-                    format += "mm':'";
-                format += "ss";
-                return MediaElement.Position.ToString(format) + "/" +
-                       MediaElement.NaturalDuration.TimeSpan.ToString(format);
-            }
-        }
         #endregion
 
         #region Command
+        public ICommand OpenMedia { get; private set; }
+        public ICommand TimeUpdate { get; private set; }
+        public ICommand ChangeVolume { get; private set; }
         public ICommand SeekToMediaPosition { get; protected set; }
-        public ICommand Stop { get; protected set; }
         public ICommand Next { get; protected set; }
         public ICommand Previous { get; protected set; }
-        public ICommand Pause { get; protected set; }
-        public ICommand Play { get; protected set; }
         public ICommand Open { get; protected set; }
         public ICommand AddMediaToPlayList { get; protected set; }
         #endregion
@@ -115,22 +68,35 @@ namespace MusicPlayerViewModel
         {
             PlayList = ModuleManager.GetInstanceOf<IPlayList>("PlayList");
             if (PlayList != null) PlayList.Title = "Current PlayList";
-            this._volume = 100;
-            Play = new RelayCommand((param) => MediaElement.Play());
-            Stop = new RelayCommand((param) => MediaElement.Stop());
-            Pause = new RelayCommand((param) => MediaElement.Pause());
-            ChangeVolume = new RelayCommand((param) => Volume = ((param as double?) ?? 0.0) / 100.0);
+            this._volume = 0.5;
+            ChangeVolume = new RelayCommand((param) => Volume = Convert.ToDouble(param));
+            TimeUpdate = new RelayCommand((param) =>
+                {
+                    CurrentTime = (int)param;
+                    RaisePropertyChange("CurrentTime");
+                });
             SeekToMediaPosition = new RelayCommand((param) =>
             {
-                ;
+                double milisecond = (double)param;
 
             });
+            OpenMedia = new RelayCommand((param) =>
+                {
+                    object[] p = param as object[];
+                    if (p == null) 
+                        return;
+                    MediaElement e = p[1] as MediaElement;
+                    if (e == null) 
+                        return;
+                    if (e.NaturalDuration.HasTimeSpan == false)
+                        return;
+                    MaxTime = (int)e.NaturalDuration.TimeSpan.TotalMilliseconds;
+                    RaisePropertyChange("MaxTime");
+                });
             Next = new RelayCommand((param) => NextBody());
             Previous = new RelayCommand((param) => PreviousBody());
             AddMediaToPlayList = new RelayCommand((param) => this.AddMediaToPlayListCommand(param as IMedia));
             Open = new RelayCommand((param) => this.OpenCommand(param as IMedia));
-            clockTimer.Tick += clockTimer_Tick;
-            clockTimer.Start();
         }
         #endregion
 
@@ -142,62 +108,47 @@ namespace MusicPlayerViewModel
         #endregion
 
         #region private Methods
-        private void clockTimer_Tick(object sender, EventArgs e)
-        {
-            RaisePropertyChange("Time");
-            RaisePropertyChange("PosOnCurrentPlay");
-            RaisePropertyChange("DurationOnCurrentPlay");
-        }
-
         private void AddMediaToPlayListCommand(IMedia media)
         {
             if (media == null) return;
             PlayList.Add(media);
             RaisePropertyChange("PlayList");
-            if (CurrentMedia == null)
-            {
-                CurrentMedia = media;
-                Source = media.Path;
-                Play.Execute(null);
-                RaisePropertyChange("CurrentMedia");
-            }
+            if (PlayList.Collection.Count == 1)
+                ChangeCurrentMedia(0);
         }
 
         private void OpenCommand(IMedia media)
         {
             if (media == null) 
                 return ;
-            Stop.Execute(new Object[0]);
             PlayList.Clear();
             if (media == null) return;
-            CurrentMedia = media;
-            RaisePropertyChange("CurrentMedia");
-            Source = media.Path;
-            AddMediaToPlayList.Execute(media);
-            Play.Execute(new object[0]);
+            AddMediaToPlayList.Execute(media); 
         }
 
         private void NextBody()
         {
-            if (PlayList.Collection.Contains(CurrentMedia) == false)
-                return;
-            int indexOfCurrent = PlayList.Collection.IndexOf(CurrentMedia) + 1;
+            int indexOfCurrent = CurrentMedia + 1;
             if (PlayList.Collection.Count <= indexOfCurrent)
                 indexOfCurrent = 0;
-            CurrentMedia = PlayList.Collection[indexOfCurrent];
-            RaisePropertyChange("CurrentMedia");
-            Source = CurrentMedia.Path;
+            ChangeCurrentMedia(indexOfCurrent);
         }
         private void PreviousBody()
         {
-            if (PlayList.Collection.Contains(CurrentMedia) == false)
-                return;
-            int indexOfCurrent = PlayList.Collection.IndexOf(CurrentMedia) - 1;
+            int indexOfCurrent = CurrentMedia - 1;
             if (indexOfCurrent < 0)
                 indexOfCurrent = PlayList.Collection.Count - 1;
-            CurrentMedia = PlayList.Collection[indexOfCurrent];
-            RaisePropertyChange("CurrentMedia");
-            Source = CurrentMedia.Path;
+            ChangeCurrentMedia(indexOfCurrent);
+        }
+
+        private void ChangeCurrentMedia(int index)
+        {
+            if (index <= PlayList.Collection.Count)
+            {
+                CurrentMedia = index;
+                Source = PlayList.Collection[CurrentMedia].Path;
+                RaisePropertyChange("CurrentMedia");
+            }
         }
         #endregion
     }

@@ -85,7 +85,6 @@ namespace MenuBar
                 if (media == null)
                 {
                     mediaPlayer.Source = path;
-                    mediaPlayer.Play.Execute(null);
                     return;
                 }
                 media.Title = path;

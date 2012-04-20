@@ -141,16 +141,17 @@ namespace LibraryViewModel
                 return;
             DragEventArgs args = p[0] as DragEventArgs;
             IPlayList plist = p[2] as IPlayList;
-            if (args == null)
-                return;
-            if (plist == null)
+            //object datas = args.Data.GetData("FileDrop");
+            if (args == null || plist == null)
                 return;
             MediaWrapper media = args.Data.GetData(typeof(MediaWrapper)) as MediaWrapper;
+            if (media == null)
+                return;
             plist.Add(media.Media);
         }
         #endregion
 
-        #region IMediaWrapper
+        #region MediaWrapper
         class MediaWrapper
         {
             public IMedia Media { get; set; }

@@ -1,24 +1,23 @@
 ﻿using System;
-using System.Globalization;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
 using System.Windows.Data;
+using System.Globalization;
 
 namespace MWMP.Models.Converter
 {
-    class MilisecondsToStringConverter : IValueConverter
+    class MilisecondToTimeSpanConverter : IValueConverter
     {
-
         public object Convert(object value, Type targetType, object parameter, CultureInfo culture)
         {
             TimeSpan time = TimeSpan.FromMilliseconds(System.Convert.ToDouble(value));
-            return time.ToString("h':'mm':'ss");
+            return time;
         }
 
         public object ConvertBack(object value, Type targetType, object parameter, CultureInfo culture)
-        {
-            TimeSpan time;
-            if (TimeSpan.TryParse((string)value, out time))
-                return time.TotalMilliseconds;
-            return 0;
+        { 
+            return (TimeSpan)value;
         }
     }
 }

@@ -12,26 +12,20 @@ namespace MWMP.ViewModels
 {
     public interface IMediaPlayer
     {
-        MediaElement MediaElement { set; get; }
+        int MaxTime { get; }
+        int CurrentTime { get; set; }
         string Source { set; get; }
         double Volume { set; get; }
-        string Time { get; }
-        MediaState LoadedBehavior { set; get; }
-        bool CanCommandExecute { set; get; }
-		double DurationOnCurrentPlay  {get; }
-        double PosOnCurrentPlay { get; set; }
-        IMedia CurrentMedia { get; set; }
-        Duration NaturalDuration { get; set; }
-        TimeSpan Position { get; set; }
+        int CurrentMedia { get; set; }
+        IPlayList PlayList { get;}
 
         void LoadedMediaFaild();
 
+        ICommand TimeUpdate { get; }
+        ICommand OpenMedia { get; }
         ICommand SeekToMediaPosition { get; }
-        ICommand Stop { get; }
         ICommand Next { get; }
         ICommand Previous { get; }
-        ICommand Pause { get; }
-        ICommand Play { get; }
         ICommand Open { get; }
         ICommand ChangeVolume { get; }
         ICommand AddMediaToPlayList { get; }
