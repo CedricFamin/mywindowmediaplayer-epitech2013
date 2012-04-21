@@ -48,9 +48,6 @@
 				<i:EventTrigger EventName="MediaEnded">
 					<i:InvokeCommandAction Command="{Binding Next}"/>
 				</i:EventTrigger>
-				<i:EventTrigger EventName="MediaOpened">
-					<MWMP_Utils:EventToCommandBehavior Command="{Binding OpenMedia}"/>
-				</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</MediaElement>
 		<Grid Background="Black" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" Opacity="0.7" d:LayoutOverrides="Height" >
@@ -60,36 +57,39 @@
 			</Grid.RowDefinitions>
 			<TextBlock TextWrapping="Wrap" Text="Current Playlist" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Top"/>
 			<ScrollViewer Grid.Column="1" Margin="0" Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Auto" >
-				<ListView x:Name="PlayList" ItemsSource="{Binding PlayList.Collection}" Background="{x:Null}" BorderBrush="{x:Null}" IsSynchronizedWithCurrentItem="False" SelectedIndex="{Binding CurrentMedia}" SelectionMode="Multiple" VerticalContentAlignment="Top" UseLayoutRounding="True" HorizontalAlignment="Left" VerticalAlignment="Top" Foreground="White" BorderThickness="0">
-					<ListView.View>
-						<GridView AllowsColumnReorder="False">
-							<GridView.ColumnHeaderContainerStyle>
-								<Style>
-									<Setter Property="UIElement.Visibility" Value="Collapsed"/>
-								</Style>
-							</GridView.ColumnHeaderContainerStyle>
-							<GridViewColumn DisplayMemberBinding="{Binding Title}"/>
-						</GridView>
-					</ListView.View>
-					<i:Interaction.Triggers>
-						<i:EventTrigger EventName="MouseDoubleClick">
-							<i:InvokeCommandAction  Command="{Binding Open, Source={StaticResource ResourceKey=MusicPlayer}}" CommandParameter="{Binding SelectedItem, ElementName=PlayList}"/>
-						</i:EventTrigger>
-					</i:Interaction.Triggers>
+				<ListView x:Name="PlayList" ItemsSource="{Binding PlayList.Collection}" Background="{x:Null}" BorderBrush="{x:Null}" IsSynchronizedWithCurrentItem="False" SelectedIndex="{Binding CurrentMedia}"  VerticalContentAlignment="Top" UseLayoutRounding="True" VerticalAlignment="Top" Foreground="White" BorderThickness="0" ItemTemplate="{DynamicResource DataTemplate}">
+					<ListView.Resources>
+						<DataTemplate x:Key="DataTemplate">
+							<Grid x:Name="grid">
+								<Label Content="{Binding Title}" d:LayoutOverrides="Width, Height" Foreground="White">
+									<i:Interaction.Triggers>
+										<i:EventTrigger EventName="MouseDoubleClick">
+											<i:InvokeCommandAction Command="{Binding ChangePist, Source={StaticResource MusicPlayer}}" CommandParameter="{Binding DataContext, ElementName=grid}" />
+										</i:EventTrigger>
+									</i:Interaction.Triggers>
+								</Label>
+							</Grid>
+						</DataTemplate>
+					</ListView.Resources>
+					
 				</ListView>
 			</ScrollViewer>
 		</Grid>
 		<StackPanel Grid.Column="0"  Grid.ColumnSpan="2" Grid.Row="1" Background="Black" Opacity="0.7" >
 			<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Slider Margin="10,0" x:Name="TimeSlider" IsMoveToPointEnabled="True" Width="501" BorderThickness="0,8,0,0" Background="{x:Null}" Maximum="{Binding MaxTime}" Value="{Binding Position, Converter={StaticResource TimeSpanToMilisecondConverter}, ElementName=MediaElementBehavior, Mode=TwoWay, UpdateSourceTrigger=Default}">
+                <Slider Margin="10,0" x:Name="TimeSlider" IsMoveToPointEnabled="True" Width="501" BorderThickness="0,8,0,0" Background="{x:Null}" Maximum="{Binding Maximum, ElementName=MediaElementBehavior, Mode=OneWay, Converter={StaticResource TimeSpanToMilisecondConverter}}" Value="{Binding Position, Converter={StaticResource TimeSpanToMilisecondConverter}, ElementName=MediaElementBehavior, Mode=TwoWay, UpdateSourceTrigger=Default}">
                         <i:Interaction.Triggers>
 						    <i:EventTrigger EventName="MouseLeftButtonUp">
 							    <ei:ChangePropertyAction PropertyName="Position" Value="{Binding Value, Converter={StaticResource MilisecondToTimeSpanConverter}, ElementName=TimeSlider}" TargetObject="{Binding ElementName=MediaPlayer}"/>
 						    </i:EventTrigger>
 					    </i:Interaction.Triggers>
 				</Slider>
-                <TextBlock Text="{Binding Position, ElementName=MediaElementBehavior, Mode=OneWay}" Foreground="White"/>
-				<TextBlock Text="{Binding MaxTime, Converter={StaticResource MilisecondsToStringConverter}}" Foreground="White" VerticalAlignment="Center"/>
+				
+				<TextBlock VerticalAlignment="Center">
+                <TextBlock Text="{Binding Position, ElementName=MediaElementBehavior, Mode=OneWay, StringFormat={}{0:h':'mm':'ss}}"/>
+				/
+				<TextBlock Text="{Binding Maximum, ElementName=MediaElementBehavior, Mode=OneWay, StringFormat={}{0:h':'mm':'ss}}" VerticalAlignment="Center"/>
+				</TextBlock>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 				<Image Height="32" Width="32" Source="player_start.png">
@@ -99,7 +99,14 @@
 						</i:EventTrigger>
 					</i:Interaction.Triggers>
 				</Image>
-				<Image Height="32" Width="32" Source="player_stop.png"/>
+				<Image Height="32" Width="32" Source="player_stop.png">
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="MouseLeftButtonDown">
+							<ei:CallMethodAction TargetObject="{Binding ElementName=MediaPlayer}" MethodName="Pause"/>
+							<ei:ChangePropertyAction PropertyName="Position" Value="00:00:00" TargetObject="{Binding ElementName=MediaPlayer}"/>
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
+				</Image>
 				<Image Height="32" Width="32" Source="player_pause.png">
 					<i:Interaction.Triggers>
 						<i:EventTrigger EventName="MouseLeftButtonDown">

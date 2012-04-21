@@ -111,8 +111,9 @@
         							<RowDefinition Height="Auto"/>
         							<RowDefinition Height="Auto"/>
         							<RowDefinition Height="Auto"/>
+        							<RowDefinition Height="Auto"/>
         						</Grid.RowDefinitions>
-        						<TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Title}" d:LayoutOverrides="Height" TextDecorations="Underline" Style="{DynamicResource TextBlockTitle}" Grid.ColumnSpan="2">
+        						<TextBlock x:Name="Title" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Title}" d:LayoutOverrides="Height" TextDecorations="Underline" Style="{DynamicResource TextBlockTitle}" Grid.ColumnSpan="2">
         							<i:Interaction.Triggers>
         								<i:EventTrigger EventName="MouseLeftButtonDown">
         										<i:InvokeCommandAction Command="{Binding Open, Mode=OneWay, Source={StaticResource MediaPlayerVM}}" CommandParameter="{Binding DataContext, ElementName=border}"/>
@@ -120,9 +121,11 @@
         							</i:Interaction.Triggers>
         						</TextBlock>
         						<TextBlock HorizontalAlignment="Stretch" TextWrapping="Wrap" Text="Duration" d:LayoutOverrides="Height" Grid.Row="1"/>
-        						<TextBlock HorizontalAlignment="Left" Margin="0,0,0,5.32" TextWrapping="Wrap" Text="{Binding Duration, Converter={StaticResource MilisecondsToStringConverter}}" d:LayoutOverrides="Height" Grid.Row="1" Grid.Column="1"/>
+        						<TextBlock x:Name="Duration" HorizontalAlignment="Left" Margin="0,0,0,5.32" TextWrapping="Wrap" Text="{Binding Duration, Converter={StaticResource MilisecondsToStringConverter}}" d:LayoutOverrides="Height" Grid.Row="1" Grid.Column="1"/>
         						<TextBlock Margin="0,0,0,5.32" TextWrapping="Wrap" Text="Genre:" d:LayoutOverrides="Width, Height" Grid.Row="2"/>
-        						<TextBlock Margin="0" TextWrapping="Wrap" Text="{Binding Genre}" d:LayoutOverrides="Width, Height" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left"/>
+        						<TextBlock x:Name="Genre" Margin="0" TextWrapping="Wrap" Text="{Binding Genre}" d:LayoutOverrides="Width, Height" Grid.Column="1" Grid.Row="2" HorizontalAlignment="Left"/>
+        						<TextBlock Margin="0,0,0,5.32" TextWrapping="Wrap" Text="Resolution" d:LayoutOverrides="Width, Height" Grid.Row="3"/>
+        						<TextBlock x:Name="Resolution" Margin="0" TextWrapping="Wrap" Text="{Binding Width}" d:LayoutOverrides="Width, Height" Grid.Row="3" Grid.Column="1"/>
         					</Grid>
         				</Border>
         			</ControlTemplate>
@@ -159,10 +162,16 @@
         							</Border.BorderBrush>
         							<Image Source="{Binding Path}" Style="{DynamicResource ThumbnailStyle}" HorizontalAlignment="Stretch"/>
         						</Border>
-        						<TextBlock HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Title}" VerticalAlignment="Top" Grid.Column="1" Style="{DynamicResource TextBlockTitle}" Grid.ColumnSpan="2"/>
+        						<TextBlock x:Name="Title" HorizontalAlignment="Center" TextWrapping="Wrap" Text="{Binding Title}" VerticalAlignment="Top" Grid.Column="1" Style="{DynamicResource TextBlockTitle}" Grid.ColumnSpan="2">
+        							<i:Interaction.Triggers>
+        								<i:EventTrigger EventName="MouseLeftButtonDown">
+        									<i:InvokeCommandAction Command="{Binding Open, Mode=OneWay, Source={StaticResource MediaPlayerVM}}" CommandParameter="{Binding DataContext, ElementName=border}"/>
+        								</i:EventTrigger>
+        							</i:Interaction.Triggers>
+        						</TextBlock>
         						<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Size:" VerticalAlignment="Top" Grid.Column="1" Grid.Row="1"/>
         						<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding FileSize}" VerticalAlignment="Top" Grid.Column="2" Grid.Row="1"/>
-        						<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Filename:" VerticalAlignment="Stretch" Grid.Column="1" Margin="0" Grid.Row="2" d:LayoutOverrides="Height"/>
+        						<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="Filename:" VerticalAlignment="Stretch" Grid.Column="1" Margin="0,0,10,0" Grid.Row="2" d:LayoutOverrides="Height"/>
         						<TextBlock HorizontalAlignment="Left" TextWrapping="Wrap" Text="{Binding Filename}" VerticalAlignment="Stretch" Grid.Column="2" Margin="0" Grid.Row="2" d:LayoutOverrides="Height"/>
         					</Grid>
         				</Border>

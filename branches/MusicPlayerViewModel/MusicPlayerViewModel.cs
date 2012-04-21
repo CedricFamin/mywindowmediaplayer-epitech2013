@@ -28,8 +28,6 @@ namespace MusicPlayerViewModel
         #endregion
 
         #region Properties
-        public int MaxTime { get; private set; }
-        public int CurrentTime { get; set; }
         public int CurrentMedia { get; set; }
         public IPlayList PlayList { get; private set; }
         public string Source
@@ -53,10 +51,8 @@ namespace MusicPlayerViewModel
         #endregion
 
         #region Command
-        public ICommand OpenMedia { get; private set; }
-        public ICommand TimeUpdate { get; private set; }
+        public ICommand ChangePist { get; private set; }
         public ICommand ChangeVolume { get; private set; }
-        public ICommand SeekToMediaPosition { get; protected set; }
         public ICommand Next { get; protected set; }
         public ICommand Previous { get; protected set; }
         public ICommand Open { get; protected set; }
@@ -70,33 +66,19 @@ namespace MusicPlayerViewModel
             if (PlayList != null) PlayList.Title = "Current PlayList";
             this._volume = 0.5;
             ChangeVolume = new RelayCommand((param) => Volume = Convert.ToDouble(param));
-            TimeUpdate = new RelayCommand((param) =>
-                {
-                    CurrentTime = (int)param;
-                    RaisePropertyChange("CurrentTime");
-                });
-            SeekToMediaPosition = new RelayCommand((param) =>
-            {
-                double milisecond = (double)param;
-
-            });
-            OpenMedia = new RelayCommand((param) =>
-                {
-                    object[] p = param as object[];
-                    if (p == null) 
-                        return;
-                    MediaElement e = p[1] as MediaElement;
-                    if (e == null) 
-                        return;
-                    if (e.NaturalDuration.HasTimeSpan == false)
-                        return;
-                    MaxTime = (int)e.NaturalDuration.TimeSpan.TotalMilliseconds;
-                    RaisePropertyChange("MaxTime");
-                });
             Next = new RelayCommand((param) => NextBody());
             Previous = new RelayCommand((param) => PreviousBody());
-            AddMediaToPlayList = new RelayCommand((param) => this.AddMediaToPlayListCommand(param as IMedia));
+            ChangePist = new RelayCommand((param) => ChangePistBody(param as IMedia));
+            AddMediaToPlayList = new RelayCommand((param) => AddMediaToPlayListCommand(param as IMedia));
             Open = new RelayCommand((param) => this.OpenCommand(param as IMedia));
+        }
+
+        private void ChangePistBody(IMedia media)
+        {
+            if (media == null)
+                return;
+            int index = PlayList.Collection.IndexOf(media);
+            ChangeCurrentMedia(index);
         }
         #endregion
 

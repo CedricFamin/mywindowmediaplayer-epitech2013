@@ -25,6 +25,8 @@ namespace Medias
         public string Filename { get; set; }
         public string Path { get; set; }
         public int FileSize { get; set; }
+        public int Width { get; set; }
+        public int Height { get; set; }
         #endregion
 
         #region Methods

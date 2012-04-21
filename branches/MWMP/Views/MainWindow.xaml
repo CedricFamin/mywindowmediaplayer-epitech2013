@@ -14,31 +14,6 @@
                 <system:String>MenuBar</system:String>
             </ObjectDataProvider.MethodParameters>
         </ObjectDataProvider>
-        <Style TargetType="{x:Type MenuItem}">
-        	<Setter Property="HorizontalContentAlignment" Value="{Binding HorizontalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-        	<Setter Property="VerticalContentAlignment" Value="{Binding VerticalContentAlignment, RelativeSource={RelativeSource AncestorType={x:Type ItemsControl}}}"/>
-        	<Setter Property="Background" Value="Transparent"/>
-        	<Setter Property="ScrollViewer.PanningMode" Value="Both"/>
-        	<Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
-        	<Setter Property="Template" Value="{DynamicResource {ComponentResourceKey ResourceId=SubmenuItemTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}}"/>
-        	<Style.Triggers>
-        		<Trigger Property="Role" Value="TopLevelHeader">
-        			<Setter Property="Padding" Value="7,2,8,3"/>
-        			<Setter Property="Template" Value="{DynamicResource {ComponentResourceKey ResourceId=TopLevelHeaderTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}}"/>
-        		</Trigger>
-        		<Trigger Property="Role" Value="TopLevelItem">
-        			<Setter Property="Padding" Value="7,2,8,3"/>
-        			<Setter Property="Template" Value="{DynamicResource {ComponentResourceKey ResourceId=TopLevelItemTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}}"/>
-        		</Trigger>
-        		<Trigger Property="Role" Value="SubmenuHeader">
-        			<Setter Property="Padding" Value="2,3,2,3"/>
-        			<Setter Property="Template" Value="{DynamicResource {ComponentResourceKey ResourceId=SubmenuHeaderTemplateKey, TypeInTargetAssembly={x:Type MenuItem}}}"/>
-        		</Trigger>
-        		<Trigger Property="Role" Value="SubmenuItem">
-        			<Setter Property="Padding" Value="2,3,2,3"/>
-        		</Trigger>
-        	</Style.Triggers>
-        </Style>
         <Style TargetType="{x:Type TabControl}">
         	<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
         	<Setter Property="Padding" Value="4,4,4,4"/>
@@ -109,10 +84,10 @@
     	</Grid.RowDefinitions>
 		<DockPanel DataContext="{Binding Source={StaticResource MenuBarViewModel}}" Background="{x:Null}">
 			<Menu Background="{x:Null}" Foreground="White">
-				<MenuItem Header="Fichier" Background="{x:Null}">
-					<MenuItem Header="Ouvrir" x:Name="DockPanelOpen" Command="{Binding Open}" Background="{x:Null}"/>
+				<MenuItem Header="Fichier" ItemsPanel="{DynamicResource MenuBarItemPanel}" Background="{x:Null}">
+					<MenuItem Header="Open" x:Name="DockPanelOpen" Command="{Binding Open}" Background="{x:Null}"/>
 					<Separator/>
-					<MenuItem Header="Fermer" Command="{Binding Close}" Background="{x:Null}"/>
+					<MenuItem Header="Close" Command="{Binding Close}"/>
 				</MenuItem>
 				<MenuItem Header="Aide"/>
 			</Menu>

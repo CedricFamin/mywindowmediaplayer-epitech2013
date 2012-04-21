@@ -133,5 +133,8 @@
 			</Trigger>
 		</Style.Triggers>
 	</Style>
+	<ItemsPanelTemplate x:Key="MenuBarItemPanel">
+		<StackPanel IsItemsHost="True" Background="Black"/>
+	</ItemsPanelTemplate>
 	<!-- Resource dictionary entries should be defined here. -->
 </ResourceDictionary>

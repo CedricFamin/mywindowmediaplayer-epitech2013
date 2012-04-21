@@ -12,8 +12,6 @@ namespace MWMP.ViewModels
 {
     public interface IMediaPlayer
     {
-        int MaxTime { get; }
-        int CurrentTime { get; set; }
         string Source { set; get; }
         double Volume { set; get; }
         int CurrentMedia { get; set; }
@@ -21,9 +19,7 @@ namespace MWMP.ViewModels
 
         void LoadedMediaFaild();
 
-        ICommand TimeUpdate { get; }
-        ICommand OpenMedia { get; }
-        ICommand SeekToMediaPosition { get; }
+        ICommand ChangePist { get; }
         ICommand Next { get; }
         ICommand Previous { get; }
         ICommand Open { get; }

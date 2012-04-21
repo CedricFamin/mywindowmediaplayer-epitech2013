@@ -21,7 +21,16 @@ namespace MWMP.Utils
         // Using a DependencyProperty as the backing store for CurrentTime.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty PositionProperty =
             DependencyProperty.Register("Position", typeof(TimeSpan), typeof(MediaSliderBehavior));
-        
+
+        public TimeSpan Maximum
+        {
+            get { return (TimeSpan)GetValue(MaximumProperty); }
+            set { SetValue(MaximumProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for Maximum.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty MaximumProperty =
+            DependencyProperty.Register("Maximum", typeof(TimeSpan), typeof(MediaSliderBehavior));
         
         private readonly Timer _timer = new Timer(1000);
 
@@ -29,7 +38,19 @@ namespace MWMP.Utils
         {
             _timer.AutoReset = true;
             _timer.Elapsed += ElapseTime;
+            AssociatedObject.MediaOpened += new RoutedEventHandler(MediaOpened);
             _timer.Start();
+        }
+
+        private void MediaOpened(object sender, RoutedEventArgs eArgs)
+        {
+            MediaElement e = sender as MediaElement;
+            if (e == null)
+                return ;
+            if (e.NaturalDuration.HasTimeSpan)
+                Maximum = e.NaturalDuration.TimeSpan;
+            else
+                Maximum = new TimeSpan();
         }
 
         private void UpdatePos()

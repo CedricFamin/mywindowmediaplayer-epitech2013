@@ -58,7 +58,8 @@ namespace Medias
                 media.Title = media.Filename;
             media.Genre = _mediaInfo.Get(0, 0, "Genre");
             media.Duration = (Int32.TryParse(_mediaInfo.Get(0, 0, "Duration"), out value)) ? value : 0;
-            
+            media.Width = (Int32.TryParse(_mediaInfo.Get(0, 0, "Width"), out value)) ? value : 0;
+            media.Height = (Int32.TryParse(_mediaInfo.Get(0, 0, "height"), out value)) ? value : 0;
         }
 
         public void SetInfo(IMusicMedia media)

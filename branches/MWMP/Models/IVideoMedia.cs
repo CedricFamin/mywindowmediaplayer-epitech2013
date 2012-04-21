@@ -9,5 +9,7 @@ namespace MWMP.Models
     {
         string Genre { get; set; }
         int Duration { get; set; }
+        int Width { get; set; }
+        int Height { get; set; }
     }
 }
