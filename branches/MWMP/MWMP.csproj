@@ -66,6 +66,7 @@
     <Compile Include="InjectionDepedency\GenericModule.cs" />
     <Compile Include="InjectionDepedency\IModule.cs" />
     <Compile Include="InjectionDepedency\IModuleList.cs" />
+    <Compile Include="Models\Converter\TimeSpanToMilisecondConverter.cs" />
     <Compile Include="Models\Converter\MilisecondToTimeSpanConverter.cs" />
     <Compile Include="Models\DAL\IDAL.cs" />
     <Compile Include="Models\IImageMedia.cs" />
@@ -76,6 +77,7 @@
     <Compile Include="Models\IVideoMedia.cs" />
     <Compile Include="Models\Converter\MilisecondsToStringConverter.cs" />
     <Compile Include="Utils\EventToCommandBehavior.cs" />
+    <Compile Include="Utils\MediaSliderBehavior.cs" />
     <Compile Include="ViewModels\IGlobalLibrary.cs" />
     <Compile Include="ViewModels\ILibrary.cs" />
     <Compile Include="ViewModels\IMenuBar.cs" />

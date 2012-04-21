@@ -1,0 +1,45 @@
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Text;
+using System.Windows.Interactivity;
+using System.Windows;
+using System.Windows.Controls;
+using System.Timers;
+using System.Windows.Threading;
+
+namespace MWMP.Utils
+{
+    class MediaSliderBehavior : Behavior<MediaElement>
+    {
+        public TimeSpan Position
+        {
+            get { return (TimeSpan)GetValue(PositionProperty); }
+            set { SetValue(PositionProperty, value); }
+        }
+
+        // Using a DependencyProperty as the backing store for CurrentTime.  This enables animation, styling, binding, etc...
+        public static readonly DependencyProperty PositionProperty =
+            DependencyProperty.Register("Position", typeof(TimeSpan), typeof(MediaSliderBehavior));
+        
+        
+        private readonly Timer _timer = new Timer(1000);
+
+        protected override void OnAttached()
+        {
+            _timer.AutoReset = true;
+            _timer.Elapsed += ElapseTime;
+            _timer.Start();
+        }
+
+        private void UpdatePos()
+        {
+            Position = AssociatedObject.Position;
+        }
+
+        private void ElapseTime(object sender, ElapsedEventArgs e)
+        {
+            Dispatcher.Invoke(new Action(UpdatePos));
+        }
+    }
+}

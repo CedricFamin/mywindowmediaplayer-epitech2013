@@ -14,6 +14,7 @@
     <UserControl.Resources>
     	<MWMP_Models_Converter:MilisecondToTimeSpanConverter x:Key="MilisecondToTimeSpanConverter"/>
     	<MWMP_Models_Converter:MilisecondsToStringConverter x:Key="MilisecondsToStringConverter"/>
+        <MWMP_Models_Converter:TimeSpanToMilisecondConverter x:Key="TimeSpanToMilisecondConverter"/>
     	<ObjectDataProvider MethodName="GetService" ObjectType="{x:Type local:ModuleManager}" x:Key="MusicPlayer">
     		<ObjectDataProvider.MethodParameters>
     			<system:String>MusicPlayerViewModel</system:String>
@@ -21,12 +22,6 @@
     	</ObjectDataProvider>
     </UserControl.Resources>
 	<Grid x:Name="LayoutRoot" MinWidth="650">
-        <Grid.Resources>
-        	<Storyboard x:Key="MediaSB">
-        		<MediaTimeline Source="{Binding Source, Mode=OneWay, Source={StaticResource ResourceKey=MusicPlayer}}" Storyboard.TargetName="MediaPlayer">
-				</MediaTimeline>
-        	</Storyboard>
-        </Grid.Resources>
 		<Grid.DataContext>
 			<StaticResource ResourceKey="MusicPlayer"/>
 		</Grid.DataContext>
@@ -41,15 +36,17 @@
 			<RowDefinition/>
 			<RowDefinition Height="64"/>
 		</Grid.RowDefinitions>
-		<MediaElement Grid.Row="0" Grid.Column="0" x:Name="MediaPlayer" LoadedBehavior="Manual" 
+		<MediaElement Grid.Row="0" Grid.Column="0" Source="{Binding Source}" x:Name="MediaPlayer" LoadedBehavior="Manual" 
 			UnloadedBehavior="Manual"  Volume="{Binding Volume, Mode=OneWay}">
-			<i:Interaction.Triggers>
+            <i:Interaction.Behaviors>
+                <MWMP_Utils:MediaSliderBehavior x:Name="MediaElementBehavior"></MWMP_Utils:MediaSliderBehavior>
+            </i:Interaction.Behaviors>
+            <i:Interaction.Triggers>
 				<i:EventTrigger EventName="MediaFailed">
 					<ei:CallMethodAction MethodName="LoadedMediaFaild" TargetObject="{Binding Source={StaticResource MusicPlayer}}" />
 				</i:EventTrigger>
 				<i:EventTrigger EventName="MediaEnded">
 					<i:InvokeCommandAction Command="{Binding Next}"/>
-					<ei:ControlStoryboardAction ControlStoryboardOption="Stop" Storyboard="{StaticResource MediaSB}"/>
 				</i:EventTrigger>
 				<i:EventTrigger EventName="MediaOpened">
 					<MWMP_Utils:EventToCommandBehavior Command="{Binding OpenMedia}"/>
@@ -84,13 +81,14 @@
 		</Grid>
 		<StackPanel Grid.Column="0"  Grid.ColumnSpan="2" Grid.Row="1" Background="Black" Opacity="0.7" >
 			<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-				<Slider Margin="10,0" x:Name="TimeSlider" IsMoveToPointEnabled="True" Width="501" BorderThickness="0,8,0,0" Background="{x:Null}" Maximum="{Binding MaxTime}">
-					<i:Interaction.Triggers>
-						<i:EventTrigger EventName="MouseLeftButtonUp">
-							<ei:ChangePropertyAction TargetObject="{StaticResource MediaSB}" PropertyName="Position" Value="{Binding Value, Converter={StaticResource MilisecondToTimeSpanConverter}, ElementName=TimeSlider}"/>
-						</i:EventTrigger>
-					</i:Interaction.Triggers>
+                <Slider Margin="10,0" x:Name="TimeSlider" IsMoveToPointEnabled="True" Width="501" BorderThickness="0,8,0,0" Background="{x:Null}" Maximum="{Binding MaxTime}" Value="{Binding Position, Converter={StaticResource TimeSpanToMilisecondConverter}, ElementName=MediaElementBehavior, Mode=TwoWay, UpdateSourceTrigger=Default}">
+                        <i:Interaction.Triggers>
+						    <i:EventTrigger EventName="MouseLeftButtonUp">
+							    <ei:ChangePropertyAction PropertyName="Position" Value="{Binding Value, Converter={StaticResource MilisecondToTimeSpanConverter}, ElementName=TimeSlider}" TargetObject="{Binding ElementName=MediaPlayer}"/>
+						    </i:EventTrigger>
+					    </i:Interaction.Triggers>
 				</Slider>
+                <TextBlock Text="{Binding Position, ElementName=MediaElementBehavior, Mode=OneWay}" Foreground="White"/>
 				<TextBlock Text="{Binding MaxTime, Converter={StaticResource MilisecondsToStringConverter}}" Foreground="White" VerticalAlignment="Center"/>
 			</StackPanel>
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
@@ -98,22 +96,21 @@
 					<i:Interaction.Triggers>
 						<i:EventTrigger EventName="MouseLeftButtonDown">
 							<i:InvokeCommandAction Command="{Binding Previous}"/>
-							<ei:ControlStoryboardAction Storyboard="{StaticResource MediaSB}"/>
 						</i:EventTrigger>
 					</i:Interaction.Triggers>
 				</Image>
-				<Image Height="32" Width="32" Source="player_stop.png">
+				<Image Height="32" Width="32" Source="player_stop.png"/>
+				<Image Height="32" Width="32" Source="player_pause.png">
 					<i:Interaction.Triggers>
 						<i:EventTrigger EventName="MouseLeftButtonDown">
-							<ei:ControlStoryboardAction Storyboard="{StaticResource MediaSB}" ControlStoryboardOption="Stop"/>
+							<ei:CallMethodAction TargetObject="{Binding ElementName=MediaPlayer}" MethodName="Pause"/>
 						</i:EventTrigger>
 					</i:Interaction.Triggers>
 				</Image>
-				<Image Height="32" Width="32" Source="player_pause.png"/>
 				<Image Height="32" Width="32" Source="player_play.png">
 					<i:Interaction.Triggers>
 						<i:EventTrigger EventName="MouseLeftButtonDown">
-							<ei:ControlStoryboardAction Storyboard="{StaticResource MediaSB}" ControlStoryboardOption="TogglePlayPause"/>
+							<ei:CallMethodAction TargetObject="{Binding ElementName=MediaPlayer}" MethodName="Play"/>
 						</i:EventTrigger>
 					</i:Interaction.Triggers>
 				</Image>
@@ -121,7 +118,6 @@
 					<i:Interaction.Triggers>
 						<i:EventTrigger EventName="MouseLeftButtonDown">
 							<i:InvokeCommandAction Command="{Binding Next}"/>
-							<ei:ControlStoryboardAction Storyboard="{StaticResource MediaSB}"/>
 						</i:EventTrigger>
 					</i:Interaction.Triggers>
 				</Image>
