@@ -13,7 +13,6 @@ namespace MWMP.ViewModels
     public interface IMediaPlayer
     {
         string Source { set; get; }
-        double Volume { set; get; }
         int CurrentMedia { get; set; }
         IPlayList PlayList { get;}
 
@@ -23,7 +22,6 @@ namespace MWMP.ViewModels
         ICommand Next { get; }
         ICommand Previous { get; }
         ICommand Open { get; }
-        ICommand ChangeVolume { get; }
         ICommand AddMediaToPlayList { get; }
     }
 }

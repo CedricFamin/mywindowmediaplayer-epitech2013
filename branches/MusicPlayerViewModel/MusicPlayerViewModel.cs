@@ -24,7 +24,6 @@ namespace MusicPlayerViewModel
     {
         #region Fields
         private string _source;
-        private double _volume;
         #endregion
 
         #region Properties
@@ -39,20 +38,10 @@ namespace MusicPlayerViewModel
             }
             get { return this._source; }
         }
-        public double Volume
-        {
-            set
-            {
-                this._volume = value;
-                RaisePropertyChange("Volume");
-            }
-            get { return this._volume; }
-        }
         #endregion
 
         #region Command
         public ICommand ChangePist { get; private set; }
-        public ICommand ChangeVolume { get; private set; }
         public ICommand Next { get; protected set; }
         public ICommand Previous { get; protected set; }
         public ICommand Open { get; protected set; }
@@ -64,8 +53,6 @@ namespace MusicPlayerViewModel
         {
             PlayList = ModuleManager.GetInstanceOf<IPlayList>("PlayList");
             if (PlayList != null) PlayList.Title = "Current PlayList";
-            this._volume = 0.5;
-            ChangeVolume = new RelayCommand((param) => Volume = Convert.ToDouble(param));
             Next = new RelayCommand((param) => NextBody());
             Previous = new RelayCommand((param) => PreviousBody());
             ChangePist = new RelayCommand((param) => ChangePistBody(param as IMedia));
@@ -93,7 +80,11 @@ namespace MusicPlayerViewModel
         private void AddMediaToPlayListCommand(IMedia media)
         {
             if (media == null) return;
-            PlayList.Add(media);
+            IMedia mediaCopy = ModuleManager.GetInstanceOf<IMedia>("BasicMedia");
+            if (mediaCopy == null) return;
+            mediaCopy.Title = media.Title;
+            mediaCopy.Path = media.Path;
+            PlayList.Add(mediaCopy);
             RaisePropertyChange("PlayList");
             if (PlayList.Collection.Count == 1)
                 ChangeCurrentMedia(0);

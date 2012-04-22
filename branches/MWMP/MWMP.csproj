@@ -80,6 +80,7 @@
     <Compile Include="ViewModels\IMenuBar.cs" />
     <Compile Include="ViewModels\IMediaPlayer.cs" />
     <Compile Include="ViewModels\IMusicLibrary.cs" />
+    <Compile Include="ViewModels\IPlayListLibrary.cs" />
     <Compile Include="Views\CreatePlayListWindows.xaml.cs">
       <DependentUpon>CreatePlayListWindows.xaml</DependentUpon>
     </Compile>
@@ -152,9 +153,6 @@
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>
     </None>
     <AppDesigner Include="Properties\" />
-    <None Include="Views\bg_library.jpg">
-      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-    </None>
   </ItemGroup>
   <ItemGroup>
     <Resource Include="Views\background.jpg" />

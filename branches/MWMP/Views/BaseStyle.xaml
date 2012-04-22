@@ -8,6 +8,7 @@
 	<Style TargetType="{x:Type TextBlock}">
 		<Setter Property="TextWrapping" Value="NoWrap"/>
 		<Setter Property="TextTrimming" Value="None"/>
+		<Setter Property="Foreground" Value="White"/>
 	</Style>
 	<Style x:Key="TextBlockTitle" TargetType="{x:Type TextBlock}">
 		<Setter Property="TextWrapping" Value="NoWrap"/>

@@ -189,6 +189,9 @@
         				<i:EventTrigger EventName="Drop">
         					<MWMP_Utils:EventToCommandBehavior Command="{Binding DropData, Source={StaticResource LibraryViewModel}}" CommandParameter="{Binding DataContext, ElementName=grid}" />
         				</i:EventTrigger>
+        				<i:EventTrigger EventName="MouseLeftButtonDown">
+        					<i:InvokeCommandAction Command="{Binding PlayListLibrary.ChangeSelectedItem, Source={StaticResource LibraryViewModel}}" CommandParameter="{Binding DataContext, ElementName=grid}"/>
+        				</i:EventTrigger>
         			</i:Interaction.Triggers>
         		</Label>
         	</Grid>
@@ -312,5 +315,6 @@
 				</ContextMenu>
 			</ListView.ContextMenu>
 		</ListView>
+		<ListView Margin="0" Grid.Column="1" Visibility="{Binding PlayListLibrary.Visibility}" ItemsSource="{Binding PlayListLibrary.SelectedItem.Collection, Mode=OneWay}" Background="{x:Null}"/>
 	</Grid>
 </UserControl>

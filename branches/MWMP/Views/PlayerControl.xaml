@@ -37,7 +37,7 @@
 			<RowDefinition Height="64"/>
 		</Grid.RowDefinitions>
 		<MediaElement Grid.Row="0" Grid.Column="0" Source="{Binding Source}" x:Name="MediaPlayer" LoadedBehavior="Manual" 
-			UnloadedBehavior="Manual"  Volume="{Binding Volume, Mode=OneWay}">
+			UnloadedBehavior="Manual"  Volume="{Binding Value, ElementName=VolumeSlider}">
             <i:Interaction.Behaviors>
                 <MWMP_Utils:MediaSliderBehavior x:Name="MediaElementBehavior"></MWMP_Utils:MediaSliderBehavior>
             </i:Interaction.Behaviors>
@@ -76,21 +76,25 @@
 			</ScrollViewer>
 		</Grid>
 		<StackPanel Grid.Column="0"  Grid.ColumnSpan="2" Grid.Row="1" Background="Black" Opacity="0.7" >
-			<StackPanel HorizontalAlignment="Center" Orientation="Horizontal">
-                <Slider Margin="10,0" x:Name="TimeSlider" IsMoveToPointEnabled="True" Width="501" BorderThickness="0,8,0,0" Background="{x:Null}" Maximum="{Binding Maximum, ElementName=MediaElementBehavior, Mode=OneWay, Converter={StaticResource TimeSpanToMilisecondConverter}}" Value="{Binding Position, Converter={StaticResource TimeSpanToMilisecondConverter}, ElementName=MediaElementBehavior, Mode=TwoWay, UpdateSourceTrigger=Default}">
-                        <i:Interaction.Triggers>
-						    <i:EventTrigger EventName="MouseLeftButtonUp">
-							    <ei:ChangePropertyAction PropertyName="Position" Value="{Binding Value, Converter={StaticResource MilisecondToTimeSpanConverter}, ElementName=TimeSlider}" TargetObject="{Binding ElementName=MediaPlayer}"/>
-						    </i:EventTrigger>
-					    </i:Interaction.Triggers>
+			<Grid Height="30">
+				<Grid.ColumnDefinitions>
+					<ColumnDefinition/>
+					<ColumnDefinition Width="Auto"/>
+				</Grid.ColumnDefinitions>
+				<Slider Margin="10,0" x:Name="TimeSlider" IsMoveToPointEnabled="True" BorderThickness="0,8,0,0" Background="{x:Null}" Maximum="{Binding Maximum, Converter={StaticResource TimeSpanToMilisecondConverter}, ElementName=MediaElementBehavior, Mode=OneWay}" Value="{Binding Position, Converter={StaticResource TimeSpanToMilisecondConverter}, ElementName=MediaElementBehavior, Mode=TwoWay, UpdateSourceTrigger=Default}" d:LayoutOverrides="Height">
+					<i:Interaction.Triggers>
+						<i:EventTrigger EventName="MouseLeftButtonUp">
+							<ei:ChangePropertyAction PropertyName="Position" Value="{Binding Value, Converter={StaticResource MilisecondToTimeSpanConverter}, ElementName=TimeSlider}" TargetObject="{Binding ElementName=MediaPlayer}"/>
+						</i:EventTrigger>
+					</i:Interaction.Triggers>
 				</Slider>
 				
-				<TextBlock VerticalAlignment="Center">
-                <TextBlock Text="{Binding Position, ElementName=MediaElementBehavior, Mode=OneWay, StringFormat={}{0:h':'mm':'ss}}"/>
-				/
-				<TextBlock Text="{Binding Maximum, ElementName=MediaElementBehavior, Mode=OneWay, StringFormat={}{0:h':'mm':'ss}}" VerticalAlignment="Center"/>
-				</TextBlock>
-			</StackPanel>
+				<TextBlock Margin="0" Grid.Column="1" VerticalAlignment="Center"><InlineUIContainer>
+						<TextBlock Text="{Binding Position, ElementName=MediaElementBehavior, Mode=OneWay, StringFormat=\{0:h\':\'mm\':\'ss\}}"/>
+					</InlineUIContainer><Run Text=" / "/><InlineUIContainer>
+						<TextBlock Text="{Binding Maximum, ElementName=MediaElementBehavior, Mode=OneWay, StringFormat=\{0:h\':\'mm\':\'ss\}}" VerticalAlignment="Center"/>
+					</InlineUIContainer></TextBlock>
+			</Grid>
 			<StackPanel Orientation="Horizontal" HorizontalAlignment="Center">
 				<Image Height="32" Width="32" Source="player_start.png">
 					<i:Interaction.Triggers>
@@ -130,8 +134,8 @@
 				</Image>
 				<Slider x:Name="VolumeSlider" Width="50" Minimum="0" Margin="0,5,0,0" Value="{Binding Volume}" Maximum="1" SmallChange="0.05">
 					<i:Interaction.Triggers>
-						<i:EventTrigger EventName="ValueChanged">
-							<i:InvokeCommandAction CommandParameter="{Binding Value, ElementName=VolumeSlider}" Command="{Binding ChangeValue}"/>
+						<i:EventTrigger>
+							<ei:ChangePropertyAction PropertyName="Value" Value="0,5"/>
 						</i:EventTrigger>
 					</i:Interaction.Triggers>
 				</Slider>
