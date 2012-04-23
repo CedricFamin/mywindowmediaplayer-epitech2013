@@ -153,6 +153,7 @@
         							<ColumnDefinition Width="Auto"/>
         							<ColumnDefinition/>
         						</Grid.ColumnDefinitions>
+        						<Border HorizontalAlignment="Center" Height="125" Margin="0,6,0,0" MinWidth="4" VerticalAlignment="Center" Width="125" BorderThickness="2" Grid.RowSpan="3">
         						<Border HorizontalAlignment="Center" Height="125" Margin="0,6,15,0" MinWidth="4" VerticalAlignment="Center" Width="125" BorderThickness="2" Grid.RowSpan="3">
         							<Border.BorderBrush>
         								<LinearGradientBrush EndPoint="0.5,1" StartPoint="0.5,0">
