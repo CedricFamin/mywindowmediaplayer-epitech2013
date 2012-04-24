@@ -1,10 +1,6 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MWMP.Models;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Windows.Input;
+using MWMP.Models;
 
 namespace MWMP.ViewModels
 {

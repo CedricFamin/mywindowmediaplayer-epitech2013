@@ -1,12 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MediaInfoLib;
-using System.IO;
-using MWMP.Models;
-using MWMP.ViewModels;
-using MWMP.Models.DAL;
+﻿using MWMP.Models;
 
 namespace Medias
 {

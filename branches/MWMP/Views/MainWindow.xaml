@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:MWMP"
         x:Class="MWMP.MainWindow"
 		mc:Ignorable="d"
-		Title="MainWindow" MinWidth="700" MinHeight="300" Background="Black" Foreground="White">
+		Title="MainWindow" MinWidth="700" MinHeight="300" Background="Black" Foreground="White" Icon="/MWMP;component/Images/1335272600_Windows%20Media%20Player.png">
     
     <Window.Resources>
         <ObjectDataProvider MethodName="GetService" ObjectType="{x:Type local:ModuleManager}" x:Key="MenuBarViewModel">

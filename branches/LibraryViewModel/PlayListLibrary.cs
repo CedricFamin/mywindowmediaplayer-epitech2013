@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MWMP.Models;
+﻿using System.Windows.Input;
 using MWMP;
+using MWMP.Models;
 using MWMP.Utils;
 using MWMP.ViewModels;
-using System.Windows.Input;
 
 namespace LibraryViewModel
 {

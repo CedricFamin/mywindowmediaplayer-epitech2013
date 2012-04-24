@@ -6,10 +6,10 @@ using System.Windows.Input;
 using System.Windows.Threading;
 using Microsoft.Win32;
 using MWMP;
+using MWMP.InjectionDepedency;
 using MWMP.Models;
 using MWMP.Utils;
 using MWMP.ViewModels;
-using MWMP.InjectionDepedency;
 
 namespace MenuBar
 {
@@ -42,11 +42,11 @@ namespace MenuBar
             _clockTimer.Tick += (object sender, EventArgs e) =>
                 {
                     IMedia media;
+                    IGlobalLibrary lib = ModuleManager.GetInstanceOf<IGlobalLibrary>("GlobalLibrary");
+                    if (lib == null)
+                        return ;
                     while (_pendingMedia.TryPop(out media))
-                    {
-
-                        ModuleManager.GetInstanceOf<IGlobalLibrary>("GlobalLibrary").AddMedia(media);
-                    }
+                            lib.AddMedia(media);
                 };
             _clockTimer.Start();
         }

@@ -10,8 +10,12 @@ using System.Windows.Threading;
 
 namespace MWMP.Utils
 {
+    /// <summary>
+    /// Provide 2 DependencyProperty on a mediaElement which allow to control a slider
+    /// </summary>
     class MediaSliderBehavior : Behavior<MediaElement>
     {
+        #region DependencyProperty
         public TimeSpan Position
         {
             get { return (TimeSpan)GetValue(PositionProperty); }
@@ -31,8 +35,11 @@ namespace MWMP.Utils
         // Using a DependencyProperty as the backing store for Maximum.  This enables animation, styling, binding, etc...
         public static readonly DependencyProperty MaximumProperty =
             DependencyProperty.Register("Maximum", typeof(TimeSpan), typeof(MediaSliderBehavior));
-        
+        #endregion
+
+        #region Fields
         private readonly Timer _timer = new Timer(1000);
+        #endregion
 
         protected override void OnAttached()
         {
@@ -42,6 +49,7 @@ namespace MWMP.Utils
             _timer.Start();
         }
 
+        #region private methods
         private void MediaOpened(object sender, RoutedEventArgs eArgs)
         {
             MediaElement e = sender as MediaElement;
@@ -62,5 +70,6 @@ namespace MWMP.Utils
         {
             Dispatcher.Invoke(new Action(UpdatePos));
         }
+        #endregion
     }
 }

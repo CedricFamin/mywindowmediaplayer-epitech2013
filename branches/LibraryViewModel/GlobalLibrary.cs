@@ -1,13 +1,10 @@
-﻿using System.ComponentModel;
+﻿using System.Windows;
+using System.Windows.Input;
 using MWMP;
 using MWMP.Models;
 using MWMP.Models.DAL;
-using MWMP.ViewModels;
-using System.Windows.Input;
 using MWMP.Utils;
-using System.Windows.Controls;
-using System.Windows;
-using System;
+using MWMP.ViewModels;
 
 namespace LibraryViewModel
 {

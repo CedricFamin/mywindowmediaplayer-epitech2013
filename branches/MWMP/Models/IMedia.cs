@@ -1,11 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using MWMP.ViewModels;
-using MWMP.Models.DAL;
-
-namespace MWMP.Models
+﻿namespace MWMP.Models
 {
     public interface IMedia
     {

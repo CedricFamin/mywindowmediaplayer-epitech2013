@@ -8,6 +8,12 @@ using System.Windows.Input;
 
 namespace MWMP.Utils
 {
+    /// <summary>
+    /// Like InvokeCommandBehavior but add event args and the associated object to param
+    /// param[0] = event args
+    /// param[1] = associated object
+    /// param{2] = CommandParameter
+    /// </summary>
     public class EventToCommandBehavior : TriggerAction<DependencyObject>
     {
         public static readonly DependencyProperty CommandProperty = DependencyProperty.Register("Command", typeof(ICommand), typeof(EventToCommandBehavior));

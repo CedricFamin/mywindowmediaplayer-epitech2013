@@ -1,15 +1,10 @@
-﻿using System;
-using System.Collections.ObjectModel;
-using System.Windows.Controls;
+﻿using System.Windows;
 using System.Windows.Input;
-using System.Windows.Threading;
+using MWMP;
+using MWMP.InjectionDepedency;
 using MWMP.Models;
 using MWMP.Utils;
 using MWMP.ViewModels;
-using System.Collections;
-using MWMP.InjectionDepedency;
-using MWMP;
-using System.Windows;
 
 
 namespace MusicPlayerViewModel
@@ -52,20 +47,13 @@ namespace MusicPlayerViewModel
         public MusicPlayerViewModel()
         {
             PlayList = ModuleManager.GetInstanceOf<IPlayList>("PlayList");
-            if (PlayList != null) PlayList.Title = "Current PlayList";
+            if (PlayList != null) 
+                PlayList.Title = "Current PlayList";
             Next = new RelayCommand((param) => NextBody());
             Previous = new RelayCommand((param) => PreviousBody());
             ChangePist = new RelayCommand((param) => ChangePistBody(param as IMedia));
-            AddMediaToPlayList = new RelayCommand((param) => AddMediaToPlayListCommand(param as IMedia));
-            Open = new RelayCommand((param) => this.OpenCommand(param as IMedia));
-        }
-
-        private void ChangePistBody(IMedia media)
-        {
-            if (media == null)
-                return;
-            int index = PlayList.Collection.IndexOf(media);
-            ChangeCurrentMedia(index);
+            AddMediaToPlayList = new RelayCommand((param) => AddMediaToPlayListBody(param as IMedia));
+            Open = new RelayCommand((param) => OpenBody(param as IMedia));
         }
         #endregion
 
@@ -77,7 +65,16 @@ namespace MusicPlayerViewModel
         #endregion
 
         #region private Methods
-        private void AddMediaToPlayListCommand(IMedia media)
+
+        private void ChangePistBody(IMedia media)
+        {
+            if (media == null)
+                return;
+            int index = PlayList.Collection.IndexOf(media);
+            ChangeCurrentMedia(index);
+        }
+
+        private void AddMediaToPlayListBody(IMedia media)
         {
             if (media == null) return;
             IMedia mediaCopy = ModuleManager.GetInstanceOf<IMedia>("BasicMedia");
@@ -90,7 +87,7 @@ namespace MusicPlayerViewModel
                 ChangeCurrentMedia(0);
         }
 
-        private void OpenCommand(IMedia media)
+        private void OpenBody(IMedia media)
         {
             if (media == null) 
                 return ;

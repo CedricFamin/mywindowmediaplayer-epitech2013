@@ -1,9 +1,9 @@
 ﻿using System;
 using System.Collections.Generic;
-using System.Xml.Linq;
-using System.Windows;
 using System.IO;
 using System.Reflection;
+using System.Windows;
+using System.Xml.Linq;
 using MWMP.InjectionDepedency;
 
 namespace MWMP
@@ -11,13 +11,17 @@ namespace MWMP
     /// <summary>
     /// Manage the loading file and the service creator
     /// </summary>
-    public class ModuleManager
+    public static class ModuleManager
     {
         #region Fields
         static private Dictionary<string, Service> services = new Dictionary<string, Service>();
         #endregion /// Fields
 
         #region Methods
+        /// <summary>
+        /// Load modules from the path
+        /// </summary>
+        /// <param name="dir">path</param>
         static public void AutoLoad(string dir = ".")
         {
             string[] filePaths = Directory.GetFiles(dir, "*.dll");
