@@ -46,7 +46,7 @@ namespace MenuBar
                     if (lib == null)
                         return ;
                     while (_pendingMedia.TryPop(out media))
-                            lib.AddMedia(media);
+                            lib.AddMedia(media); 
                 };
             _clockTimer.Start();
         }

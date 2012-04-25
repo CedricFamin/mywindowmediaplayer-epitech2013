@@ -213,6 +213,46 @@
         		<Label Content="{Binding Title}" Margin="0,0,-0.001,0" d:LayoutOverrides="Width, Height"/>
         	</Grid>
         </DataTemplate>
+        <SolidColorBrush x:Key="ListBorder" Color="#828790"/>
+        <Style x:Key="ListViewStyle" TargetType="{x:Type ListView}">
+        	<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
+        	<Setter Property="BorderBrush" Value="{StaticResource ListBorder}"/>
+        	<Setter Property="BorderThickness" Value="1"/>
+        	<Setter Property="Foreground" Value="{DynamicResource {x:Static SystemColors.ControlTextBrushKey}}"/>
+        	<Setter Property="ScrollViewer.HorizontalScrollBarVisibility" Value="Auto"/>
+        	<Setter Property="ScrollViewer.VerticalScrollBarVisibility" Value="Auto"/>
+        	<Setter Property="ScrollViewer.CanContentScroll" Value="true"/>
+        	<Setter Property="ScrollViewer.PanningMode" Value="Both"/>
+        	<Setter Property="Stylus.IsFlicksEnabled" Value="False"/>
+        	<Setter Property="VerticalContentAlignment" Value="Center"/>
+        	<Setter Property="Template">
+        		<Setter.Value>
+        			<ControlTemplate TargetType="{x:Type ListView}">
+        				<Border x:Name="Bd" Padding="1" SnapsToDevicePixels="true">
+        					<Border.ContextMenu>
+								<ContextMenu>
+									<MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
+									<MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
+									<MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
+									<MenuItem Header="Delete" Command="{Binding DeleteContextMenu}"/>
+								</ContextMenu>
+							</Border.ContextMenu>
+							<ScrollViewer Focusable="false" Padding="{TemplateBinding Padding}">
+        						<ItemsPresenter SnapsToDevicePixels="{TemplateBinding SnapsToDevicePixels}"/>
+        					</ScrollViewer>
+        				</Border>
+        				<ControlTemplate.Triggers>
+        					<Trigger Property="IsEnabled" Value="false">
+        						<Setter Property="Background" TargetName="Bd" Value="{DynamicResource {x:Static SystemColors.ControlBrushKey}}"/>
+        					</Trigger>
+        					<Trigger Property="IsGrouping" Value="true">
+        						<Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
+        					</Trigger>
+        				</ControlTemplate.Triggers>
+        			</ControlTemplate>
+        		</Setter.Value>
+        	</Setter>
+        </Style>
     </UserControl.Resources>
 	<UserControl.Background>
 		<ImageBrush ImageSource="background.jpg" Stretch="UniformToFill"/>
@@ -231,7 +271,7 @@
 					<TranslateTransform Y="-0.494"/>
 				</TransformGroup>
 			</TreeView.RenderTransform>
-			<TreeViewItem x:Name="treeViewItem" Header="Music" Background="{x:Null}" Foreground="White" DataContext="{Binding MusicLibrary, Source={StaticResource LibraryViewModel}}" VerticalContentAlignment="Center" HorizontalContentAlignment="Right" IsSelected="True">
+			<TreeViewItem x:Name="treeViewItem" Header="Music" DataContext="{Binding MusicLibrary, Source={StaticResource LibraryViewModel}}">
 				<i:Interaction.Triggers>
 					<i:EventTrigger EventName="Selected">
 						<i:InvokeCommandAction Command="{Binding Display, Source={StaticResource LibraryViewModel}}" CommandParameter="MusicLib"/>
@@ -273,21 +313,21 @@
 					</TextBox>
 				</Grid>
 			</TreeViewItem>
-			<TreeViewItem Header="Image" IsExpanded="True" Foreground="White">
+			<TreeViewItem Header="Image">
 				<i:Interaction.Triggers>
 					<i:EventTrigger EventName="Selected">
 						<i:InvokeCommandAction Command="{Binding Display}" CommandParameter="ImageLib"/>
 					</i:EventTrigger>
 				</i:Interaction.Triggers>
 			</TreeViewItem>
-			<TreeViewItem Header="Video" IsExpanded="True" Foreground="White">
+			<TreeViewItem Header="Video">
 				<i:Interaction.Triggers>
 					<i:EventTrigger EventName="Selected">
 						<i:InvokeCommandAction Command="{Binding Display}" CommandParameter="VideoLib"/>
 					</i:EventTrigger>
 				</i:Interaction.Triggers>
 			</TreeViewItem>
-            <TreeViewItem Header="PlayList" Foreground="White" ItemsSource="{Binding PlayListLibrary.MediaList}" ItemTemplate="{DynamicResource PlayListDataTemplte}">
+            <TreeViewItem Header="PlayList" ItemsSource="{Binding PlayListLibrary.MediaList}" ItemTemplate="{DynamicResource PlayListDataTemplte}">
             	<i:Interaction.Triggers>
 					<i:EventTrigger EventName="Selected">
 						<i:InvokeCommandAction Command="{Binding Display}" CommandParameter="PlayListLib"/>
@@ -295,52 +335,21 @@
 				</i:Interaction.Triggers>
 				<TreeViewItem.ContextMenu>
 					<ContextMenu HorizontalAlignment="Center" Background="Black" Foreground="White">
-                        <MenuItem Command="{Binding OpenPlayListWindow, Mode=OneWay}" Background="{x:Null}" Foreground="White" Header="Create Playlist"/>
+                        <MenuItem Command="{Binding OpenPlayListWindow, Mode=OneWay}" Header="Create Playlist" />
 					</ContextMenu>
 				</TreeViewItem.ContextMenu>
 			</TreeViewItem>
 		</TreeView>
 		<ListView ItemsSource="{Binding FilteredMediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" x:Name="MusicList" 
-			DataContext="{Binding MusicLibrary, Source={StaticResource LibraryViewModel}}" SelectionMode="Single" ItemContainerStyle="{DynamicResource LibraryMusicItem}" Background="{x:Null}" BorderThickness="0" Visibility="{Binding Visibility}" VerticalAlignment="Top" Grid.Column="1" ItemsPanel="{DynamicResource MusicItemPanel}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-
-			<ListView.ContextMenu>
-				<ContextMenu>
-					<MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
-					<MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
-					<MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
-					<MenuItem Header="Delete" Command="{Binding DeleteContextMenu}"/>
-				</ContextMenu>
-			</ListView.ContextMenu>
-		</ListView>
+			DataContext="{Binding MusicLibrary, Source={StaticResource LibraryViewModel}}" SelectionMode="Single" ItemContainerStyle="{DynamicResource LibraryMusicItem}" Background="{x:Null}" Visibility="{Binding Visibility}" Grid.Column="1" ItemsPanel="{DynamicResource MusicItemPanel}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Style="{DynamicResource ListViewStyle}"/>
 		<ListView x:Name="VideoList" ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" 
-			DataContext="{Binding VideoLibrary, Source={StaticResource LibraryViewModel}}" Visibility="{Binding Visibility}" Grid.Column="1" ItemContainerStyle="{DynamicResource VideoItemView}" Background="{x:Null}" ItemsPanel="{DynamicResource MusicItemPanel}" ScrollViewer.HorizontalScrollBarVisibility="Disabled">
-			<ListView.ContextMenu>
-				<ContextMenu>
-					<MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
-					<MenuItem Header="Add to current playlist" />
-					<MenuItem Header="Delete" />
-				</ContextMenu>
-			</ListView.ContextMenu>
+			DataContext="{Binding VideoLibrary, Source={StaticResource LibraryViewModel}}" Visibility="{Binding Visibility}" Grid.Column="1" ItemContainerStyle="{DynamicResource VideoItemView}" ItemsPanel="{DynamicResource MusicItemPanel}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Style="{DynamicResource ListViewStyle}">
 		</ListView>
 		<ListView ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" x:Name="ImageList" 
-			DataContext="{Binding ImageLibrary, Source={StaticResource LibraryViewModel}}" Visibility="{Binding Visibility}" VerticalAlignment="Top" Grid.Column="1" ItemContainerStyle="{DynamicResource ImageItemView}" Background="{x:Null}" ItemsPanel="{DynamicResource MusicItemPanel}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="{x:Null}">
-			<ListView.ContextMenu>
-				<ContextMenu>
-					<MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
-					<MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
-					<MenuItem Header="Delete" Command="{Binding DeleteContextMenu}"/>
-				</ContextMenu>
-			</ListView.ContextMenu>
+			DataContext="{Binding ImageLibrary, Source={StaticResource LibraryViewModel}}" Visibility="{Binding Visibility}" Grid.Column="1" ItemContainerStyle="{DynamicResource ImageItemView}" ItemsPanel="{DynamicResource MusicItemPanel}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Style="{DynamicResource ListViewStyle}">
 		</ListView>
 		<ListView ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" x:Name="PlayListList" 
-			DataContext="{Binding PlayListLibrary, Source={StaticResource LibraryViewModel}}" Visibility="{Binding Visibility}" VerticalAlignment="Top" Grid.Column="1" Background="{x:Null}" ItemsPanel="{DynamicResource MusicItemPanel}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" BorderBrush="{x:Null}" ItemTemplate="{DynamicResource PlayListTemplate}">
-			<ListView.ContextMenu>
-				<ContextMenu>
-					<MenuItem Header="Play" Command="{Binding PlayContextMenu}"/>
-					<MenuItem Header="Add to current playlist" Command="{Binding AddToPlayList}" />
-					<MenuItem Header="Delete" Command="{Binding DeleteContextMenu}"/>
-				</ContextMenu>
-			</ListView.ContextMenu>
+			DataContext="{Binding PlayListLibrary, Source={StaticResource LibraryViewModel}}" Visibility="{Binding Visibility}" Grid.Column="1" ItemsPanel="{DynamicResource MusicItemPanel}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemTemplate="{DynamicResource PlayListTemplate}" Style="{DynamicResource ListViewStyle}">
 		</ListView>
 	</Grid>
 </UserControl>
