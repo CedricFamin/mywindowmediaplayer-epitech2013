@@ -6,5 +6,6 @@ namespace MWMP.ViewModels
     {
         ICommand Open { get; }
         ICommand Close { get; }
+        ICommand OpenAboutWindow { get; }
     }
 }

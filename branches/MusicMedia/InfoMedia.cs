@@ -77,8 +77,6 @@ namespace Medias
 
         public void SetInfo(IImageMedia media)
         {
-            int value;
-
             SetInfo((IMedia)media);
         }
         #endregion

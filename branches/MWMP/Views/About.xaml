@@ -1,0 +1,10 @@
+﻿<Window
+	xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+	xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+	x:Class="MWMP.About"
+	x:Name="Window"
+	Title="About"
+	Width="544" Height="254" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow">
+
+	<Grid x:Name="LayoutRoot"/>
+</Window>

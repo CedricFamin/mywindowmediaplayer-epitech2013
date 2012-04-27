@@ -8,18 +8,16 @@ namespace LibraryViewModel
 {
     class PlayListLibrary : GenericLibrary<IPlayList>, IPlayListLibrary
     {
-        public override IPlayList SelectedItem { get; set; }
-        public override ICommand PlayContextMenu { get; protected set; }
-        public override ICommand AddToPlayList { get; protected set; }
         public ICommand ChangeSelectedItem { get; private set; }
 
+        #region CTor
         public PlayListLibrary() : base()
         {
-            PlayContextMenu = new RelayCommand((param) => PlayContextMenuBody());
-            AddToPlayList = new RelayCommand((param) => AddToPlayListBody());
             ChangeSelectedItem = new RelayCommand((param) => ChangeSelectedItemBody(param as IPlayList));
         }
+        #endregion
 
+        #region Methods
         private void ChangeSelectedItemBody(IPlayList plist)
         {
             if (plist == null)
@@ -28,7 +26,7 @@ namespace LibraryViewModel
             RaisePropertyChange("SelectedItem");
         }
 
-        private void AddToPlayListBody()
+        protected override void AddToPlayListBody()
         {
             IMediaPlayer mp = ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel");
             if (mp != null && SelectedItem != null)
@@ -38,7 +36,7 @@ namespace LibraryViewModel
             }
         }
 
-        private void PlayContextMenuBody()
+        protected override void PlayContextMenuBody()
         {
             IMediaPlayer mp = ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel");
             bool first = true;
@@ -57,5 +55,6 @@ namespace LibraryViewModel
         {
             return true;
         }
+        #endregion
     }
 }

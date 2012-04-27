@@ -81,6 +81,9 @@
     <Compile Include="ViewModels\IMediaPlayer.cs" />
     <Compile Include="ViewModels\IMusicLibrary.cs" />
     <Compile Include="ViewModels\IPlayListLibrary.cs" />
+    <Compile Include="Views\About.xaml.cs">
+      <DependentUpon>About.xaml</DependentUpon>
+    </Compile>
     <Compile Include="Views\CreatePlayListWindows.xaml.cs">
       <DependentUpon>CreatePlayListWindows.xaml</DependentUpon>
     </Compile>
@@ -94,6 +97,10 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
       <ContainsDesignTimeResources>true</ContainsDesignTimeResources>
+    </Page>
+    <Page Include="Views\About.xaml">
+      <Generator>MSBuild:Compile</Generator>
+      <SubType>Designer</SubType>
     </Page>
     <Page Include="Views\BaseStyle.xaml">
       <Generator>MSBuild:Compile</Generator>

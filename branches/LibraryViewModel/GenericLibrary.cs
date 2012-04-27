@@ -37,23 +37,9 @@ namespace LibraryViewModel
         {
             _visibility = "Hidden";
             MediaList = new ObservableCollection<T>();
-            PlayContextMenu = new RelayCommand((param) =>
-            {
-                IMediaPlayer mp = ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel");
-                if (mp != null && SelectedItem != null)
-                    mp.Open.Execute(SelectedItem);
-            });
-            AddToPlayList = new RelayCommand((param) =>
-            {
-                IMediaPlayer mp = ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel");
-                if (mp != null && SelectedItem != null)
-                    mp.AddMediaToPlayList.Execute(SelectedItem);
-            });
-            DeleteContextMenu = new RelayCommand((param) =>
-            {
-                if (SelectedItem != null)
-                    MediaList.Remove(SelectedItem);
-            });
+            PlayContextMenu = new RelayCommand((param) => PlayContextMenuBody());
+            AddToPlayList = new RelayCommand((param) => AddToPlayListBody());
+            DeleteContextMenu = new RelayCommand((param) => DeleteContextMenuBody());
         }
         #endregion
 
@@ -67,6 +53,25 @@ namespace LibraryViewModel
             }
         }
 
+        protected virtual void PlayContextMenuBody()
+        {
+            IMediaPlayer mp = ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel");
+            if (mp != null && SelectedItem != null)
+                mp.Open.Execute(SelectedItem);
+        }
+
+        protected virtual void AddToPlayListBody()
+        {
+            IMediaPlayer mp = ModuleManager.GetInstanceOf<IMediaPlayer>("MusicPlayerViewModel");
+            if (mp != null && SelectedItem != null)
+                mp.AddMediaToPlayList.Execute(SelectedItem);
+        }
+
+        protected virtual void DeleteContextMenuBody()
+        {
+            if (SelectedItem != null)
+                MediaList.Remove(SelectedItem);
+        }
         abstract protected bool CanAdd(T media);
         #endregion
     }

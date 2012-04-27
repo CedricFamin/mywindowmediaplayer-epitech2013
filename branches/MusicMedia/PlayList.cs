@@ -10,11 +10,13 @@ namespace Medias
         public ObservableCollection<IMedia> Collection { get; private set; }
         #endregion
 
+        #region CTor
         public PlayList()
         {
             Collection = new ObservableCollection<IMedia>();
             Title = "PlayList";
         }
+        #endregion
 
         #region Methods
         public void Add(IMedia media)

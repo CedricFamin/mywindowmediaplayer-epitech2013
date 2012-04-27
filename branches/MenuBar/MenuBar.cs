@@ -31,6 +31,7 @@ namespace MenuBar
         #region Property
         public ICommand Open { get; private set; }
         public ICommand Close { get; private set; }
+        public ICommand OpenAboutWindow { get; private set; }
         #endregion
 
         #region CTor
@@ -39,20 +40,23 @@ namespace MenuBar
             _pendingMedia = new ConcurrentStack<IMedia>();
             Open = new RelayCommand((param) => this.OpenCommand());
             Close = new RelayCommand((param) => Application.Current.Shutdown());
-            _clockTimer.Tick += (object sender, EventArgs e) =>
-                {
-                    IMedia media;
-                    IGlobalLibrary lib = ModuleManager.GetInstanceOf<IGlobalLibrary>("GlobalLibrary");
-                    if (lib == null)
-                        return ;
-                    while (_pendingMedia.TryPop(out media))
-                            lib.AddMedia(media); 
-                };
+            OpenAboutWindow = new RelayCommand((param) => OpenAboutWindowBody());
+            _clockTimer.Tick += ClockAddPendingMedia;
             _clockTimer.Start();
         }
         #endregion
 
         #region method
+        private void ClockAddPendingMedia(object sender, EventArgs e)
+        {
+            IMedia media;
+            IGlobalLibrary lib = ModuleManager.GetInstanceOf<IGlobalLibrary>("GlobalLibrary");
+            if (lib == null)
+                return ;
+            while (_pendingMedia.TryPop(out media))
+                    lib.AddMedia(media); 
+        }
+
         private void OpenCommand()
         {
             OpenFileDialog ofd = new OpenFileDialog();
@@ -94,6 +98,12 @@ namespace MenuBar
                 media.FileSize = 0;
                 mediaPlayer.Open.Execute(media);
             }
+        }
+
+        private void OpenAboutWindowBody()
+        {
+            About win = new About();
+            win.ShowDialog();
         }
         #endregion
     }
