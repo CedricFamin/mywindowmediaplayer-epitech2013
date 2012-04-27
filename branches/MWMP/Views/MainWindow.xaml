@@ -93,10 +93,10 @@
 			</Menu>
 		</DockPanel>
 		<TabControl Margin="0" Background="#FF0A0A0A" Grid.Row="1" BorderThickness="0">
-			<TabItem Header="Player">
+			<TabItem Header="Player" Margin="1.996,-2,-5.996,-1" Background="#FF858585">
 				<local:PlayerControl />
 			</TabItem>
-			<TabItem Header="Library" Foreground="Black" Background="#FF858585">
+			<TabItem Header="Library" Foreground="Black" Background="#FF858585" Margin="5.95,-2,-9.95,-1">
 				<local:LibraryUserControl />
 			</TabItem>
 		</TabControl>
