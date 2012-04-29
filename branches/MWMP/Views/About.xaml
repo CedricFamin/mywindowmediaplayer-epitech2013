@@ -4,7 +4,25 @@
 	x:Class="MWMP.About"
 	x:Name="Window"
 	Title="About"
-	Width="544" Height="254" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow">
+	Width="544" Height="290" ResizeMode="NoResize" WindowStartupLocation="CenterOwner" WindowStyle="ToolWindow" Grid.IsSharedSizeScope="True" ScrollViewer.CanContentScroll="True">
 
-	<Grid x:Name="LayoutRoot"/>
+		<TextBlock x:Name="about_text" Foreground="Black" FontSize="12" Margin="10">
+			MyWindowsMediaPlayer - Promo 2013 - EPITECH PARIS
+			<LineBreak/>
+			Copyright (C) 2012 Cédric FAMIN - Léo LOPEZ
+			<LineBreak/>
+			<LineBreak/>
+			This program is free software: you can redistribute it and/or modify<LineBreak/>
+			it under the terms of the GNU General Public License as published by<LineBreak/>
+			the Free Software Foundation, either version 3 of the License, or<LineBreak/>
+			(at your option) any later version.<LineBreak/>
+<LineBreak/>
+			This program is distributed in the hope that it will be useful,<LineBreak/>
+			but WITHOUT ANY WARRANTY; without even the implied warranty of<LineBreak/>
+			MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE. See the<LineBreak/>
+			GNU General Public License for more details.<LineBreak/>
+<LineBreak/>
+			You should have received a copy of the GNU General Public License<LineBreak/>
+			along with this program.<LineBreak/>
+		</TextBlock>
 </Window>
