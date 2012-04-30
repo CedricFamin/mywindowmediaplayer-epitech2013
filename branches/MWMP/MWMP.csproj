@@ -74,6 +74,7 @@
     <Compile Include="Models\IVideoMedia.cs" />
     <Compile Include="Models\Converter\MilisecondsToStringConverter.cs" />
     <Compile Include="Utils\EventToCommandBehavior.cs" />
+    <Compile Include="Utils\FullScreenBehavior.cs" />
     <Compile Include="Utils\MediaSliderBehavior.cs" />
     <Compile Include="ViewModels\IGlobalLibrary.cs" />
     <Compile Include="ViewModels\ILibrary.cs" />

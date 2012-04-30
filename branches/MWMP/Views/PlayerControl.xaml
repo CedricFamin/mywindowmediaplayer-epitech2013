@@ -21,10 +21,10 @@
     		</ObjectDataProvider.MethodParameters>
     	</ObjectDataProvider>
     </UserControl.Resources>
-	<Grid x:Name="LayoutRoot" MinWidth="650">
-		<Grid.DataContext>
-			<StaticResource ResourceKey="MusicPlayer"/>
-		</Grid.DataContext>
+	<i:Interaction.Behaviors>
+		<local:FullScreenBehavior/>
+	</i:Interaction.Behaviors>
+	<Grid x:Name="LayoutRoot" MinWidth="650" DataContext="{StaticResource MusicPlayer}">
 		<Grid.Background>
 			<ImageBrush ImageSource="background.jpg" Stretch="UniformToFill"/>
 		</Grid.Background>
@@ -39,15 +39,15 @@
 		<MediaElement Grid.Row="0" Grid.Column="0" Source="{Binding Source}" x:Name="MediaPlayer" LoadedBehavior="Manual" 
 			UnloadedBehavior="Manual"  Volume="{Binding Value, ElementName=VolumeSlider}" Grid.RowSpan="1">
             <i:Interaction.Behaviors>
-                <MWMP_Utils:MediaSliderBehavior x:Name="MediaElementBehavior"></MWMP_Utils:MediaSliderBehavior>
+            	<MWMP_Utils:MediaSliderBehavior x:Name="MediaElementBehavior"/>
             </i:Interaction.Behaviors>
             <i:Interaction.Triggers>
-				<i:EventTrigger EventName="MediaFailed">
-					<ei:CallMethodAction MethodName="LoadedMediaFaild" TargetObject="{Binding Source={StaticResource MusicPlayer}}" />
-				</i:EventTrigger>
-				<i:EventTrigger EventName="MediaEnded">
-					<i:InvokeCommandAction Command="{Binding Next}"/>
-				</i:EventTrigger>
+            	<i:EventTrigger EventName="MediaFailed">
+            		<ei:CallMethodAction MethodName="LoadedMediaFaild" TargetObject="{Binding Source={StaticResource MusicPlayer}}" />
+            	</i:EventTrigger>
+            	<i:EventTrigger EventName="MediaEnded">
+            		<i:InvokeCommandAction Command="{Binding Next}"/>
+            	</i:EventTrigger>
 			</i:Interaction.Triggers>
 		</MediaElement>
 		<Grid Background="Black" Grid.Column="1" ScrollViewer.HorizontalScrollBarVisibility="Auto" Opacity="0.7" d:LayoutOverrides="Height" >

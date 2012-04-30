@@ -84,12 +84,12 @@
     	</Grid.RowDefinitions>
 		<DockPanel DataContext="{Binding Source={StaticResource MenuBarViewModel}}" Background="{x:Null}">
 			<Menu Background="{x:Null}" Foreground="White">
-				<MenuItem Header="Fichier" ItemsPanel="{DynamicResource MenuBarItemPanel}" Background="{x:Null}">
+				<MenuItem Header="File" ItemsPanel="{DynamicResource MenuBarItemPanel}" Background="{x:Null}">
 					<MenuItem Header="Open" x:Name="DockPanelOpen" Command="{Binding Open}" Background="{x:Null}"/>
 					<Separator/>
 					<MenuItem Header="Close" Command="{Binding Close}"/>
 				</MenuItem>
-				<MenuItem Header="Aide" Command="{Binding OpenAboutWindow}"/>
+				<MenuItem Header="Open" Command="{Binding OpenAboutWindow}"/>
 			</Menu>
 		</DockPanel>
 		<TabControl Margin="0" Background="#FF0A0A0A" Grid.Row="1" BorderThickness="0">
