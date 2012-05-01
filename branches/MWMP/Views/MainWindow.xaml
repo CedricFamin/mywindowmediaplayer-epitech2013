@@ -89,7 +89,7 @@
 					<Separator/>
 					<MenuItem Header="Close" Command="{Binding Close}"/>
 				</MenuItem>
-				<MenuItem Header="Open" Command="{Binding OpenAboutWindow}"/>
+				<MenuItem Header="About" Command="{Binding OpenAboutWindow}"/>
 			</Menu>
 		</DockPanel>
 		<TabControl Margin="0" Background="#FF0A0A0A" Grid.Row="1" BorderThickness="0">
