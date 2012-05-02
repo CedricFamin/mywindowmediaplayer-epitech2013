@@ -60,9 +60,6 @@
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
     </ApplicationDefinition>
-    <Compile Include="DataStore\DataStore\DataStore.xaml.cs">
-      <DependentUpon>DataStore.xaml</DependentUpon>
-    </Compile>
     <Compile Include="InjectionDepedency\GenericModule.cs" />
     <Compile Include="InjectionDepedency\IModule.cs" />
     <Compile Include="InjectionDepedency\IModuleList.cs" />
@@ -98,10 +95,6 @@
     <Compile Include="Views\PlayerControl.xaml.cs">
       <DependentUpon>PlayerControl.xaml</DependentUpon>
     </Compile>
-    <Page Include="DataStore\DataStore\DataStore.xaml">
-      <Generator>MSBuild:Compile</Generator>
-      <SubType>Designer</SubType>
-    </Page>
     <Page Include="Properties\DesignTimeResources.xaml" Condition="'$(DesignTime)'=='true' OR ('$(SolutionPath)'!='' AND Exists('$(SolutionPath)') AND '$(BuildingInsideVisualStudio)'!='true' AND '$(BuildingInsideExpressionBlend)'!='true')">
       <Generator>MSBuild:Compile</Generator>
       <SubType>Designer</SubType>
@@ -164,7 +157,6 @@
       <Generator>ResXFileCodeGenerator</Generator>
       <LastGenOutput>Resources.Designer.cs</LastGenOutput>
     </EmbeddedResource>
-    <DesignTimeOnly Include="DataStore\DataStore\DataStore.xsd" />
     <None Include="Properties\Settings.settings">
       <Generator>SettingsSingleFileGenerator</Generator>
       <LastGenOutput>Settings.Designer.cs</LastGenOutput>

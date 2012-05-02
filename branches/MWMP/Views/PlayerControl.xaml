@@ -90,21 +90,27 @@
 			</Grid.RowDefinitions>
 			<TextBlock TextWrapping="Wrap" Text="Current Playlist" HorizontalAlignment="Center" Foreground="White" VerticalAlignment="Top"/>
 			<ScrollViewer Grid.Column="1" Margin="0" Grid.Row="1" ScrollViewer.VerticalScrollBarVisibility="Auto" >
-				<ListView x:Name="PlayList" ItemsSource="{Binding PlayList.Collection}" Background="{x:Null}" BorderBrush="{x:Null}" IsSynchronizedWithCurrentItem="False" SelectedIndex="{Binding CurrentMedia}"  VerticalContentAlignment="Top" UseLayoutRounding="True" VerticalAlignment="Top" Foreground="White" BorderThickness="0" ItemTemplate="{DynamicResource DataTemplate}">
+				<ListView x:Name="PlayList" ItemsSource="{Binding PlayList.Collection}" BorderBrush="{x:Null}" SelectedIndex="{Binding CurrentMedia}" Foreground="White" BorderThickness="0" 
+				 Background="{x:Null}" SelectionMode="Single" ItemContainerStyle="{DynamicResource ListViewItemStyle}" ItemTemplate="{DynamicResource DataTemplate}">
 					<ListView.Resources>
+						<Style x:Key="ListViewItemStyle" TargetType="{x:Type ListViewItem}">
+							<Style.Resources>
+								<SolidColorBrush x:Key="{x:Static SystemColors.HighlightBrushKey}" Color="Black"/>
+								<SolidColorBrush x:Key="{x:Static SystemColors.ControlBrushKey}" Color="Black"/>
+							</Style.Resources>
+						</Style>
 						<DataTemplate x:Key="DataTemplate">
 							<Grid x:Name="grid">
-								<Label Content="{Binding Title}" d:LayoutOverrides="Width, Height" Foreground="White">
-									<i:Interaction.Triggers>
-										<i:EventTrigger EventName="MouseDoubleClick">
-											<i:InvokeCommandAction Command="{Binding ChangePist, Source={StaticResource MusicPlayer}}" CommandParameter="{Binding DataContext, ElementName=grid}" />
-										</i:EventTrigger>
-									</i:Interaction.Triggers>
-								</Label>
-							</Grid>
+											<Label x:Name="label" Content="{Binding Title}" d:LayoutOverrides="Width, Height" Foreground="White">
+												<i:Interaction.Triggers>
+													<i:EventTrigger EventName="MouseDoubleClick">
+														<i:InvokeCommandAction Command="{Binding ChangePist, Source={StaticResource MusicPlayer}}" CommandParameter="{Binding DataContext, ElementName=grid}" />
+													</i:EventTrigger>	
+												</i:Interaction.Triggers>
+											</Label>
+										</Grid>
 						</DataTemplate>
 					</ListView.Resources>
-					
 				</ListView>
 			</ScrollViewer>
 		</Grid>
