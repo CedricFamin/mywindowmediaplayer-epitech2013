@@ -196,23 +196,6 @@
         		</Label>
         	</Grid>
         </DataTemplate>
-        <DataTemplate x:Key="PlayListTemplate">
-        	<Border Style="{DynamicResource MediaBorderStyle}" Width="350" Height="150" HorizontalAlignment="Stretch" Margin="0">
-        		<Grid>
-        			<Grid.RowDefinitions>
-        				<RowDefinition Height="Auto"/>
-        				<RowDefinition/>
-        			</Grid.RowDefinitions>
-        			<Label Content="{Binding Title}" HorizontalAlignment="Center" d:LayoutOverrides="Height" Cursor="Hand"/>
-        			<ListView  ItemsSource="{Binding Collection, Mode=OneWay}" Background="{x:Null}" HorizontalAlignment="Stretch" BorderThickness="0" Grid.Row="1" ItemTemplate="{DynamicResource PlayListItemTemplate}"/>
-        		</Grid>
-        	</Border>
-        </DataTemplate>
-        <DataTemplate x:Key="PlayListItemTemplate">
-        	<Grid>
-        		<Label Content="{Binding Title}" Margin="0,0,-0.001,0" d:LayoutOverrides="Width, Height"/>
-        	</Grid>
-        </DataTemplate>
         <SolidColorBrush x:Key="ListBorder" Color="#828790"/>
         <Style x:Key="ListViewStyle" TargetType="{x:Type ListView}">
         	<Setter Property="Background" Value="{DynamicResource {x:Static SystemColors.WindowBrushKey}}"/>
@@ -249,6 +232,35 @@
         						<Setter Property="ScrollViewer.CanContentScroll" Value="false"/>
         					</Trigger>
         				</ControlTemplate.Triggers>
+        			</ControlTemplate>
+        		</Setter.Value>
+        	</Setter>
+        </Style>
+        <Style x:Key="PlayListItemStyle" TargetType="{x:Type ListViewItem}">
+        	<Setter Property="Template">
+        		<Setter.Value>
+        			<ControlTemplate TargetType="{x:Type ListViewItem}">
+        				<Border Style="{DynamicResource MediaBorderStyle}" Width="350" Height="150" HorizontalAlignment="Stretch" Margin="1">
+        					<Grid>
+        						<Grid.RowDefinitions>
+        							<RowDefinition Height="Auto"/>
+        							<RowDefinition/>
+        						</Grid.RowDefinitions>
+        						<Label Content="{Binding Title}" HorizontalAlignment="Center" d:LayoutOverrides="Height" Cursor="Hand"/>
+        						<ListView  ItemsSource="{Binding Collection, Mode=OneWay}" Background="{x:Null}" HorizontalAlignment="Stretch" BorderThickness="0" Grid.Row="1" ItemContainerStyle="{DynamicResource PlayListListMusicItem}"/>
+        					</Grid>
+        				</Border>
+        			</ControlTemplate>
+        		</Setter.Value>
+        	</Setter>
+        </Style>
+        <Style x:Key="PlayListListMusicItem" TargetType="{x:Type ListViewItem}">
+        	<Setter Property="Template">
+        		<Setter.Value>
+        			<ControlTemplate TargetType="{x:Type ListViewItem}">
+        				<Grid>
+        					<Label Content="{Binding Title}" Margin="0,0,-0.001,0" d:LayoutOverrides="Width, Height"/>
+        				</Grid>
         			</ControlTemplate>
         		</Setter.Value>
         	</Setter>
@@ -349,7 +361,7 @@
 			DataContext="{Binding ImageLibrary, Source={StaticResource LibraryViewModel}}" Visibility="{Binding Visibility}" Grid.Column="1" ItemContainerStyle="{DynamicResource ImageItemView}" ItemsPanel="{DynamicResource MusicItemPanel}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Style="{DynamicResource ListViewStyle}">
 		</ListView>
 		<ListView ItemsSource="{Binding MediaList}" SelectedItem="{Binding SelectedItem, Mode=OneWayToSource}" x:Name="PlayListList" 
-			DataContext="{Binding PlayListLibrary, Source={StaticResource LibraryViewModel}}" Visibility="{Binding Visibility}" Grid.Column="1" ItemsPanel="{DynamicResource MusicItemPanel}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" ItemTemplate="{DynamicResource PlayListTemplate}" Style="{DynamicResource ListViewStyle}">
+			DataContext="{Binding PlayListLibrary, Source={StaticResource LibraryViewModel}}" Visibility="{Binding Visibility}" Grid.Column="1" ItemsPanel="{DynamicResource MusicItemPanel}" ScrollViewer.HorizontalScrollBarVisibility="Disabled" Style="{DynamicResource ListViewStyle}" ItemContainerStyle="{DynamicResource PlayListItemStyle}">
 		</ListView>
 	</Grid>
 </UserControl>
