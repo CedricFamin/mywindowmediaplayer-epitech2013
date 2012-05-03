@@ -164,7 +164,14 @@ namespace XMLDAL
 
         public void Save()
         {
-            _root.Save("data.xml");
+            try
+            {
+                _root.Save("data.xml");
+            }
+            catch (Exception e)
+            {
+                //cannot save the xml
+            } 
         }
         #endregion
     }
